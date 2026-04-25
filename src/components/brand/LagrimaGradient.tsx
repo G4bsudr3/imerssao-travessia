@@ -103,12 +103,12 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
   });
 
   // Filtro goo: intensidade vai de 0 (forma sólida) a 1 (líquido viscoso)
-  // Liga nos frames gosmentos, desliga gradualmente perto da gota e do cadeado
   const gooIntensity = useTransform(progress, (v) => {
-    const idx = Math.floor(v);
-    const t = v - idx;
-    // peso: 0 nos frames sólidos (0, 4, 8), 1 nos gosmentos (1, 2, 3, 5, 6, 7)
-    const weightAt = (i: number) => (i === 0 || i === LOCK_FRAME || i === SHAPES.length - 1 ? 0 : 1);
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
+    const weightAt = (i: number) =>
+      i === 0 || i === LOCK_FRAME || i === SHAPES.length - 1 ? 0 : 1;
     const w0 = weightAt(idx);
     const w1 = weightAt(Math.min(idx + 1, SHAPES.length - 1));
     return w0 * (1 - t) + w1 * t;
