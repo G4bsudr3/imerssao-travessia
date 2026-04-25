@@ -125,7 +125,12 @@ function renderBody(p: StaticProps) {
       );
     case "act":
       return (
-        <div className="space-y-8 text-center">
+        <div className="space-y-8 text-center flex flex-col items-center">
+          {p.asset && (
+            <motion.div initial="hidden" animate="show" variants={fade} className="text-bege/90">
+              {p.asset}
+            </motion.div>
+          )}
           <h1 className="font-display text-[clamp(5rem,15vw,14rem)] leading-none text-bege">
             <Kinetic text={p.title ?? ""} />
           </h1>
