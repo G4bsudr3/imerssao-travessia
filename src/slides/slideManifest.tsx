@@ -405,40 +405,15 @@ USING (user_id = auth.uid());`,
     },
   },
   {
-    key: "prompts_auditoria",
-    kind: "special",
-    component: "PromptCardSlide",
-    props: {
-      eyebrow: "copia · cola · roda",
-      title: "3 prompts pra auditar hoje",
-      subtitle: "cole no Lovable, Claude ou ChatGPT.",
-      prompts: [
-        {
-          label: "auditoria de RLS",
-          body: "Audite todas as tabelas do meu Supabase. Para cada uma, diga se RLS está ativo, liste as políticas existentes e marque como CRÍTICO qualquer USING (true) ou ausência de filtro por user_id. Não modifique nada.",
-        },
-        {
-          label: "vazamento de secret",
-          body: "Procure no meu repositório qualquer ocorrência de service_role key, API keys hardcoded ou tokens em console.log. Reporte arquivo + linha. Ignore SUPABASE_ANON_KEY.",
-        },
-        {
-          label: "checklist LGPD",
-          body: "Liste os 5 direitos do titular LGPD. Para cada um, me diga se meu app já tem fluxo (acessar, corrigir, portar, revogar, excluir). Sugira a implementação mais simples no Lovable + Supabase pros que faltam.",
-        },
-      ],
-    },
-  },
-  {
     key: "checklist_segunda",
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "5 ações pra segunda de manhã",
+      eyebrow: "ações pra segunda de manhã",
       items: [
         { label: "ativar RLS em tudo", sub: "comece pelas tabelas com user_id" },
         { label: "rodar Security Advisor", sub: "Supabase · grátis · 2 minutos" },
         { label: "MFA em tudo", sub: "Lovable, Supabase, GitHub" },
-        { label: "rodar os 3 prompts", sub: "auditoria · secret · LGPD" },
       ],
     },
   },
