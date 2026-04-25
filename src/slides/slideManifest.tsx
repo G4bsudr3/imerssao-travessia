@@ -3,6 +3,7 @@
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
+import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
 
 type CodeBlockProps = {
   eyebrow?: string;
@@ -114,7 +115,14 @@ export const slideManifest: SlideEntry[] = [
   {
     key: "ato_2_supabase",
     kind: "static",
-    staticProps: { variant: "act", eyebrow: "ato 2", title: "supabase", subtitle: "onde mora 80% do risco", background: "naval" },
+    staticProps: {
+      variant: "act",
+      eyebrow: "ato 2",
+      title: "supabase",
+      subtitle: "onde mora 80% do risco",
+      background: "naval",
+      asset: <SupabaseIcon size={140} className="text-[#3ECF8E]" />,
+    },
   },
   {
     key: "vitrine_deposito",
@@ -236,56 +244,8 @@ USING (user_id = auth.uid());`,
       subtitle: "user_id = auth.uid() · cada um vê só o que é dele.",
     },
   },
-  {
-    key: "edge_jwt",
-    kind: "special",
-    component: "CodeBlockSlide",
-    props: {
-      eyebrow: "edge functions",
-      title: "sempre valide o JWT",
-      subtitle: "sem isso, qualquer um chama sua função privilegiada.",
-      language: "ts",
-      status: "safe",
-      code: `// dentro da edge function
-const authHeader = req.headers.get("Authorization");
-const supabase = createClient(URL, ANON_KEY, {
-  global: { headers: { Authorization: authHeader } }
-});
 
-const { data: { user }, error } = await supabase.auth.getUser();
-if (!user) return new Response("unauth", { status: 401 });
-
-// só agora roda a lógica protegida`,
-      caption: "front mente. sempre confira no servidor.",
-    },
-  },
-  {
-    key: "rpc_definer",
-    kind: "special",
-    component: "CodeBlockSlide",
-    props: {
-      eyebrow: "RPC · functions no banco",
-      title: "SECURITY DEFINER pede checagem manual",
-      subtitle: "definer roda com poder de admin. sem auth.uid(), virou backdoor.",
-      language: "sql",
-      status: "safe",
-      code: `CREATE OR REPLACE FUNCTION transferir_credito(destino uuid, valor int)
-RETURNS void
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  IF auth.uid() IS NULL THEN
-    RAISE EXCEPTION 'precisa estar logado';
-  END IF;
-  -- ...lógica usando auth.uid() como origem
-END;
-$$;`,
-    },
-  },
-
-  // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA (23-31) ───
+  // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA ───
   {
     key: "ato_3_codigo",
     kind: "static",
@@ -445,40 +405,15 @@ $$;`,
     },
   },
   {
-    key: "prompts_auditoria",
-    kind: "special",
-    component: "PromptCardSlide",
-    props: {
-      eyebrow: "copia · cola · roda",
-      title: "3 prompts pra auditar hoje",
-      subtitle: "cole no Lovable, Claude ou ChatGPT.",
-      prompts: [
-        {
-          label: "auditoria de RLS",
-          body: "Audite todas as tabelas do meu Supabase. Para cada uma, diga se RLS está ativo, liste as políticas existentes e marque como CRÍTICO qualquer USING (true) ou ausência de filtro por user_id. Não modifique nada.",
-        },
-        {
-          label: "vazamento de secret",
-          body: "Procure no meu repositório qualquer ocorrência de service_role key, API keys hardcoded ou tokens em console.log. Reporte arquivo + linha. Ignore SUPABASE_ANON_KEY.",
-        },
-        {
-          label: "checklist LGPD",
-          body: "Liste os 5 direitos do titular LGPD. Para cada um, me diga se meu app já tem fluxo (acessar, corrigir, portar, revogar, excluir). Sugira a implementação mais simples no Lovable + Supabase pros que faltam.",
-        },
-      ],
-    },
-  },
-  {
     key: "checklist_segunda",
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "5 ações pra segunda de manhã",
+      eyebrow: "ações pra segunda de manhã",
       items: [
         { label: "ativar RLS em tudo", sub: "comece pelas tabelas com user_id" },
         { label: "rodar Security Advisor", sub: "Supabase · grátis · 2 minutos" },
         { label: "MFA em tudo", sub: "Lovable, Supabase, GitHub" },
-        { label: "rodar os 3 prompts", sub: "auditoria · secret · LGPD" },
       ],
     },
   },
