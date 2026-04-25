@@ -120,13 +120,22 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
   // Filtro deviation animado: ZERO nos extremos (gota nítida, cadeado nítido),
   // sobe só nos frames gosmentos. Sem isso a ponta da gota fica recortada pelo threshold.
   const stdDeviation = useTransform(gooIntensity, (g) => (g * 6).toFixed(2));
-  // Threshold do colorMatrix também precisa relaxar quando não há goo, senão corta bordas finas
-  const gooMatrix = useTransform(gooIntensity, (g) => {
-    // alpha multiplier sobe com goo (mais "metaball"), bias acompanha
-    const a = 1 + g * 17; // 1 → 18
-    const b = -(g * 7);   // 0 → -7
-    return `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${a.toFixed(2)} ${b.toFixed(2)}`;
-  });
+
+  // Threshold do colorMatrix: relaxa quando não há goo (passthrough), endurece quando há (metaball).
+  // feColorMatrix não aceita MotionValue em `values`, então sincronizamos via state.
+  const [matrixValues, setMatrixValues] = useState(
+    "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0",
+  );
+  useEffect(() => {
+    const unsub = gooIntensity.on("change", (g) => {
+      const a = 1 + g * 17;
+      const b = -(g * 7);
+      setMatrixValues(
+        `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${a.toFixed(2)} ${b.toFixed(2)}`,
+      );
+    });
+    return () => unsub();
+  }, [gooIntensity]);
 
   useEffect(() => {
     if (!animateMorph) return;
