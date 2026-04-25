@@ -3,6 +3,7 @@
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
+import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
 
 type CodeBlockProps = {
   eyebrow?: string;
