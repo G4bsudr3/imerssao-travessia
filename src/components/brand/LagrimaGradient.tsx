@@ -117,22 +117,16 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
   // Estado do cadeado (shackle + keyhole)
   const [lockState, setLockState] = useState<"hidden" | "shackle" | "complete" | "closing">("hidden");
 
-  // Pingo satélite: aparece nos frames de drip/blob
-  const satelliteOpacity = useTransform(progress, (v) => {
-    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
-    const idx = Math.floor(clamped);
-    const t = clamped - idx;
-    const isDripBlob = (i: number) => (i === 1 || i === 2 || i === 6 || i === 7 ? 1 : 0);
-    return isDripBlob(idx) * (1 - t) + isDripBlob(Math.min(idx + 1, SHAPES.length - 1)) * t;
+  // Filtro deviation animado: ZERO nos extremos (gota nítida, cadeado nítido),
+  // sobe só nos frames gosmentos. Sem isso a ponta da gota fica recortada pelo threshold.
+  const stdDeviation = useTransform(gooIntensity, (g) => (g * 6).toFixed(2));
+  // Threshold do colorMatrix também precisa relaxar quando não há goo, senão corta bordas finas
+  const gooMatrix = useTransform(gooIntensity, (g) => {
+    // alpha multiplier sobe com goo (mais "metaball"), bias acompanha
+    const a = 1 + g * 17; // 1 → 18
+    const b = -(g * 7);   // 0 → -7
+    return `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${a.toFixed(2)} ${b.toFixed(2)}`;
   });
-  const satelliteY = useTransform(progress, (v) => {
-    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
-    const idx = Math.floor(clamped);
-    return 100 + Math.sin((clamped - idx) * Math.PI) * 6;
-  });
-
-  // Filtro deviation animado (precisa via DOM porque é attribute SVG)
-  const stdDeviation = useTransform(gooIntensity, (g) => (3 + g * 5).toFixed(2));
 
   useEffect(() => {
     if (!animateMorph) return;
