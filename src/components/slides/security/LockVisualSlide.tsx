@@ -63,15 +63,6 @@ function LagrimaCofre({ state, size = 280 }: { state: "open" | "closed"; size?: 
 
         {isOpen ? (
           <>
-            {/* fundo escuro revelado pela rachadura */}
-            <motion.path
-              d={TEAR_FULL}
-              fill="url(#crackShadow)"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.55, duration: 0.3 }}
-            />
-
             {/* metade esquerda — shake e depois se afasta + rotaciona */}
             <motion.path
               d={TEAR_LEFT}
