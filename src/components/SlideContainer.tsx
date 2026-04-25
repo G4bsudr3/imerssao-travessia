@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useSwipeable } from "@/hooks/useSwipeable";
-import { useRoom, type Phase } from "@/contexts/RoomContext";
+import { useRoom } from "@/contexts/RoomContext";
 import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import { slideManifest, TOTAL_SLIDES } from "@/slides/slideManifest";
@@ -13,54 +13,14 @@ import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
 import { LobbySlide } from "./slides/LobbySlide";
 import { PulseCheckSlide } from "./slides/PulseCheckSlide";
-import { SentimentQuestion, SentimentCards, SentimentAnalysis, SentimentQuotes } from "./slides/SentimentSlides";
 import { BrainstormQuestion, BrainstormActive, BrainstormSettled } from "./slides/BrainstormSlides";
-import { VotingActive, VotingWinner } from "./slides/VotingSlides";
-import { AltTabLiveSlide } from "./slides/AltTabLiveSlide";
-import { IterationLoopSlide } from "./slides/IterationLoopSlide";
 import { PollSlide } from "./slides/PollSlide";
-import { PublishUrl, PublishQr } from "./slides/PublishSlides";
-import { CelebrationSlide, FinalSlide } from "./slides/CelebrationSlides";
-import { OiSlide, BuildIntro, AbrindoClaude, AbrindoLovable, PublishPrompt, IterPronta } from "./slides/MiscSpecialSlides";
-import {
-  NoComecoSlide,
-  NoMeioSlide,
-  OposicaoIntroSlide,
-  QuadroOposicaoClarezaSlide,
-  HojeSlideRich,
-  ProvaSocialSlide,
-  SucessoMedidaErradaSlide,
-  SucessoMedidaCertaSlide,
-  NavalCorpoMenteSlide,
-  NavalIteracoesSlide,
-  NavalVibeCodingSlide,
-  IAComprimeSlide,
-  DesignXSharpSlide,
-  UmEPoucoSlide,
-  MegazordVisualSlide,
-  LovableNumbersSlide,
-  LovableUsadoPorSlide,
-  LovableUneTimesSlide,
-  RegraDoJogoMVPSlide,
-  FramePIROSlide,
-} from "./slides/NarrativeSlides";
-import {
-  BH1900Slide,
-  VieramCarrosSlide,
-  EncurtouCaminhoSlide,
-  MatouProfissoesSlide,
-  ProfissoesSurgiramSlide,
-  VieramAvioesSlide,
-  AviaoNaoMatouSlide,
-  EncurtouMaisSlide,
-  TrabalhoMudaSlide,
-  IAFazendoSlide,
-  NadaNovoSlide,
-  MaisFacilSlide,
-  HumanoSeOcuparSlide,
-  RiscoCharreteSlide,
-  EAgoraIASlide,
-} from "./slides/MundoMudouSlides";
+import { FinalSlide } from "./slides/CelebrationSlides";
+import { CodeBlockSlide } from "./slides/security/CodeBlockSlide";
+import { RiskTableSlide } from "./slides/security/RiskTableSlide";
+import { ComparisonSlide } from "./slides/security/ComparisonSlide";
+import { PromptCardSlide } from "./slides/security/PromptCardSlide";
+import { LockVisualSlide } from "./slides/security/LockVisualSlide";
 
 function renderSlide(idx: number) {
   const e = slideManifest[idx];
@@ -69,70 +29,27 @@ function renderSlide(idx: number) {
 
   switch (e.component) {
     case "CoverSlide":
-      return <CoverSlide variant={e.key === "vai_la_e_cria" ? "final" : e.key === "build_intro" ? "build" : "intro"} />;
+      return <CoverSlide variant={e.key === "vai_la_proteja" ? "final" : "intro"} />;
     case "LobbySlide": return <LobbySlide />;
-    case "PulseCheckSlide": return <PulseCheckSlide />;
-    case "SentimentQuestion": return <SentimentQuestion />;
-    case "SentimentCards": return <SentimentCards />;
-    case "SentimentAnalysis": return <SentimentAnalysis />;
-    case "SentimentQuotes": return <SentimentQuotes />;
-    case "OiSlide": return <OiSlide />;
-    case "NoComecoSlide": return <NoComecoSlide />;
-    case "NoMeioSlide": return <NoMeioSlide />;
-    case "OposicaoIntroSlide": return <OposicaoIntroSlide />;
-    case "QuadroOposicaoClarezaSlide": return <QuadroOposicaoClarezaSlide />;
-    case "HojeSlideRich": return <HojeSlideRich />;
-    case "ProvaSocialSlide": return <ProvaSocialSlide />;
-    case "SucessoMedidaErradaSlide": return <SucessoMedidaErradaSlide />;
-    case "SucessoMedidaCertaSlide": return <SucessoMedidaCertaSlide />;
-    case "NavalCorpoMenteSlide": return <NavalCorpoMenteSlide />;
-    case "NavalIteracoesSlide": return <NavalIteracoesSlide />;
-    case "NavalVibeCodingSlide": return <NavalVibeCodingSlide />;
-    case "IAComprimeSlide": return <IAComprimeSlide />;
-    case "DesignXSharpSlide": return <DesignXSharpSlide />;
-    case "UmEPoucoSlide": return <UmEPoucoSlide />;
-    case "MegazordVisualSlide": return <MegazordVisualSlide />;
-    case "LovableNumbersSlide": return <LovableNumbersSlide />;
-    case "LovableUsadoPorSlide": return <LovableUsadoPorSlide />;
-    case "LovableUneTimesSlide": return <LovableUneTimesSlide />;
-    case "RegraDoJogoMVPSlide": return <RegraDoJogoMVPSlide />;
-    case "FramePIROSlide": return <FramePIROSlide />;
-    case "BuildIntro": return <BuildIntro />;
-    case "BrainstormQuestion": return <BrainstormQuestion slideKey="brainstorm" question="qual problema do dia a dia você quer resolver?" />;
+    case "FinalSlide": return <FinalSlide />;
+    case "PulseCheckSlide": return <PulseCheckSlide {...(e.props ?? {})} />;
+    case "PollSlide": return <PollSlide {...(e.props ?? {})} />;
+    case "BrainstormQuestion": {
+      const p = e.props ?? { slideKey: "brainstorm", question: "" };
+      return <BrainstormQuestion slideKey={p.slideKey} question={p.question} />;
+    }
     case "BrainstormActive": return <BrainstormActive slideKey="brainstorm" />;
     case "BrainstormSettled": return <BrainstormSettled slideKey="brainstorm" />;
-    case "VotingActive": return <VotingActive />;
-    case "VotingWinner": return <VotingWinner />;
-    case "AbrindoClaude": return <AbrindoClaude />;
-    case "AltTabLiveSlide": {
-      const phase = (e.props?.phase as Phase) ?? "pensando";
-      return <AltTabLiveSlide phase={phase as Exclude<Phase, "idle">} />;
+    case "CodeBlockSlide": return <CodeBlockSlide {...e.props} />;
+    case "RiskTableSlide": return <RiskTableSlide {...e.props} />;
+    case "ComparisonSlide": return <ComparisonSlide {...e.props} />;
+    case "PromptCardSlide": return <PromptCardSlide {...e.props} />;
+    case "LockVisualSlide": return <LockVisualSlide {...e.props} />;
+    default: {
+      const _exhaustive: never = e;
+      void _exhaustive;
+      return <div className="p-8 font-mono">slide TODO</div>;
     }
-    case "PollSlide": return <PollSlide />;
-    case "AbrindoLovable": return <AbrindoLovable />;
-    case "PrimeiraVersao": return <IterPronta count={1} />;
-    case "IterationLoopSlide": return <IterationLoopSlide />;
-    case "PublishPrompt": return <PublishPrompt />;
-    case "PublishUrl": return <PublishUrl />;
-    case "PublishQr": return <PublishQr />;
-    case "CelebrationSlide": return <CelebrationSlide message="tá no ar." />;
-    case "FinalSlide": return <FinalSlide />;
-    case "BH1900Slide": return <BH1900Slide />;
-    case "VieramCarrosSlide": return <VieramCarrosSlide />;
-    case "EncurtouCaminhoSlide": return <EncurtouCaminhoSlide />;
-    case "MatouProfissoesSlide": return <MatouProfissoesSlide />;
-    case "ProfissoesSurgiramSlide": return <ProfissoesSurgiramSlide />;
-    case "VieramAvioesSlide": return <VieramAvioesSlide />;
-    case "AviaoNaoMatouSlide": return <AviaoNaoMatouSlide />;
-    case "EncurtouMaisSlide": return <EncurtouMaisSlide />;
-    case "TrabalhoMudaSlide": return <TrabalhoMudaSlide />;
-    case "IAFazendoSlide": return <IAFazendoSlide />;
-    case "NadaNovoSlide": return <NadaNovoSlide />;
-    case "MaisFacilSlide": return <MaisFacilSlide />;
-    case "HumanoSeOcuparSlide": return <HumanoSeOcuparSlide />;
-    case "RiscoCharreteSlide": return <RiscoCharreteSlide />;
-    case "EAgoraIASlide": return <EAgoraIASlide />;
-    default: return <div className="p-8 font-mono">slide TODO: {e.component}</div>;
   }
 }
 
@@ -197,14 +114,12 @@ export function SlideContainer() {
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
 
-      {/* Cronômetro regressivo 70min — canto superior esquerdo */}
+      {/* Cronômetro regressivo — canto superior esquerdo */}
       <PresentationTimer visible={visible} />
 
       {/* QR persistente da sessão — canto inferior direito.
           Esconde no Lobby (já tem QR gigante lá). */}
       {entry?.key !== "lobby" && <PersistentSessionQR visible={visible} />}
-
-      {/* Slide key debug removido — sobrepunha conteúdo dos slides */}
     </div>
   );
 }

@@ -6,7 +6,17 @@ import { SlideShell } from "./SlideShell";
 
 const SLIDE_KEY = "pulse";
 
-export function PulseCheckSlide() {
+type Props = {
+  eyebrow?: string;
+  question?: string;
+  hint?: string;
+};
+
+export function PulseCheckSlide({
+  eyebrow = "pulse check",
+  question = "como tu chega aqui hoje?",
+  hint = "de 1 a 10. responde no celular.",
+}: Props = {}) {
   const { room } = useRoom();
   const [values, setValues] = useState<number[]>([]);
 
@@ -43,9 +53,9 @@ export function PulseCheckSlide() {
     <SlideShell>
       <div className="grid w-full max-w-5xl grid-cols-1 items-center gap-16 md:grid-cols-2">
         <div className="text-left">
-          <p className="eyebrow">pulse check</p>
-          <h1 className="font-display text-7xl leading-tight">como tu chega aqui hoje?</h1>
-          <p className="mt-6 text-xl opacity-60">de 1 a 10. responde no celular.</p>
+          <p className="eyebrow">{eyebrow}</p>
+          <h1 className="font-display text-7xl leading-tight">{question}</h1>
+          <p className="mt-6 text-xl opacity-60">{hint}</p>
         </div>
 
         <div className="flex flex-col items-center gap-4">

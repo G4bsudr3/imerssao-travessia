@@ -343,8 +343,9 @@ function PulseInput({ nickname }: { nickname: string }) {
   return (
     <div className="flex min-h-[70vh] flex-col justify-center gap-6">
       <div className="text-center">
-        <p className="eyebrow">como tu chega?</p>
-        <p className="mt-1 font-display text-4xl">de 1 a 10</p>
+        <p className="eyebrow">seu nível de preocupação</p>
+        <p className="mt-1 font-display text-4xl">com segurança</p>
+        <p className="mt-2 text-sm opacity-60">de 1 (zero) a 10 (perdendo o sono)</p>
       </div>
       <div className="grid grid-cols-5 gap-3">
         {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => {
@@ -523,11 +524,17 @@ function PollInput({ nickname }: { nickname: string }) {
   const [voted, setVoted] = useState<string | null>(null);
   const fb = useFeedback();
 
-  const send = async (choice: "sim" | "ajustar") => {
+  const options: Array<{ value: string; label: string; sub: string; accent?: boolean }> = [
+    { value: "a", label: "política A", sub: "USING (true)" },
+    { value: "b", label: "política B", sub: "USING (auth.uid() IS NOT NULL)" },
+    { value: "c", label: "política C", sub: "USING (user_id = auth.uid())", accent: true },
+  ];
+
+  const send = async (choice: string) => {
     if (!room || voted) return;
     setVoted(choice);
     fb("vote");
-    showToast(choice === "sim" ? "bora" : "ajustando");
+    showToast(`votou ${choice.toUpperCase()}`);
     await supabase.from("text_responses").insert({
       room_id: room.id,
       slide_key: "poll_brief",
@@ -539,27 +546,26 @@ function PollInput({ nickname }: { nickname: string }) {
 
   return (
     <div className="flex min-h-[70vh] flex-col justify-center gap-4">
-      <p className="text-center font-display text-3xl">o brief tá bom?</p>
+      <p className="text-center font-display text-3xl">qual política é segura?</p>
       <div className="flex flex-col gap-3">
-        <motion.button
-          onClick={() => send("sim")}
-          disabled={!!voted}
-          animate={{ scale: voted === "sim" ? 1.04 : 1, opacity: voted && voted !== "sim" ? 0.35 : 1 }}
-          whileTap={{ scale: 0.96 }}
-          className="h-24 rounded-3xl bg-laranja font-display text-4xl text-preto"
-          style={{ boxShadow: "var(--shadow-laranja)" }}
-        >
-          bora codar
-        </motion.button>
-        <motion.button
-          onClick={() => send("ajustar")}
-          disabled={!!voted}
-          animate={{ scale: voted === "ajustar" ? 1.04 : 1, opacity: voted && voted !== "ajustar" ? 0.35 : 1 }}
-          whileTap={{ scale: 0.96 }}
-          className="h-24 rounded-3xl border-2 border-preto/15 bg-white font-display text-4xl"
-        >
-          ajustar
-        </motion.button>
+        {options.map((o) => (
+          <motion.button
+            key={o.value}
+            onClick={() => send(o.value)}
+            disabled={!!voted}
+            animate={{ scale: voted === o.value ? 1.04 : 1, opacity: voted && voted !== o.value ? 0.35 : 1 }}
+            whileTap={{ scale: 0.96 }}
+            className={`flex flex-col items-start gap-1 rounded-3xl px-5 py-4 text-left font-display ${
+              o.accent
+                ? "bg-laranja text-preto"
+                : "border-2 border-preto/15 bg-white"
+            }`}
+            style={o.accent ? { boxShadow: "var(--shadow-laranja)" } : undefined}
+          >
+            <span className="text-3xl">{o.label}</span>
+            <span className="font-mono text-xs opacity-70">{o.sub}</span>
+          </motion.button>
+        ))}
       </div>
       {voted && <p className="text-center text-sm opacity-60">voto registrado.</p>}
     </div>

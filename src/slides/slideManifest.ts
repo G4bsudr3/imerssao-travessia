@@ -1,218 +1,513 @@
-// Manifest dos 84 slides — fonte da verdade da apresentação CHŎRA
-// Narrativa em 4 atos: Sentir · Quem fala · O que mudou · Construir
+// Manifest dos slides — apresentação chŏra
+// "Segurança, Infra e Governança no Lovable" · 4 atos · ~30 min
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
+import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
+
+type CodeBlockProps = {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  language?: "sql" | "ts" | "js";
+  code: string;
+  status: "danger" | "safe";
+  caption?: string;
+};
+
+type RiskTableProps = { eyebrow?: string; title: string; rows: RiskRow[] };
+
+type ComparisonProps = {
+  eyebrow?: string;
+  title?: string;
+  left: { label: string; sub?: string; bullets?: string[] };
+  right: { label: string; sub?: string; bullets?: string[] };
+  leftTag?: string;
+  rightTag?: string;
+  rightAccent?: boolean;
+};
+
+type PromptCardProps = {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  prompts: Array<{ label: string; body: string }>;
+};
+
+type LockVisualProps = {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  state: "open" | "closed";
+};
+
+type PulseProps = { eyebrow?: string; question?: string; hint?: string };
+type PollProps = {
+  eyebrow?: string;
+  question?: string;
+  options?: Array<{ value: string; label: string; sub?: string; accent?: boolean }>;
+};
+type BrainstormProps = { slideKey: string; question: string };
 
 export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
-  | { key: string; kind: "special"; component: string; props?: Record<string, unknown> };
+  | { key: string; kind: "special"; component: "CoverSlide" | "LobbySlide" | "FinalSlide" | "BrainstormActive" | "BrainstormSettled" }
+  | { key: string; kind: "special"; component: "PulseCheckSlide"; props?: PulseProps }
+  | { key: string; kind: "special"; component: "PollSlide"; props?: PollProps }
+  | { key: string; kind: "special"; component: "BrainstormQuestion"; props?: BrainstormProps }
+  | { key: string; kind: "special"; component: "CodeBlockSlide"; props: CodeBlockProps }
+  | { key: string; kind: "special"; component: "RiskTableSlide"; props: RiskTableProps }
+  | { key: string; kind: "special"; component: "ComparisonSlide"; props: ComparisonProps }
+  | { key: string; kind: "special"; component: "PromptCardSlide"; props: PromptCardProps }
+  | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps };
 
 export const slideManifest: SlideEntry[] = [
-  // ─── ATO 1 · SENTIR (1–8) ───
-  // 1
+  // ─── ATO 1 · POR QUÊ (0-7) ───
   { key: "cover", kind: "special", component: "CoverSlide" },
-  { key: "ato_1_sentir", kind: "static", staticProps: { variant: "act", eyebrow: "ato 1", title: "sentir", subtitle: "como a turma chega", background: "naval" } },
-  // 2
+  {
+    key: "ato_1_porque",
+    kind: "static",
+    staticProps: { variant: "act", eyebrow: "ato 1", title: "por quê", subtitle: "construir rápido sem deixar buracos", background: "naval" },
+  },
   { key: "lobby", kind: "special", component: "LobbySlide" },
-  // 3
-  { key: "pulse", kind: "special", component: "PulseCheckSlide" },
-  // 4 — agenda 4 atos
+  {
+    key: "pulse",
+    kind: "special",
+    component: "PulseCheckSlide",
+    props: {
+      eyebrow: "pulse check",
+      question: "qual seu nível de preocupação com segurança?",
+      hint: "1 = zero · 10 = perdendo o sono. responde no celular.",
+    },
+  },
   {
     key: "agenda",
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "agenda · 60 min",
+      eyebrow: "agenda · 30 min",
       items: [
-        { label: "1. sentir", sub: "como a turma chega" },
-        { label: "2. quem fala", sub: "história + filosofia" },
-        { label: "3. o que mudou", sub: "tecnologia, IA, lovable" },
-        { label: "4. construir", sub: "ao vivo, juntos" },
+        { label: "1. por quê", sub: "o risco que você não vê" },
+        { label: "2. supabase", sub: "RLS, edge, RPC" },
+        { label: "3. código + LGPD", sub: "auditoria e conformidade" },
+        { label: "4. arquitetura", sub: "escalar sem dor" },
       ],
     },
   },
-  // 5–8 sentiment
-  { key: "sentiment_pergunta", kind: "special", component: "SentimentQuestion" },
-  { key: "sentiment_collecting", kind: "special", component: "SentimentCards" },
-  { key: "sentiment_analysis", kind: "special", component: "SentimentAnalysis" },
-
-  // ─── ATO 2 · QUEM FALA / POR QUÊ (9–25) ───
-  // 9
-  { key: "ato_2_quem_fala", kind: "static", staticProps: { variant: "act", eyebrow: "ato 2", title: "quem fala", subtitle: "história + filosofia", background: "naval" } },
-  { key: "ponte_eu", kind: "static", staticProps: { variant: "transition", title: "antes de continuar." } },
-  // 10
-  { key: "oi", kind: "special", component: "OiSlide" },
-  // 11
-  { key: "no_comeco", kind: "special", component: "NoComecoSlide" },
-  // 12
-  { key: "no_meio", kind: "special", component: "NoMeioSlide" },
-  // 13
-  { key: "oposicao_intro", kind: "special", component: "OposicaoIntroSlide" },
-  // 14 — quadro completo das 7 oposições/clarezas
-  { key: "quadro_oposicao_clareza", kind: "special", component: "QuadroOposicaoClarezaSlide" },
-  // 15
-  { key: "a_dor", kind: "static", staticProps: { variant: "headline", title: "a dor significa o jogo." } },
-  // 16
-  { key: "hoje", kind: "special", component: "HojeSlideRich" },
-  // 17 — prova social
-  { key: "prova_social", kind: "special", component: "ProvaSocialSlide" },
-  // 18 — sucesso medida errada
-  { key: "sucesso_errado", kind: "special", component: "SucessoMedidaErradaSlide" },
-  // 19 — sucesso medida certa
-  { key: "sucesso_certo", kind: "special", component: "SucessoMedidaCertaSlide" },
-  // 20 — Naval corpo/mente
-  { key: "naval_corpo_mente", kind: "special", component: "NavalCorpoMenteSlide" },
-  // 21 — Naval iterações
-  { key: "naval_iteracoes", kind: "special", component: "NavalIteracoesSlide" },
-  // 22
-  { key: "transicao_volta", kind: "static", staticProps: { variant: "transition", title: "agora, zoom out." } },
-  // 23
-  { key: "iterar", kind: "static", staticProps: { variant: "two-line", title: "o trunfo é", subtitle: "iterar rápido." } },
-  // 24
   {
-    key: "ia_pra_que",
+    key: "realidade",
     kind: "static",
     staticProps: {
-      variant: "list",
-      eyebrow: "IA pra quê",
-      items: [{ label: "amplificar sharp thinking" }, { label: "acelerar design thinking" }, { label: "comprimir tempo" }],
+      variant: "stat",
+      title: "a maioria das apps Lovable em produção",
+      stat: { value: "tem RLS aberto", sub: "o cadeado do banco está destrancado." },
     },
   },
-  // 25
-  { key: "design_x_sharp", kind: "special", component: "DesignXSharpSlide" },
-
-  // ─── ATO 3 · O QUE MUDOU NO MUNDO (26–44) ───
-  // Sequência narrativa importada do projeto v2 e adaptada ao design system do chŏra.
-  // 26
-  { key: "ato_3_o_que_mudou", kind: "static", staticProps: { variant: "act", eyebrow: "ato 3", title: "o que mudou", subtitle: "tecnologia, IA, lovable", background: "naval" } },
-  { key: "bh_1900", kind: "special", component: "BH1900Slide" },
-  // 27
-  { key: "vieram_carros", kind: "special", component: "VieramCarrosSlide" },
-  // 28
-  { key: "encurtou_caminho", kind: "special", component: "EncurtouCaminhoSlide" },
-  // 29
-  { key: "matou_profissoes", kind: "special", component: "MatouProfissoesSlide" },
-  // 30
-  { key: "profissoes_surgiram", kind: "special", component: "ProfissoesSurgiramSlide" },
-  // 31
-  { key: "vieram_avioes", kind: "special", component: "VieramAvioesSlide" },
-  // 32
-  { key: "aviao_nao_matou", kind: "special", component: "AviaoNaoMatouSlide" },
-  // 33
-  { key: "encurtou_mais", kind: "special", component: "EncurtouMaisSlide" },
-  // 34
-  { key: "trabalho_muda", kind: "special", component: "TrabalhoMudaSlide" },
-  // 35
-  { key: "ia_fazendo", kind: "special", component: "IAFazendoSlide" },
-  // 36
-  { key: "nada_novo", kind: "special", component: "NadaNovoSlide" },
-  // 37
-  { key: "mais_facil", kind: "special", component: "MaisFacilSlide" },
-  // 38
-  { key: "humano_se_ocupar", kind: "special", component: "HumanoSeOcuparSlide" },
-  // 39
-  { key: "risco_charrete", kind: "special", component: "RiscoCharreteSlide" },
-  // 40
-  { key: "e_agora_ia", kind: "special", component: "EAgoraIASlide" },
-  // 39 — empilhar ferramentas (1, 2, 3, 4, 5)
-  { key: "um_e_pouco", kind: "special", component: "UmEPoucoSlide" },
-  // 40
-  { key: "megazord", kind: "special", component: "MegazordVisualSlide" },
-  // 41 — Naval vibe coding
-  { key: "naval_vibe", kind: "special", component: "NavalVibeCodingSlide" },
-  // 42
-  { key: "por_que_lovable", kind: "static", staticProps: { variant: "headline", title: "por que lovable?" } },
-
-  // ─── PONTE LOVABLE (43–48) ───
-  // 43
-  { key: "lovable_numbers", kind: "special", component: "LovableNumbersSlide" },
-  // 44
-  { key: "lovable_usado", kind: "special", component: "LovableUsadoPorSlide" },
-  // 45
-  { key: "lovable_une", kind: "special", component: "LovableUneTimesSlide" },
-  // 46
-  { key: "tese", kind: "static", staticProps: { variant: "two-line", title: "tese:", subtitle: "ideia boa é ideia construída." } },
-  // 47
-  { key: "build_intro", kind: "special", component: "BuildIntro" },
-  // 48
-  { key: "chegou_a_hora", kind: "static", staticProps: { variant: "two-line", title: "chegou a hora.", subtitle: "vamos construir agora." } },
-
-  // ─── ATO 4 · CONSTRUIR ───
-  { key: "ato_4_construir", kind: "static", staticProps: { variant: "act", eyebrow: "ato 4", title: "construir", subtitle: "ao vivo, juntos", background: "naval" } },
-  { key: "pergunta_problema", kind: "special", component: "BrainstormQuestion" },
-  { key: "brainstorm_active", kind: "special", component: "BrainstormActive" },
-  { key: "5_na_mesa", kind: "special", component: "BrainstormSettled" },
-  { key: "voting_active", kind: "special", component: "VotingActive" },
-  { key: "vencedora", kind: "special", component: "VotingWinner" },
-  // CTA: abrir o passo a passo externo e construir junto
   {
-    key: "mao_na_massa_link",
+    key: "tres_camadas",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "três camadas de risco",
+      items: [
+        { label: "banco", sub: "RLS · edge · RPC" },
+        { label: "código", sub: "secrets · validação · logs" },
+        { label: "governança", sub: "LGPD · acessos · backup" },
+      ],
+    },
+  },
+  {
+    key: "ponte_supabase",
+    kind: "static",
+    staticProps: { variant: "transition", title: "começamos pelo banco." },
+  },
+
+  // ─── ATO 2 · SUPABASE (8-22) ───
+  {
+    key: "ato_2_supabase",
+    kind: "static",
+    staticProps: { variant: "act", eyebrow: "ato 2", title: "supabase", subtitle: "onde mora 80% do risco", background: "naval" },
+  },
+  {
+    key: "vitrine_deposito",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "a analogia que importa",
+      title: "Lovable é a vitrine. Supabase é o depósito.",
+      leftTag: "Lovable",
+      rightTag: "Supabase",
+      left: { label: "vitrine", sub: "o que o usuário vê e clica.", bullets: ["UI", "estado de tela", "fluxos do front"] },
+      right: { label: "depósito", sub: "onde o dado mora e as regras vivem.", bullets: ["banco PostgreSQL", "auth", "edge functions", "storage"] },
+    },
+  },
+  {
+    key: "tres_pilares",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "três pilares do supabase",
+      items: [
+        { label: "tabelas", sub: "onde o dado mora. risco: RLS aberto." },
+        { label: "edge functions", sub: "lógica server. risco: não validar JWT." },
+        { label: "RPC", sub: "funções no banco. risco: SECURITY DEFINER cego." },
+      ],
+    },
+  },
+  {
+    key: "o_que_e_rls",
     kind: "static",
     staticProps: {
       variant: "two-line",
-      eyebrow: "mão na massa",
-      title: "iapravidax.lovable.app",
-      subtitle: "vou abrir e construir agora.",
-      href: "https://iapravidax.lovable.app",
-      cta: "abrir o passo a passo",
+      eyebrow: "RLS · row level security",
+      title: "regra que define",
+      subtitle: "quem vê qual linha.",
+    },
+  },
+  {
+    key: "quatro_operacoes",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "RLS controla 4 operações",
+      items: [
+        { label: "SELECT", sub: "quem pode ver" },
+        { label: "INSERT", sub: "quem pode criar" },
+        { label: "UPDATE", sub: "quem pode editar" },
+        { label: "DELETE", sub: "quem pode apagar" },
+      ],
+    },
+  },
+  {
+    key: "rls_aberto",
+    kind: "special",
+    component: "LockVisualSlide",
+    props: {
+      eyebrow: "default perigoso",
+      title: "RLS desativado = porta aberta.",
+      subtitle: "qualquer um com a anon key (que tá no front) lê o banco inteiro.",
+      state: "open",
+    },
+  },
+  {
+    key: "top_riscos_rls",
+    kind: "special",
+    component: "RiskTableSlide",
+    props: {
+      eyebrow: "os 4 erros mais comuns",
+      title: "RLS mal configurado",
+      rows: [
+        { level: "high", risk: "RLS desativado na tabela", impact: "qualquer pessoa lê tudo via anon key", fix: "ativar RLS em todas as tabelas" },
+        { level: "high", risk: "política SELECT = TRUE", impact: "público vê dado privado", fix: "filtrar por user_id ou auth.uid() IS NOT NULL" },
+        { level: "medium", risk: "INSERT sem validar user_id", impact: "usuário grava como se fosse outro", fix: "WITH CHECK (user_id = auth.uid())" },
+        { level: "medium", risk: "UPDATE/DELETE sem dono", impact: "edita/apaga dado alheio", fix: "USING (user_id = auth.uid())" },
+      ],
+    },
+  },
+  {
+    key: "exemplo_ruim",
+    kind: "special",
+    component: "CodeBlockSlide",
+    props: {
+      eyebrow: "exemplo real",
+      title: "isso aqui é uma porta aberta",
+      language: "sql",
+      status: "danger",
+      code: `CREATE POLICY "todos_veem"
+ON pedidos
+FOR SELECT
+USING (true);
+-- USING (true) = qualquer um, autenticado ou não, vê tudo`,
+      caption: "achou bonito porque \"funciona\". funciona pra atacante também.",
+    },
+  },
+  {
+    key: "exemplo_bom",
+    kind: "special",
+    component: "CodeBlockSlide",
+    props: {
+      eyebrow: "o jeito certo",
+      title: "cada usuário só vê o que é dele",
+      language: "sql",
+      status: "safe",
+      code: `CREATE POLICY "ver_meus_pedidos"
+ON pedidos
+FOR SELECT
+TO authenticated
+USING (user_id = auth.uid());`,
+      caption: "auth.uid() é o ID do usuário logado. comparou? só passa o que bate.",
+    },
+  },
+  {
+    key: "confirma_brief", // mantém slide_key existente pro mobile
+    kind: "special",
+    component: "PollSlide",
+    props: {
+      eyebrow: "quiz · qual é segura?",
+      question: "qual dessas políticas é a segura?",
+      options: [
+        { value: "a", label: "A", sub: "USING (true)" },
+        { value: "b", label: "B", sub: "USING (auth.uid() IS NOT NULL)" },
+        { value: "c", label: "C", sub: "USING (user_id = auth.uid())", accent: true },
+      ],
+    },
+  },
+  {
+    key: "edge_jwt",
+    kind: "special",
+    component: "CodeBlockSlide",
+    props: {
+      eyebrow: "edge functions",
+      title: "sempre valide o JWT",
+      subtitle: "sem isso, qualquer um chama sua função privilegiada.",
+      language: "ts",
+      status: "safe",
+      code: `// dentro da edge function
+const authHeader = req.headers.get("Authorization");
+const supabase = createClient(URL, ANON_KEY, {
+  global: { headers: { Authorization: authHeader } }
+});
+
+const { data: { user }, error } = await supabase.auth.getUser();
+if (!user) return new Response("unauth", { status: 401 });
+
+// só agora roda a lógica protegida`,
+      caption: "front mente. sempre confira no servidor.",
+    },
+  },
+  {
+    key: "rpc_definer",
+    kind: "special",
+    component: "CodeBlockSlide",
+    props: {
+      eyebrow: "RPC · functions no banco",
+      title: "SECURITY DEFINER pede checagem manual",
+      subtitle: "definer roda com poder de admin. sem auth.uid(), virou backdoor.",
+      language: "sql",
+      status: "safe",
+      code: `CREATE OR REPLACE FUNCTION transferir_credito(destino uuid, valor int)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+  IF auth.uid() IS NULL THEN
+    RAISE EXCEPTION 'precisa estar logado';
+  END IF;
+  -- ...lógica usando auth.uid() como origem
+END;
+$$;`,
     },
   },
 
-  // ─── ENCERRAMENTO (76–83) ───
-  // 76
-  { key: "celebracao", kind: "special", component: "CelebrationSlide" },
-  // 78
-  { key: "respiro", kind: "static", staticProps: { variant: "transition", title: "respira." } },
-  // 79
+  // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA (23-31) ───
   {
-    key: "recap_mentalidade",
+    key: "ato_3_codigo",
+    kind: "static",
+    staticProps: { variant: "act", eyebrow: "ato 3", title: "código + governança", subtitle: "saindo do banco", background: "naval" },
+  },
+  {
+    key: "codigo_vs_supabase",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "onde mora cada coisa",
+      title: "código vs supabase",
+      leftTag: "no código (Lovable)",
+      rightTag: "no banco (Supabase)",
+      left: {
+        label: "front + edge",
+        bullets: ["validação de input", "secrets via .env (nunca no client)", "rate limit nas edge", "logs sem dado sensível"],
+      },
+      right: {
+        label: "regras de acesso",
+        bullets: ["RLS por tabela", "RPC com SECURITY DEFINER", "auth + sessão", "backup + branching"],
+      },
+    },
+  },
+  {
+    key: "nao_so_lovable",
     kind: "static",
     staticProps: {
-      variant: "grid",
-      eyebrow: "mentalidade que fica",
+      variant: "list",
+      eyebrow: "o Lovable ajuda muito · mas não é tudo",
       items: [
-        { label: "oposição → clareza" },
-        { label: "sharp + design" },
-        { label: "iterar" },
-        { label: "megazord" },
+        { label: "audita você mesmo com IA", sub: "Claude/GPT lê seu código melhor que você" },
+        { label: "GitHub é sua rede de segurança", sub: "histórico, rollback, code review" },
+        { label: "service_role NUNCA no front", sub: "só anon key vai pro client" },
+        { label: "Security Advisor do Supabase", sub: "roda toda semana. é grátis." },
       ],
     },
   },
-  // 80
   {
-    key: "recap_ferramentas",
+    key: "lgpd_basico",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "LGPD · lei geral de proteção de dados",
+      title: "se você guarda dado de brasileiro, vale pra você.",
+      leftTag: "o que muda",
+      rightTag: "o que custa",
+      left: {
+        label: "consentimento + base legal",
+        bullets: ["informar o que coleta", "deixar revogar", "guardar só o necessário", "responder pedidos do titular"],
+      },
+      right: {
+        label: "até 2% do faturamento",
+        sub: "com teto de R$ 50 milhões por infração.",
+        bullets: ["multa da ANPD", "danos reputacionais", "ações coletivas"],
+      },
+    },
+  },
+  {
+    key: "direitos_titular",
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "ferramentas",
+      eyebrow: "5 direitos do titular",
       items: [
-        { label: "claude · gpt · gemini", sub: "pensar", icon: "brain" },
-        { label: "lovable", sub: "construir", icon: "heart" },
-        { empty: true },
-        { empty: true },
+        { label: "acessar", sub: "ver tudo que você tem dele" },
+        { label: "corrigir", sub: "atualizar dado errado" },
+        { label: "portar", sub: "exportar pra outro serviço" },
+        { label: "revogar", sub: "tirar consentimento" },
+        { label: "excluir", sub: "apagar conta + dados" },
       ],
     },
   },
-  // 81
-  { key: "os_dois", kind: "static", staticProps: { variant: "two-line", title: "os dois juntos.", subtitle: "sempre." } },
-  // 82
-  { key: "penso_logo_crio", kind: "static", staticProps: { variant: "two-line", title: "penso,", subtitle: "logo crio." } },
-  // 83
   {
-    key: "3_caminhos",
+    key: "governanca_acessos",
+    kind: "special",
+    component: "RiskTableSlide",
+    props: {
+      eyebrow: "governança · quem acessa o quê",
+      title: "matriz mínima de papéis",
+      rows: [
+        { level: "low", risk: "dev solo", impact: "tudo na sua mão = ponto único de falha", fix: "convidar 1 backup com acesso owner" },
+        { level: "medium", risk: "time misto", impact: "estagiário com service_role", fix: "papéis Supabase: Owner / Admin / Developer / Read-only" },
+        { level: "high", risk: "sem MFA no admin", impact: "credencial vazada = banco vazado", fix: "ativar MFA em todas contas Supabase + GitHub" },
+      ],
+    },
+  },
+  { key: "pergunta_problema", kind: "special", component: "BrainstormQuestion", props: { slideKey: "brainstorm", question: "qual o maior buraco que você suspeita ter no seu projeto agora?" } },
+  { key: "brainstorm_active", kind: "special", component: "BrainstormActive" },
+  { key: "5_na_mesa", kind: "special", component: "BrainstormSettled" },
+
+  // ─── ATO 4 · ARQUITETURA + CHECKLIST (32-39) ───
+  {
+    key: "ato_4_arquitetura",
+    kind: "static",
+    staticProps: { variant: "act", eyebrow: "ato 4", title: "arquitetura", subtitle: "escalar sem reaprender doendo", background: "naval" },
+  },
+  {
+    key: "lovable_cloud_vs_supabase",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "duas formas de ter backend",
+      title: "Lovable Cloud vs Supabase próprio",
+      leftTag: "Lovable Cloud",
+      rightTag: "Supabase próprio",
+      rightAccent: true,
+      left: {
+        label: "default · zero setup",
+        bullets: ["liga e usa", "auth, db, storage, edge", "ótimo até produção média", "sem acesso ao dashboard cru"],
+      },
+      right: {
+        label: "controle total",
+        bullets: ["dashboard completo", "branching · backups · point-in-time", "config fina (pooling, índices)", "vale quando dados crescem"],
+      },
+    },
+  },
+  {
+    key: "quando_migrar",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "sinais de que é hora de profissionalizar",
+      items: [
+        { label: "queries lentas com mais de 10k linhas" },
+        { label: "precisa de backup point-in-time" },
+        { label: "time crescendo · precisa de papéis" },
+        { label: "dados regulados (saúde, financeiro)" },
+        { label: "SLA com cliente enterprise" },
+      ],
+    },
+  },
+  {
+    key: "setup_robusto",
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "3 caminhos pra segunda",
+      eyebrow: "5 configs que mudam a maturidade",
       items: [
-        { label: "tarefa chata", sub: "automatiza uma" },
-        { label: "ideia parada", sub: "constrói o esqueleto" },
-        { label: "time", sub: "ensina alguém" },
+        { label: "PITR", sub: "point-in-time recovery · volta no tempo" },
+        { label: "branching", sub: "ambiente de staging por PR" },
+        { label: "MFA + papéis", sub: "todo mundo com 2FA, role mínima" },
+        { label: "observability", sub: "logs + alertas no Sentry/Logflare" },
       ],
     },
   },
-  // 84
-  { key: "vai_la_e_cria", kind: "special", component: "FinalSlide" },
+  {
+    key: "prompts_auditoria",
+    kind: "special",
+    component: "PromptCardSlide",
+    props: {
+      eyebrow: "copia · cola · roda",
+      title: "3 prompts pra auditar hoje",
+      subtitle: "cole no Lovable, Claude ou ChatGPT.",
+      prompts: [
+        {
+          label: "auditoria de RLS",
+          body: "Audite todas as tabelas do meu Supabase. Para cada uma, diga se RLS está ativo, liste as políticas existentes e marque como CRÍTICO qualquer USING (true) ou ausência de filtro por user_id. Não modifique nada.",
+        },
+        {
+          label: "vazamento de secret",
+          body: "Procure no meu repositório qualquer ocorrência de service_role key, API keys hardcoded ou tokens em console.log. Reporte arquivo + linha. Ignore SUPABASE_ANON_KEY.",
+        },
+        {
+          label: "checklist LGPD",
+          body: "Liste os 5 direitos do titular LGPD. Para cada um, me diga se meu app já tem fluxo (acessar, corrigir, portar, revogar, excluir). Sugira a implementação mais simples no Lovable + Supabase pros que faltam.",
+        },
+      ],
+    },
+  },
+  {
+    key: "checklist_segunda",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "5 ações pra segunda de manhã",
+      items: [
+        { label: "ativar RLS em tudo", sub: "comece pelas tabelas com user_id" },
+        { label: "rodar Security Advisor", sub: "Supabase · grátis · 2 minutos" },
+        { label: "MFA em tudo", sub: "Lovable, Supabase, GitHub" },
+        { label: "rodar os 3 prompts", sub: "auditoria · secret · LGPD" },
+      ],
+    },
+  },
+  {
+    key: "recap",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "o que fica",
+      items: [
+        { label: "1. RLS é o cadeado", sub: "ative em tudo, sempre por user_id" },
+        { label: "2. valide JWT na edge", sub: "front mente · servidor confere" },
+        { label: "3. LGPD é projeto, não favor", sub: "consentimento + 5 direitos" },
+        { label: "4. governança escala antes do código", sub: "MFA, papéis, backup" },
+      ],
+    },
+  },
+  {
+    key: "vai_la_proteja",
+    kind: "static",
+    staticProps: {
+      variant: "two-line",
+      title: "vai lá",
+      subtitle: "e protege.",
+    },
+  },
 ];
 
 export const TOTAL_SLIDES = slideManifest.length;
