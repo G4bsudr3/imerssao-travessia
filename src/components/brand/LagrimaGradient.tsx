@@ -117,22 +117,25 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
   // Estado do cadeado (shackle + keyhole)
   const [lockState, setLockState] = useState<"hidden" | "shackle" | "complete" | "closing">("hidden");
 
-  // Pingo satélite: aparece nos frames de drip/blob
-  const satelliteOpacity = useTransform(progress, (v) => {
-    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
-    const idx = Math.floor(clamped);
-    const t = clamped - idx;
-    const isDripBlob = (i: number) => (i === 1 || i === 2 || i === 6 || i === 7 ? 1 : 0);
-    return isDripBlob(idx) * (1 - t) + isDripBlob(Math.min(idx + 1, SHAPES.length - 1)) * t;
-  });
-  const satelliteY = useTransform(progress, (v) => {
-    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
-    const idx = Math.floor(clamped);
-    return 100 + Math.sin((clamped - idx) * Math.PI) * 6;
-  });
+  // Filtro deviation animado: ZERO nos extremos (gota nítida, cadeado nítido),
+  // sobe só nos frames gosmentos. Sem isso a ponta da gota fica recortada pelo threshold.
+  const stdDeviation = useTransform(gooIntensity, (g) => (g * 6).toFixed(2));
 
-  // Filtro deviation animado (precisa via DOM porque é attribute SVG)
-  const stdDeviation = useTransform(gooIntensity, (g) => (3 + g * 5).toFixed(2));
+  // Threshold do colorMatrix: relaxa quando não há goo (passthrough), endurece quando há (metaball).
+  // feColorMatrix não aceita MotionValue em `values`, então sincronizamos via state.
+  const [matrixValues, setMatrixValues] = useState(
+    "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1 0",
+  );
+  useEffect(() => {
+    const unsub = gooIntensity.on("change", (g) => {
+      const a = 1 + g * 17;
+      const b = -(g * 7);
+      setMatrixValues(
+        `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${a.toFixed(2)} ${b.toFixed(2)}`,
+      );
+    });
+    return () => unsub();
+  }, [gooIntensity]);
 
   useEffect(() => {
     if (!animateMorph) return;
@@ -235,13 +238,14 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
           <stop offset="100%" stopColor="#6f77fc" />
         </linearGradient>
 
-        {/* Filtro goo / metaball — feGaussianBlur + feColorMatrix com alta contraste de alpha */}
+        {/* Filtro goo / metaball — feGaussianBlur + feColorMatrix com alta contraste de alpha.
+            Quando gooIntensity = 0, o filtro vira praticamente passthrough (sem blur, sem threshold). */}
         <filter id="gooFilter" x="-30%" y="-30%" width="160%" height="160%">
           <motion.feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation} result="blur" />
           <feColorMatrix
             in="blur"
             mode="matrix"
-            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            values={matrixValues}
             result="goo"
           />
           <feBlend in="SourceGraphic" in2="goo" />
@@ -274,18 +278,7 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
       {/* Forma principal (gota / gosma / corpo do cadeado) — com filtro goo aplicado nos frames intermediários */}
       <g filter="url(#gooFilter)">
         {animateMorph ? (
-          <>
-            <motion.path d={path} fill="url(#tearGrad)" mask="url(#lockMask)" />
-            {/* Pingo satélite — aparece nos frames gosmentos */}
-            <motion.ellipse
-              cx="50"
-              cy={satelliteY}
-              rx="5"
-              ry="6"
-              fill="url(#tearGrad)"
-              style={{ opacity: satelliteOpacity }}
-            />
-          </>
+          <motion.path d={path} fill="url(#tearGrad)" mask="url(#lockMask)" />
         ) : (
           <path d={SHAPES[0]} fill="url(#tearGrad)" />
         )}
