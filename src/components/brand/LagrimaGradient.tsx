@@ -96,8 +96,9 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
 
   const path = useTransform(progress, (v) => {
     if (!animateMorph) return SHAPES[0];
-    const idx = Math.min(Math.floor(v), interpolators.length - 1);
-    const t = v - idx;
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1.0001));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
     return interpolators[idx](t);
   });
 
