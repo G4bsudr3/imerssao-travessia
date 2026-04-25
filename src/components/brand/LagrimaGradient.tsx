@@ -229,13 +229,14 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
           <stop offset="100%" stopColor="#6f77fc" />
         </linearGradient>
 
-        {/* Filtro goo / metaball — feGaussianBlur + feColorMatrix com alta contraste de alpha */}
+        {/* Filtro goo / metaball — feGaussianBlur + feColorMatrix com alta contraste de alpha.
+            Quando gooIntensity = 0, o filtro vira praticamente passthrough (sem blur, sem threshold). */}
         <filter id="gooFilter" x="-30%" y="-30%" width="160%" height="160%">
           <motion.feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation} result="blur" />
-          <feColorMatrix
+          <motion.feColorMatrix
             in="blur"
             mode="matrix"
-            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            values={gooMatrix}
             result="goo"
           />
           <feBlend in="SourceGraphic" in2="goo" />
@@ -268,18 +269,7 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
       {/* Forma principal (gota / gosma / corpo do cadeado) — com filtro goo aplicado nos frames intermediários */}
       <g filter="url(#gooFilter)">
         {animateMorph ? (
-          <>
-            <motion.path d={path} fill="url(#tearGrad)" mask="url(#lockMask)" />
-            {/* Pingo satélite — aparece nos frames gosmentos */}
-            <motion.ellipse
-              cx="50"
-              cy={satelliteY}
-              rx="5"
-              ry="6"
-              fill="url(#tearGrad)"
-              style={{ opacity: satelliteOpacity }}
-            />
-          </>
+          <motion.path d={path} fill="url(#tearGrad)" mask="url(#lockMask)" />
         ) : (
           <path d={SHAPES[0]} fill="url(#tearGrad)" />
         )}
