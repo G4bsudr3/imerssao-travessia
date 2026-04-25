@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* chrome auto-hide: classe única compartilhada por StageProgress + HUD */
+@layer utilities {
+  .chrome-fade { transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1); will-change: opacity; }
+  .chrome-visible { opacity: 1; }
+  .chrome-hidden { opacity: 0; pointer-events: none; }
+}
+
+/* CHŎRA Lovable — Design System
+   Paleta: bege + preto + acentos (laranja, vermelho, rosa, azul).
+   Tudo em HSL. NÃO usar cores hex direto em componentes.
+*/
+
+@layer base {
+  :root {
+    /* Brand core */
+    --bege: 28 50% 90%;          /* #f2e4d8 */
+    --preto: 0 0% 4%;            /* #090909 */
+    --laranja: 26 99% 51%;       /* #fe7b02 */
+    --vermelho: 1 97% 63%;       /* #fd4644 */
+    --rosa: 326 89% 65%;         /* #f756a6 */
+    --azul: 237 96% 71%;         /* #6f77fc */
+
+    /* Semantic */
+    --background: var(--bege);
+    --foreground: var(--preto);
+
+    --card: 0 0% 100%;
+    --card-foreground: var(--preto);
+
+    --popover: 0 0% 100%;
+    --popover-foreground: var(--preto);
+
+    --primary: var(--preto);
+    --primary-foreground: var(--bege);
+
+    --secondary: 28 35% 84%;
+    --secondary-foreground: var(--preto);
+
+    --muted: 28 30% 86%;
+    --muted-foreground: 0 0% 30%;
+
+    --accent: var(--laranja);
+    --accent-foreground: var(--preto);
+
+    --destructive: var(--vermelho);
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 28 25% 78%;
+    --input: 28 25% 78%;
+    --ring: var(--preto);
+
+    --radius: 1rem;
+
+    /* Gradients */
+    --gradient-tear: linear-gradient(135deg, hsl(var(--laranja)), hsl(var(--rosa)) 50%, hsl(var(--azul)));
+    --gradient-screen: linear-gradient(180deg, hsl(var(--bege)) 0%, hsl(28 45% 86%) 100%);
+    --gradient-naval: linear-gradient(180deg, hsl(0 0% 6%) 0%, hsl(0 0% 2%) 100%);
+
+    /* Shadows */
+    --shadow-card: 0 8px 32px -8px hsl(var(--preto) / 0.18);
+    --shadow-pop: 0 20px 60px -16px hsl(var(--preto) / 0.32);
+    --shadow-laranja: 0 12px 40px -12px hsl(var(--laranja) / 0.55);
+    --shadow-soft: 0 2px 12px -4px hsl(var(--preto) / 0.08);
+  }
+
+  .dark {
+    /* não usado — palco roda em modo claro/bege */
+    --background: var(--preto);
+    --foreground: var(--bege);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html, body, #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Urbanist', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'League Gothic', 'Urbanist', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 0.92;
+  }
+  .font-body {
+    font-family: 'Urbanist', system-ui, sans-serif;
+  }
+  .font-mono-caps {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-weight: 700;
+  }
+  .eyebrow {
+    @apply font-mono-caps text-xs;
+    color: hsl(var(--preto) / 0.6);
+  }
+  .gradient-tear {
+    background: var(--gradient-tear);
+  }
+  .text-gradient-tear {
+    background: var(--gradient-tear);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stage-safe {
+    padding: clamp(2rem, 6vh, 5rem) clamp(2rem, 6vw, 6rem);
+  }
+  .strike-diagonal {
+    position: relative;
+    display: inline-block;
+  }
+  .strike-diagonal::after {
+    content: "";
+    position: absolute;
+    left: -2%;
+    right: -2%;
+    top: 50%;
+    height: 2px;
+    background: hsl(var(--vermelho));
+    transform: translateY(-50%) rotate(-4deg);
+    transform-origin: center;
+    pointer-events: none;
+    border-radius: 2px;
+  }
+
+  /* === MOBILE LANGUAGE === */
+  .card-mobile {
+    @apply rounded-3xl bg-white p-5;
+    box-shadow: var(--shadow-card);
+    border: 1px solid hsl(var(--laranja) / 0.08);
+  }
+  .input-line {
+    @apply w-full bg-transparent px-1 pb-3 pt-1 text-2xl outline-none;
+    border: none;
+    border-bottom: 2px solid hsl(var(--preto) / 0.2);
+    border-radius: 0;
+    transition: border-color 200ms ease;
+  }
+  .input-line:focus {
+    border-bottom-color: hsl(var(--laranja));
+  }
+  .btn-laranja {
+    @apply h-14 w-full rounded-2xl bg-laranja font-display text-2xl text-preto transition active:scale-[0.97];
+    box-shadow: var(--shadow-laranja);
+  }
+  .btn-laranja:disabled {
+    @apply opacity-40;
+    box-shadow: none;
+  }
+
+  /* Background lágrima blur fixo no mobile */
+  .bg-lagrima-blur {
+    position: relative;
+    isolation: isolate;
+  }
+  .bg-lagrima-blur::before {
+    content: "";
+    position: fixed;
+    inset: -20%;
+    z-index: -1;
+    background:
+      radial-gradient(circle at 20% 15%, hsl(var(--laranja) / 0.18), transparent 40%),
+      radial-gradient(circle at 80% 85%, hsl(var(--rosa) / 0.14), transparent 45%),
+      radial-gradient(circle at 50% 50%, hsl(var(--azul) / 0.08), transparent 50%);
+    filter: blur(40px);
+    pointer-events: none;
+    animation: lagrima-drift 18s ease-in-out infinite;
+  }
+
+  /* Toast laranja */
+  .toast-laranja {
+    @apply pointer-events-auto fixed left-1/2 top-6 z-[100] -translate-x-1/2 rounded-full bg-laranja px-6 py-3 font-display text-xl text-preto;
+    box-shadow: var(--shadow-laranja);
+    animation: toast-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  /* Progress bar do palco */
+  .stage-progress {
+    @apply pointer-events-none fixed left-0 top-0 z-[60] h-[2px];
+    background: var(--gradient-tear);
+    transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+@layer utilities {
+  @keyframes lagrima-drift {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    33% { transform: translate(-3%, 2%) rotate(2deg); }
+    66% { transform: translate(2%, -3%) rotate(-2deg); }
+  }
+  @keyframes toast-in {
+    from { opacity: 0; transform: translate(-50%, -10px) scale(0.9); }
+    to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+  }
+  .animate-pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
+
+  /* Acessibilidade: respeita prefers-reduced-motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
