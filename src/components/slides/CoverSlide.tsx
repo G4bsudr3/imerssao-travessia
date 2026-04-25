@@ -15,7 +15,7 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
   return (
     <SlideShell>
       <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }} className="flex flex-col items-center gap-8">
-        <LagrimaGradient size={180} spinning />
+        <LagrimaGradient size={180} morphing />
         <div className="eyebrow">{l.eyebrow}</div>
         {variant === "intro" ? (
           <ChoraLogo className="text-[clamp(6rem,18vw,18rem)]" />
