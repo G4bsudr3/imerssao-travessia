@@ -244,56 +244,8 @@ USING (user_id = auth.uid());`,
       subtitle: "user_id = auth.uid() · cada um vê só o que é dele.",
     },
   },
-  {
-    key: "edge_jwt",
-    kind: "special",
-    component: "CodeBlockSlide",
-    props: {
-      eyebrow: "edge functions",
-      title: "sempre valide o JWT",
-      subtitle: "sem isso, qualquer um chama sua função privilegiada.",
-      language: "ts",
-      status: "safe",
-      code: `// dentro da edge function
-const authHeader = req.headers.get("Authorization");
-const supabase = createClient(URL, ANON_KEY, {
-  global: { headers: { Authorization: authHeader } }
-});
 
-const { data: { user }, error } = await supabase.auth.getUser();
-if (!user) return new Response("unauth", { status: 401 });
-
-// só agora roda a lógica protegida`,
-      caption: "front mente. sempre confira no servidor.",
-    },
-  },
-  {
-    key: "rpc_definer",
-    kind: "special",
-    component: "CodeBlockSlide",
-    props: {
-      eyebrow: "RPC · functions no banco",
-      title: "SECURITY DEFINER pede checagem manual",
-      subtitle: "definer roda com poder de admin. sem auth.uid(), virou backdoor.",
-      language: "sql",
-      status: "safe",
-      code: `CREATE OR REPLACE FUNCTION transferir_credito(destino uuid, valor int)
-RETURNS void
-LANGUAGE plpgsql
-SECURITY DEFINER
-SET search_path = public
-AS $$
-BEGIN
-  IF auth.uid() IS NULL THEN
-    RAISE EXCEPTION 'precisa estar logado';
-  END IF;
-  -- ...lógica usando auth.uid() como origem
-END;
-$$;`,
-    },
-  },
-
-  // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA (23-31) ───
+  // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA ───
   {
     key: "ato_3_codigo",
     kind: "static",
