@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { SlideShell } from "../SlideShell";
