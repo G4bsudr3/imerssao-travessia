@@ -93,7 +93,7 @@ export function SlideStatic(props: StaticProps) {
       ) : (
         renderBody(props)
       )}
-      {props.asset && (
+      {props.asset && props.variant !== "act" && (
         <motion.div initial="hidden" animate="show" variants={fade} custom={3} className="mt-10 w-full max-w-4xl">
           {props.asset}
         </motion.div>
