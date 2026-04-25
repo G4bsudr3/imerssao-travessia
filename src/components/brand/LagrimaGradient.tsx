@@ -12,53 +12,70 @@ import { cn } from "@/lib/utils";
 type Props = {
   size?: number;
   spinning?: boolean;
-  /** Quando true, faz o morph contínuo gota → plasma → cadeado → plasma → gota. */
+  /** Quando true, faz o morph contínuo gota → gosma → cadeado → gosma → gota. */
   morphing?: boolean;
   className?: string;
 };
 
 /**
- * Shapes desenhadas no viewBox 100x125. O corpo do cadeado é um rounded-square
- * centralizado; o arco fica num path separado, que se "desenha" via pathLength
- * só quando estamos no estado lock (índice 3).
+ * viewBox 100x125. Sequência: gota → drip (gota esticada) → blob (amoeba) →
+ * plasma (assimétrico) → corpo do cadeado → plasma → blob → drip → gota.
  *
- * Flubber faz a interpolação geométrica entre paths de topologias diferentes,
- * então não precisamos forçar mesmo número de comandos.
+ * Filtro goo (metaball) liga nos frames intermediários pra dar viscosidade real.
+ * Cadeado tem corpo + shackle (arco grosso) + keyhole (vão da chave).
  */
 
-// Gota brand (lágrima clássica)
+// 0/8 — Gota brand clássica
 const SHAPE_TEAR =
   "M50 6 C 60 20, 88 50, 88 80 a 38 38 0 0 1 -76 0 C 12 50, 40 20, 50 6 Z";
 
-// Plasma A — leve "derretendo", lado direito mais cheio
-const SHAPE_PLASMA_A =
-  "M52 12 C 78 16, 94 40, 88 64 C 96 84, 76 112, 54 114 C 30 116, 10 96, 14 70 C 6 50, 24 22, 46 14 Z";
+// 1/7 — Drip: gota esticada verticalmente, com afunilamento mais agressivo no topo
+const SHAPE_DRIP =
+  "M50 4 C 56 24, 86 56, 86 84 C 86 104, 70 118, 50 118 C 30 118, 14 104, 14 84 C 14 56, 44 24, 50 4 Z";
 
-// Plasma B — espelhado, lado esquerdo mais cheio
-const SHAPE_PLASMA_B =
-  "M48 12 C 22 16, 6 40, 12 64 C 4 84, 24 112, 46 114 C 70 116, 90 96, 86 70 C 94 50, 76 22, 54 14 Z";
+// 2/6 — Blob: amoeba assimétrica, dois lóbulos (esquerdo mais alto, direito mais largo)
+const SHAPE_BLOB =
+  "M48 10 C 70 8, 96 30, 88 56 C 100 78, 80 116, 56 114 C 28 118, 6 98, 14 70 C 0 48, 22 18, 48 10 Z";
 
-// Corpo do cadeado: rounded square gordinho, centralizado em ~62 (deixa espaço pro arco em cima)
+// 3/5 — Plasma: forma intermediária mais redonda, prepara entrada no cadeado
+const SHAPE_PLASMA =
+  "M50 16 C 76 16, 90 36, 88 62 C 92 86, 76 110, 50 110 C 24 110, 8 86, 12 62 C 10 36, 24 16, 50 16 Z";
+
+// 4 — Corpo do cadeado: PROPORÇÃO VERTICAL (62 largura × 70 altura), ombros levemente
+// achatados em cima onde o shackle entra, base com cantos generosos
 const SHAPE_LOCK_BODY =
-  "M50 38 C 78 38, 88 48, 88 76 C 88 104, 78 114, 50 114 C 22 114, 12 104, 12 76 C 12 48, 22 38, 50 38 Z";
+  "M50 46 C 62 46, 70 47, 76 52 C 81 58, 82 66, 82 80 C 82 100, 76 114, 50 114 C 24 114, 18 100, 18 80 C 18 66, 19 58, 24 52 C 30 47, 38 46, 50 46 Z";
 
-// Arco/shackle do cadeado — U aberto centrado em x=50, descendo até y≈48
-const LOCK_SHACKLE = "M30 48 C 30 22, 70 22, 70 48";
-
-// Sequência narrativa: gota → plasma A → plasma B → cadeado → plasma B → plasma A → gota
+// Sequência completa (9 frames, simétrica)
 const SHAPES = [
   SHAPE_TEAR,        // 0
-  SHAPE_PLASMA_A,    // 1
-  SHAPE_PLASMA_B,    // 2
-  SHAPE_LOCK_BODY,   // 3 — momento "cadeado"
-  SHAPE_PLASMA_B,    // 4
-  SHAPE_PLASMA_A,    // 5
-  SHAPE_TEAR,        // 6 (volta pro 0 sem salto)
+  SHAPE_DRIP,        // 1
+  SHAPE_BLOB,        // 2
+  SHAPE_PLASMA,      // 3
+  SHAPE_LOCK_BODY,   // 4 — momento cadeado
+  SHAPE_PLASMA,      // 5
+  SHAPE_BLOB,        // 6
+  SHAPE_DRIP,        // 7
+  SHAPE_TEAR,        // 8 (volta pro 0 sem salto)
 ];
 
-// Duração de cada transição (segundos). Pausa adicional dentro do estado cadeado.
-const SEGMENT_DURATION = 1.6;
-const LOCK_HOLD = 1.4;
+// Quais frames são "gosmentos" (filtro goo ativo, easing squishy)
+const GOOEY_FRAMES = new Set([1, 2, 3, 5, 6, 7]);
+// Frame do cadeado
+const LOCK_FRAME = 4;
+
+// Shackle (arco do cadeado): U aberto descendo até y≈48, encaixando dentro do corpo
+const LOCK_SHACKLE = "M30 50 C 30 24, 70 24, 70 50";
+
+// Easing por contexto
+const EASE_SQUISHY: [number, number, number, number] = [0.6, -0.05, 0.4, 1.05];
+const EASE_FIRM: [number, number, number, number] = [0.34, 1.4, 0.64, 1];
+
+// Durações
+const DURATION_GOOEY = 1.2;     // trechos gosmentos: mais fluidos
+const DURATION_TO_LOCK = 1.6;   // entrada/saída do cadeado: mais peso
+const LOCK_HOLD = 1.8;          // tempo parado no cadeado
+const CYCLE_PAUSE = 1.2;        // respiro entre ciclos
 
 export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function LagrimaGradient(
   { size = 200, spinning = false, morphing = false, className },
@@ -67,10 +84,10 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
   const reduce = useReducedMotion();
   const animateMorph = morphing && !reduce;
 
-  // Index "fluido" de 0 a SHAPES.length-1 — flubber interpola entre os shapes adjacentes
+  // Index "fluido" — flubber interpola entre shapes adjacentes
   const progress = useMotionValue(0);
 
-  // Pré-computa interpoladores entre cada par adjacente (mais performático)
+  // Pré-computa interpoladores entre cada par adjacente
   const interpolators = useMemo(() => {
     return SHAPES.slice(0, -1).map((from, i) =>
       interpolate(from, SHAPES[i + 1], { maxSegmentLength: 2 }),
@@ -79,43 +96,98 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
 
   const path = useTransform(progress, (v) => {
     if (!animateMorph) return SHAPES[0];
-    const idx = Math.min(Math.floor(v), interpolators.length - 1);
-    const t = v - idx;
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1.0001));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
     return interpolators[idx](t);
   });
 
-  // Estado pra controlar o arco do cadeado (aparece só perto do shape 3)
-  const [shackleVisible, setShackleVisible] = useState(false);
+  // Filtro goo: intensidade vai de 0 (forma sólida) a 1 (líquido viscoso)
+  const gooIntensity = useTransform(progress, (v) => {
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
+    const weightAt = (i: number) =>
+      i === 0 || i === LOCK_FRAME || i === SHAPES.length - 1 ? 0 : 1;
+    const w0 = weightAt(idx);
+    const w1 = weightAt(Math.min(idx + 1, SHAPES.length - 1));
+    return w0 * (1 - t) + w1 * t;
+  });
+
+  // Estado do cadeado (shackle + keyhole)
+  const [lockState, setLockState] = useState<"hidden" | "shackle" | "complete" | "closing">("hidden");
+
+  // Pingo satélite: aparece nos frames de drip/blob
+  const satelliteOpacity = useTransform(progress, (v) => {
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
+    const isDripBlob = (i: number) => (i === 1 || i === 2 || i === 6 || i === 7 ? 1 : 0);
+    return isDripBlob(idx) * (1 - t) + isDripBlob(Math.min(idx + 1, SHAPES.length - 1)) * t;
+  });
+  const satelliteY = useTransform(progress, (v) => {
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    return 100 + Math.sin((clamped - idx) * Math.PI) * 6;
+  });
+
+  // Filtro deviation animado (precisa via DOM porque é attribute SVG)
+  const stdDeviation = useTransform(gooIntensity, (g) => (3 + g * 5).toFixed(2));
 
   useEffect(() => {
     if (!animateMorph) return;
 
     let cancelled = false;
 
+    const goTo = (target: number, duration: number, ease: [number, number, number, number]) =>
+      animate(progress, target, { duration, ease }).finished;
+
+    const sleep = (ms: number) =>
+      new Promise<void>((resolve) => {
+        const id = setTimeout(resolve, ms);
+        return () => clearTimeout(id);
+      });
+
     const runCycle = async () => {
       while (!cancelled) {
-        // 0 → 3 (gota até o cadeado)
-        for (let i = 0; i < 3; i++) {
+        // 0 → 1 → 2 → 3 (gota se transformando em gosma, depois plasma)
+        for (let i = 0; i < LOCK_FRAME - 1; i++) {
           if (cancelled) return;
-          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).finished;
+          await goTo(i + 1, DURATION_GOOEY, EASE_SQUISHY);
         }
-        // chegou no cadeado: revela o arco (cresce desenhando)
+        // 3 → 4 (plasma cristaliza no cadeado: easing firme com overshoot leve)
         if (cancelled) return;
-        setShackleVisible(true);
-        await new Promise((r) => setTimeout(r, LOCK_HOLD * 1000));
-        // some o arco antes de voltar a derreter
+        await goTo(LOCK_FRAME, DURATION_TO_LOCK, EASE_FIRM);
+
+        // Coreografia do cadeado: shackle desenha → keyhole abre → hold
         if (cancelled) return;
-        setShackleVisible(false);
-        await new Promise((r) => setTimeout(r, 350));
-        // 3 → 6 (volta pra gota passando pelos plasmas)
-        for (let i = 3; i < SHAPES.length - 1; i++) {
+        setLockState("shackle");
+        await sleep(450);
+        if (cancelled) return;
+        setLockState("complete");
+        await sleep(LOCK_HOLD * 1000);
+
+        // Fecha cadeado: keyhole some, shackle some
+        if (cancelled) return;
+        setLockState("closing");
+        await sleep(350);
+        if (cancelled) return;
+        setLockState("hidden");
+
+        // 4 → 5 → 6 → 7 → 8 (volta a derreter pra gota)
+        for (let i = LOCK_FRAME; i < SHAPES.length - 1; i++) {
           if (cancelled) return;
-          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).finished;
+          const isExitFromLock = i === LOCK_FRAME;
+          await goTo(
+            i + 1,
+            isExitFromLock ? DURATION_TO_LOCK : DURATION_GOOEY,
+            isExitFromLock ? EASE_FIRM : EASE_SQUISHY,
+          );
         }
-        // volta o motionValue pro início sem animar (sem salto visual: shape 6 === shape 0)
+
+        // Reset silencioso (frame 8 === frame 0)
         progress.set(0);
-        // pausa respirando antes do próximo ciclo
-        await new Promise((r) => setTimeout(r, 1200));
+        await sleep(CYCLE_PAUSE * 1000);
       }
     };
 
@@ -133,7 +205,6 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
       viewBox="0 0 100 125"
       className={cn(spinning && !morphing && "animate-tear-spin", className)}
       aria-hidden
-      // Camadas secundárias: rotação muito sutil + breathing (só quando morphing)
       animate={
         animateMorph
           ? { rotate: [-2, 2, -2], scale: [0.985, 1.015, 0.985] }
@@ -150,56 +221,100 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
       style={{ transformOrigin: "50px 65px" }}
     >
       <defs>
+        {/* Gradiente brand */}
         <linearGradient id="tearGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#fe7b02">
-            {animateMorph && (
-              <animate
-                attributeName="offset"
-                values="0;0.05;0"
-                dur="6s"
-                repeatCount="indefinite"
-              />
-            )}
-          </stop>
-          <stop offset="50%" stopColor="#f756a6">
-            {animateMorph && (
-              <animate
-                attributeName="offset"
-                values="0.5;0.55;0.5"
-                dur="6s"
-                repeatCount="indefinite"
-              />
-            )}
-          </stop>
+          <stop offset="0%" stopColor="#fe7b02" />
+          <stop offset="50%" stopColor="#f756a6" />
           <stop offset="100%" stopColor="#6f77fc" />
         </linearGradient>
+
+        {/* Gradiente metalizado pro shackle (mais brilhante no topo) */}
+        <linearGradient id="shackleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stopColor="#fec2a0" />
+          <stop offset="40%" stopColor="#f756a6" />
+          <stop offset="100%" stopColor="#6f77fc" />
+        </linearGradient>
+
+        {/* Filtro goo / metaball — feGaussianBlur + feColorMatrix com alta contraste de alpha */}
+        <filter id="gooFilter" x="-30%" y="-30%" width="160%" height="160%">
+          <motion.feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation} result="blur" />
+          <feColorMatrix
+            in="blur"
+            mode="matrix"
+            values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+            result="goo"
+          />
+          <feBlend in="SourceGraphic" in2="goo" />
+        </filter>
+
+        {/* Mask pro keyhole — fundo branco (visível), keyhole preto (vão) */}
+        <mask id="lockMask">
+          <rect x="0" y="0" width="100" height="125" fill="white" />
+          <motion.g
+            initial={{ scale: 0, opacity: 0 }}
+            animate={
+              lockState === "complete"
+                ? { scale: 1, opacity: 1 }
+                : { scale: 0, opacity: 0 }
+            }
+            transition={{
+              scale: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
+              opacity: { duration: 0.2 },
+            }}
+            style={{ transformOrigin: "50px 78px" }}
+          >
+            {/* Círculo do buraco da chave */}
+            <circle cx="50" cy="74" r="5" fill="black" />
+            {/* Fenda vertical descendo */}
+            <rect x="47.5" y="74" width="5" height="14" rx="1.5" fill="black" />
+          </motion.g>
+        </mask>
       </defs>
 
-      {/* Forma principal: gota / plasma / corpo do cadeado */}
-      {animateMorph ? (
-        <motion.path d={path} fill="url(#tearGrad)" />
-      ) : (
-        <path d={SHAPES[0]} fill="url(#tearGrad)" />
-      )}
+      {/* Forma principal (gota / gosma / corpo do cadeado) — com filtro goo aplicado nos frames intermediários */}
+      <g filter="url(#gooFilter)">
+        {animateMorph ? (
+          <>
+            <motion.path d={path} fill="url(#tearGrad)" mask="url(#lockMask)" />
+            {/* Pingo satélite — aparece nos frames gosmentos */}
+            <motion.ellipse
+              cx="50"
+              cy={satelliteY}
+              rx="5"
+              ry="6"
+              fill="url(#tearGrad)"
+              style={{ opacity: satelliteOpacity }}
+            />
+          </>
+        ) : (
+          <path d={SHAPES[0]} fill="url(#tearGrad)" />
+        )}
+      </g>
 
-      {/* Arco do cadeado — só aparece no estado lock, com efeito de desenhar */}
+      {/* Shackle do cadeado — fora do filtro goo (precisa parecer metal sólido) */}
       {animateMorph && (
         <motion.path
           d={LOCK_SHACKLE}
           fill="none"
-          stroke="url(#tearGrad)"
-          strokeWidth="9"
+          stroke="url(#shackleGrad)"
+          strokeWidth="11"
           strokeLinecap="round"
           initial={{ pathLength: 0, opacity: 0 }}
           animate={
-            shackleVisible
+            lockState === "shackle" || lockState === "complete"
               ? { pathLength: 1, opacity: 1 }
               : { pathLength: 0, opacity: 0 }
           }
           transition={
-            shackleVisible
-              ? { pathLength: { duration: 0.6, ease: "easeOut", delay: 0.1 }, opacity: { duration: 0.2 } }
-              : { pathLength: { duration: 0.35, ease: "easeIn" }, opacity: { duration: 0.25, delay: 0.1 } }
+            lockState === "shackle" || lockState === "complete"
+              ? {
+                  pathLength: { duration: 0.55, ease: "easeOut" },
+                  opacity: { duration: 0.18 },
+                }
+              : {
+                  pathLength: { duration: 0.4, ease: "easeIn" },
+                  opacity: { duration: 0.25, delay: 0.15 },
+                }
           }
         />
       )}

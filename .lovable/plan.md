@@ -1,76 +1,57 @@
 ## Diagnóstico
 
-O morph atual tem 3 problemas estruturais que precisam ser resolvidos juntos. Ataque parcial não resolve.
+Olhando o `LagrimaGradient.tsx` atual, três problemas concretos:
 
-### 1. O cadeado não lê como cadeado
-`SHAPE_LOCK` hoje é só um blob arredondado com leve estreitamento no topo. Cadeado real precisa de **2 elementos visuais distintos**: corpo (retangular arredondado) + arco/shackle (a alça em U aberto em cima). Forçar tudo num path único com a mesma topologia da gota nunca vai dar leitura semântica de "cadeado", por mais que se ajustem pontos.
+1. **O "cadeado" é só um rounded-square largo** (`SHAPE_LOCK_BODY` hoje é 88 de largura por 76 de altura, quase quadrado). Sem proporção vertical e sem o vão da chave, o cérebro lê "sacola" / "etiqueta" antes de "cadeado".
+2. **O shackle (arco) é fino demais e some rápido**, então o frame em que ele aparece desenhado dura pouco e o olho não fixa o ícone.
+3. **A transição entre gota → plasma → cadeado é "geometricamente correta" (flubber) mas visualmente morta**: não tem o "gotejar", "esticar", "pingar" que faz uma gosma parecer gosma. É só um morph linear de silhueta.
 
-### 2. A interpolação está travada
-`framer-motion` interpolando `d` como string faz mistura **caractere por caractere**, não interpolação geométrica. Quando os pontos de controle não se correspondem semanticamente entre as 4 shapes, dá warp não-linear: parece pulo, deformação suja, "saltinhos". É exatamente a sensação de "travado" que você descreveu.
+## O que eu vou mudar
 
-### 3. Falta respiro e profissionalismo
-4 keyframes em loop seco de 8s, easing único, sem rotação, sem variação de escala, sem pausas. O ciclo inteiro passa como "transição mecânica" em vez de "transformação orgânica".
+### 1. Redesenhar o cadeado (anatomia real)
 
----
+Substituir `SHAPE_LOCK_BODY` por um corpo com **proporção de cadeado**: mais alto que largo, ombros levemente achatados em cima (onde o shackle entra), base com cantos arredondados generosos. Algo como `width 64 × height 70`, centralizado em x=50, top em y≈46.
 
-## Solução proposta
+Adicionar **dois elementos novos** que só aparecem no estado lock:
+- **Shackle reforçado**: arco em U mais grosso (`strokeWidth 11-12`), com as pontas "encaixando" levemente dentro do corpo (não flutuando acima). Mantém a animação de `pathLength` desenhando.
+- **Vão da chave (keyhole)**: um círculo pequeno + uma fenda vertical descendo, posicionado em x=50, y≈75. Renderizado como recorte (`mask` ou path com `fill-rule="evenodd"` no próprio corpo) pra ser de fato um vão furado, não um adesivo por cima. Aparece com fade + scale curtinho depois do shackle terminar de desenhar.
 
-### A. Adicionar `flubber` pra interpolação real de path
-Flubber (Mike Bostock, autor do D3) é a lib padrão pra morph SVG profissional. Ela aceita paths com **topologias diferentes** (1 path → 2 paths, gota → cadeado de verdade) e gera os pontos intermediários de forma geométrica. Resolve a raiz do "travado".
+### 2. Tornar a transição "gosmenta" de verdade
 
-Tamanho: ~12kb gzipped, zero dependências peso. Vale a troca.
+Hoje os dois plasmas (A e B) são silhuetas estáticas. Vou:
 
-### B. Reconstruir o cadeado como 2 paths reais
-Em vez de espremer cadeado num blob:
-- **Corpo**: retângulo super arredondado (rounded square ~60x55, com cantos generosos pra parecer brand chŏra, não cadeado genérico)
-- **Arco/shackle**: U aberto no topo, traçado com `stroke` + `stroke-linecap="round"` ou path fechado fino
+- **Adicionar 2 shapes intermediários novos**: `SHAPE_DRIP` (gota esticando pra baixo, formando um pingo que quase se desprende) e `SHAPE_BLOB` (forma irregular tipo amoeba, com 2 lóbulos assimétricos). Sequência nova fica: gota → drip → blob → plasma → corpo do cadeado → plasma → blob → drip → gota.
+- **Animar o filtro SVG** durante os estados gosmentos: aplicar um `<filter>` com `feGaussianBlur` + `feColorMatrix` (efeito "goo"/metaball clássico) que fica ativo só nos shapes intermediários e desaparece nos extremos (gota nítida, cadeado nítido). Isso é o que dá a sensação de líquido viscoso de verdade, não só silhueta morfando.
+- **Adicionar uma "pingo satélite"**: uma elipse pequena que sai do shape principal nos frames de drip/blob, cai um pouquinho, e é reabsorvida. Detalhe que vende a ideia de gosma viscosa.
+- **Easing diferente por trecho**: trechos gosmentos usam easing elástico/squishy (`[0.6, -0.05, 0.4, 1.05]`); trecho de "cristalização" no cadeado usa easing firme com pequeno overshoot pra dar a sensação de "trava". Hoje tudo usa o mesmo `[0.65, 0, 0.35, 1]`.
 
-Quando o morph está fora do estado "lock", o arco fica com `opacity: 0` e `pathLength: 0` (animado via framer-motion). Quando entra no estado lock, ele "desenha" no topo do corpo. Isso dá leitura **inequívoca** de cadeado e ainda fica visualmente lindo (efeito de traçar).
+### 3. Coreografia do estado cadeado
 
-### C. Sequência narrativa, não loop seco
-Refazer a sequência de morph com pausas e easing por trecho:
+Quando o morph chega no corpo do cadeado:
+1. Corpo se solidifica (filtro goo desliga, escala dá um leve "thud" 0.96 → 1).
+2. Shackle desenha de fora pra dentro (já existe, mas mais grosso).
+3. **Keyhole abre** (scale 0 → 1 com easing back, ~250ms) — esse é o frame que ancora "isso é um cadeado".
+4. Hold de ~1.4s.
+5. Keyhole fecha → shackle desenha ao contrário → filtro goo religa → volta a derreter.
 
-```
-gota (pausa 1.2s, respira) 
-  → [1.6s, easeInOut] plasma A 
-    → [1.4s, easeInOut] plasma B (microvariação, sem voltar pra gota)
-      → [1.6s, easeInOut] cadeado (corpo)
-        + [0.5s atrasado, easeOut] arco desenha
-        → pausa 1.4s no cadeado fechado
-        ← [0.4s, easeIn] arco se apaga
-      ← [1.6s, easeInOut] plasma C
-    ← [1.6s, easeInOut] gota
-  → loop
-```
+### 4. Ajustes finos
 
-Total ~12-14s por ciclo. Mais lento, mais respirado, mais "vivo".
-
-### D. Camadas de movimento secundário
-Pra dar profundidade profissional além do morph:
-- **Rotação sutil contínua**: -3° a +3° em loop de 10s, fora de fase com o morph
-- **Escala respirando**: 0.98 → 1.02 em loop de 4s (efeito breathing, comum em logos animados premium)
-- **Gradient drift**: animar levemente a posição dos stops do gradiente pra cor "fluir" dentro da forma (sutil, ~6s loop)
-
-Tudo respeita `prefers-reduced-motion` (cai pra path estático).
-
-### E. Manter API e compatibilidade
-- Prop `morphing` continua existindo, mesmo nome, mesmo comportamento de ativação
-- Prop `spinning` intocado (usado em 6 outros lugares)
-- Sem breaking change pros outros slides
-
----
+- Reduzir levemente o tempo total de cada segmento de 1.6s pra ~1.2s nos trechos gosmentos (ficam mais fluidos) e manter 1.6s na entrada/saída do cadeado (dá peso ao momento).
+- O shackle ganha um leve gradient highlight no topo (stop com brilho) pra parecer metal, não fita.
+- Manter `useReducedMotion` desativando tudo (sem mudança).
 
 ## Arquivos a editar
 
-1. **`package.json`** (via `bun add`): adicionar `flubber` + `@types/flubber`
-2. **`src/components/brand/LagrimaGradient.tsx`**: reescrever a lógica de morph com flubber + useMotionValue + useTransform, adicionar segundo `motion.path` pro arco do cadeado, adicionar camadas de movimento secundário
-3. **Verificação**: `tsc --noEmit` e checagem visual via screenshot na rota `/` pra confirmar que o `CoverSlide` está fluido
+- `src/components/brand/LagrimaGradient.tsx` — única mudança. Adiciona shapes novos, filtro goo, keyhole como mask, coreografia ajustada.
 
-## O que NÃO vai mudar
-- Paleta de cores (laranja → rosa → azul brand)
-- Tamanho default 200, viewBox 100x125
-- Comportamento de `spinning`, `size`, `className`
-- Uso em Join, Lobby, AltTab, Celebration, Misc
+Sem novas dependências (flubber e framer-motion já cobrem tudo).
 
-## Risco
-Baixo. Flubber é estável (8 anos, 4M downloads/mês), e o fallback com `useReducedMotion` cobre acessibilidade. Se você não curtir a sequência narrativa depois de ver, ajustamos timing/ordem das shapes em 1 iteração.
+## O que **não** vou mexer
+
+- `CoverSlide.tsx` continua igual, já passa `morphing`.
+- O gradiente laranja → rosa → roxo da identidade fica intacto.
+- Tamanho/proporção do SVG (viewBox 100×125) fica igual pra não quebrar layouts que já consomem o componente.
+
+## Pergunta antes de implementar
+
+O hold no estado cadeado hoje é 1.4s. Pra dar tempo do olho ler "shackle + keyhole" sem ficar lento demais, ideal seria ~1.8s. Posso aumentar pra 1.8s ou prefere manter 1.4s pra não atrasar o ciclo geral?
