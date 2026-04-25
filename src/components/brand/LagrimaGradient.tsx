@@ -242,10 +242,10 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
             Quando gooIntensity = 0, o filtro vira praticamente passthrough (sem blur, sem threshold). */}
         <filter id="gooFilter" x="-30%" y="-30%" width="160%" height="160%">
           <motion.feGaussianBlur in="SourceGraphic" stdDeviation={stdDeviation} result="blur" />
-          <motion.feColorMatrix
+          <feColorMatrix
             in="blur"
             mode="matrix"
-            values={gooMatrix}
+            values={matrixValues}
             result="goo"
           />
           <feBlend in="SourceGraphic" in2="goo" />
