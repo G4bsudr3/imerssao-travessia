@@ -373,9 +373,21 @@ $$;`,
       ],
     },
   },
-  { key: "pergunta_problema", kind: "special", component: "BrainstormQuestion", props: { slideKey: "brainstorm", question: "qual o maior buraco que você suspeita ter no seu projeto agora?" } },
-  { key: "brainstorm_active", kind: "special", component: "BrainstormActive" },
-  { key: "5_na_mesa", kind: "special", component: "BrainstormSettled" },
+  {
+    key: "buracos_comuns",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "os buracos mais comuns",
+      items: [
+        { label: "RLS desativado", sub: "tabela exposta via anon key" },
+        { label: "service_role no front", sub: "credencial admin no client" },
+        { label: "edge sem validar JWT", sub: "função privilegiada aberta" },
+        { label: "sem MFA no admin", sub: "uma senha vazada = banco vazado" },
+        { label: "logs com PII", sub: "dado sensível em texto puro" },
+      ],
+    },
+  },
 
   // ─── ATO 4 · ARQUITETURA + CHECKLIST (32-39) ───
   {
