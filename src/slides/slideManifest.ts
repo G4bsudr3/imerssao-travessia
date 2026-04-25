@@ -227,17 +227,13 @@ USING (user_id = auth.uid());`,
     },
   },
   {
-    key: "confirma_brief", // mantém slide_key existente pro mobile
-    kind: "special",
-    component: "PollSlide",
-    props: {
-      eyebrow: "quiz · qual é segura?",
-      question: "qual dessas políticas é a segura?",
-      options: [
-        { value: "a", label: "A", sub: "USING (true)" },
-        { value: "b", label: "B", sub: "USING (auth.uid() IS NOT NULL)" },
-        { value: "c", label: "C", sub: "USING (user_id = auth.uid())", accent: true },
-      ],
+    key: "quiz_resposta",
+    kind: "static",
+    staticProps: {
+      variant: "two-line",
+      eyebrow: "resposta",
+      title: "C é a segura.",
+      subtitle: "user_id = auth.uid() · cada um vê só o que é dele.",
     },
   },
   {
