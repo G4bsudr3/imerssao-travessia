@@ -115,7 +115,14 @@ export const slideManifest: SlideEntry[] = [
   {
     key: "ato_2_supabase",
     kind: "static",
-    staticProps: { variant: "act", eyebrow: "ato 2", title: "supabase", subtitle: "onde mora 80% do risco", background: "naval" },
+    staticProps: {
+      variant: "act",
+      eyebrow: "ato 2",
+      title: "supabase",
+      subtitle: "onde mora 80% do risco",
+      background: "naval",
+      asset: <SupabaseIcon size={140} className="text-[#3ECF8E]" />,
+    },
   },
   {
     key: "vitrine_deposito",
