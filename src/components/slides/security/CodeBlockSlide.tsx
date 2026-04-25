@@ -86,10 +86,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
             </span>
           </div>
           <pre className="overflow-x-auto p-8 text-left">
-            <code
-              className="font-mono text-xl leading-relaxed text-zinc-100"
-              dangerouslySetInnerHTML={{ __html: tokenize(code, language) }}
-            />
+            <TypewriterCode code={code} language={language} />
           </pre>
         </motion.div>
 
