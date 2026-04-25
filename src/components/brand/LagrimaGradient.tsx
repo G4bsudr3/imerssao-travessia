@@ -97,7 +97,7 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
         // 0 → 3 (gota até o cadeado)
         for (let i = 0; i < 3; i++) {
           if (cancelled) return;
-          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).then();
+          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).finished;
         }
         // chegou no cadeado: revela o arco (cresce desenhando)
         if (cancelled) return;
@@ -110,7 +110,7 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
         // 3 → 6 (volta pra gota passando pelos plasmas)
         for (let i = 3; i < SHAPES.length - 1; i++) {
           if (cancelled) return;
-          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).then();
+          await animate(progress, i + 1, { duration: SEGMENT_DURATION, ease: [0.65, 0, 0.35, 1] }).finished;
         }
         // volta o motionValue pro início sem animar (sem salto visual: shape 6 === shape 0)
         progress.set(0);
