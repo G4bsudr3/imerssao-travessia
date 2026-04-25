@@ -68,17 +68,6 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: { variant: "act", eyebrow: "ato 1", title: "por quê", subtitle: "construir rápido sem deixar buracos", background: "naval" },
   },
-  { key: "lobby", kind: "special", component: "LobbySlide" },
-  {
-    key: "pulse",
-    kind: "special",
-    component: "PulseCheckSlide",
-    props: {
-      eyebrow: "pulse check",
-      question: "qual seu nível de preocupação com segurança?",
-      hint: "1 = zero · 10 = perdendo o sono. responde no celular.",
-    },
-  },
   {
     key: "agenda",
     kind: "static",
