@@ -6,9 +6,7 @@ import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import { slideManifest, TOTAL_SLIDES } from "@/slides/slideManifest";
 import { StageProgress } from "./stage/StageProgress";
-import { PresentationTimer } from "./stage/PresentationTimer";
 import { preloadSlideAssets } from "@/lib/preload-assets";
-import { PersistentSessionQR } from "./stage/PersistentSessionQR";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
 import { LobbySlide } from "./slides/LobbySlide";
@@ -113,13 +111,6 @@ export function SlideContainer() {
 
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
-
-      {/* Cronômetro regressivo — canto superior esquerdo */}
-      <PresentationTimer visible={visible} />
-
-      {/* QR persistente da sessão — canto inferior direito.
-          Esconde no Lobby (já tem QR gigante lá). */}
-      {entry?.key !== "lobby" && <PersistentSessionQR visible={visible} />}
     </div>
   );
 }

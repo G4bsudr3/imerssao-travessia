@@ -68,17 +68,6 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: { variant: "act", eyebrow: "ato 1", title: "por quê", subtitle: "construir rápido sem deixar buracos", background: "naval" },
   },
-  { key: "lobby", kind: "special", component: "LobbySlide" },
-  {
-    key: "pulse",
-    kind: "special",
-    component: "PulseCheckSlide",
-    props: {
-      eyebrow: "pulse check",
-      question: "qual seu nível de preocupação com segurança?",
-      hint: "1 = zero · 10 = perdendo o sono. responde no celular.",
-    },
-  },
   {
     key: "agenda",
     kind: "static",
@@ -238,17 +227,13 @@ USING (user_id = auth.uid());`,
     },
   },
   {
-    key: "confirma_brief", // mantém slide_key existente pro mobile
-    kind: "special",
-    component: "PollSlide",
-    props: {
-      eyebrow: "quiz · qual é segura?",
-      question: "qual dessas políticas é a segura?",
-      options: [
-        { value: "a", label: "A", sub: "USING (true)" },
-        { value: "b", label: "B", sub: "USING (auth.uid() IS NOT NULL)" },
-        { value: "c", label: "C", sub: "USING (user_id = auth.uid())", accent: true },
-      ],
+    key: "quiz_resposta",
+    kind: "static",
+    staticProps: {
+      variant: "two-line",
+      eyebrow: "resposta",
+      title: "C é a segura.",
+      subtitle: "user_id = auth.uid() · cada um vê só o que é dele.",
     },
   },
   {
@@ -388,9 +373,21 @@ $$;`,
       ],
     },
   },
-  { key: "pergunta_problema", kind: "special", component: "BrainstormQuestion", props: { slideKey: "brainstorm", question: "qual o maior buraco que você suspeita ter no seu projeto agora?" } },
-  { key: "brainstorm_active", kind: "special", component: "BrainstormActive" },
-  { key: "5_na_mesa", kind: "special", component: "BrainstormSettled" },
+  {
+    key: "buracos_comuns",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "os buracos mais comuns",
+      items: [
+        { label: "RLS desativado", sub: "tabela exposta via anon key" },
+        { label: "service_role no front", sub: "credencial admin no client" },
+        { label: "edge sem validar JWT", sub: "função privilegiada aberta" },
+        { label: "sem MFA no admin", sub: "uma senha vazada = banco vazado" },
+        { label: "logs com PII", sub: "dado sensível em texto puro" },
+      ],
+    },
+  },
 
   // ─── ATO 4 · ARQUITETURA + CHECKLIST (32-39) ───
   {
