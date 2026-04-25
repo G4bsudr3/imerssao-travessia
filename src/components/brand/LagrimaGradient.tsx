@@ -119,15 +119,16 @@ export const LagrimaGradient = forwardRef<SVGSVGElement, Props>(function Lagrima
 
   // Pingo satélite: aparece nos frames de drip/blob
   const satelliteOpacity = useTransform(progress, (v) => {
-    const idx = Math.floor(v);
-    const t = v - idx;
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    const t = clamped - idx;
     const isDripBlob = (i: number) => (i === 1 || i === 2 || i === 6 || i === 7 ? 1 : 0);
     return isDripBlob(idx) * (1 - t) + isDripBlob(Math.min(idx + 1, SHAPES.length - 1)) * t;
   });
   const satelliteY = useTransform(progress, (v) => {
-    // pinga pra baixo conforme passa pelos frames de drip/blob
-    const idx = Math.floor(v);
-    return 100 + Math.sin((v - idx) * Math.PI) * 6;
+    const clamped = Math.max(0, Math.min(v, SHAPES.length - 1));
+    const idx = Math.floor(clamped);
+    return 100 + Math.sin((clamped - idx) * Math.PI) * 6;
   });
 
   // Filtro deviation animado (precisa via DOM porque é attribute SVG)
