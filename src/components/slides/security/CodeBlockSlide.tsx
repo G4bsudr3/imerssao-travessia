@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { SlideShell } from "../SlideShell";
@@ -85,10 +86,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
             </span>
           </div>
           <pre className="overflow-x-auto p-8 text-left">
-            <code
-              className="font-mono text-xl leading-relaxed text-zinc-100"
-              dangerouslySetInnerHTML={{ __html: tokenize(code, language) }}
-            />
+            <TypewriterCode code={code} language={language} />
           </pre>
         </motion.div>
 
@@ -99,5 +97,48 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
         )}
       </div>
     </SlideShell>
+  );
+}
+
+/**
+ * Typewriter de código: revela char por char e tokeniza só o trecho já digitado.
+ * Reseta sempre que `code` muda (ex.: troca de slide). Respeita prefers-reduced-motion.
+ */
+function TypewriterCode({ code, language }: { code: string; language: "sql" | "ts" | "js" }) {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) {
+      setCount(code.length);
+      return;
+    }
+    setCount(0);
+    let i = 0;
+    // velocidade base ~16ms/char, acelera em quebras de linha pra não arrastar.
+    const tick = () => {
+      i = Math.min(i + 1, code.length);
+      setCount(i);
+      if (i < code.length) {
+        const ch = code[i - 1];
+        const delay = ch === "\n" ? 40 : ch === " " ? 10 : 18;
+        timer = window.setTimeout(tick, delay);
+      }
+    };
+    let timer = window.setTimeout(tick, 350); // pausa inicial pra dar respiro
+    return () => window.clearTimeout(timer);
+  }, [code]);
+
+  const visible = code.slice(0, count);
+  const done = count >= code.length;
+
+  return (
+    <code className="font-mono text-xl leading-relaxed text-zinc-100">
+      <span dangerouslySetInnerHTML={{ __html: tokenize(visible, language) }} />
+      <span
+        className={`inline-block w-[0.6ch] -mb-[2px] ml-[1px] bg-emerald-300 ${done ? "animate-pulse" : ""}`}
+        style={{ height: "1.1em", verticalAlign: "text-bottom" }}
+      />
+    </code>
   );
 }
