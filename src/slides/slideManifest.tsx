@@ -399,12 +399,8 @@ USING (user_id = auth.uid());`,
   },
   {
     key: "vai_la_proteja",
-    kind: "static",
-    staticProps: {
-      variant: "two-line",
-      title: "vai lá",
-      subtitle: "e protege.",
-    },
+    kind: "special",
+    component: "FinalSlide",
   },
 ];
 
