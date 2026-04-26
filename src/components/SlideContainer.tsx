@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { QRCodeSVG } from "qrcode.react";
+import { X } from "lucide-react";
 import { useSwipeable } from "@/hooks/useSwipeable";
 import { useRoom } from "@/contexts/RoomContext";
 import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
