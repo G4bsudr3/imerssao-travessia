@@ -138,3 +138,65 @@ export function SlideContainer() {
     </div>
   );
 }
+
+function FinalFeedbackQR() {
+  const [expanded, setExpanded] = useState(false);
+  const url = typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => setExpanded(true)}
+        className="absolute bottom-8 right-8 z-40 flex flex-col items-end gap-2 transition-transform hover:scale-105"
+        aria-label="abrir QR de feedback"
+      >
+        <div className="hidden flex-col items-end text-right md:flex">
+          <span className="font-mono text-[10px] uppercase tracking-widest text-preto/60">ficou alguma dúvida?</span>
+          <span className="font-display text-xl leading-tight text-preto">manda pra mim →</span>
+        </div>
+        <div className="rounded-xl border-2 border-preto/15 bg-white p-2 shadow-[0_6px_24px_-8px_hsl(var(--preto)/0.35)]">
+          <QRCodeSVG value={url} size={88} bgColor="#ffffff" fgColor="#090909" level="M" />
+        </div>
+      </button>
+
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            className="absolute inset-0 z-50 flex items-center justify-center bg-preto/70 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setExpanded(false)}
+          >
+            <motion.div
+              className="relative flex flex-col items-center gap-6 rounded-3xl bg-bege p-12"
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                onClick={() => setExpanded(false)}
+                className="absolute -right-3 -top-3 flex h-12 w-12 items-center justify-center rounded-full border-2 border-preto bg-white text-preto shadow-lg"
+                aria-label="fechar"
+              >
+                <X className="h-6 w-6" strokeWidth={2.5} />
+              </button>
+              <div className="eyebrow">feedback · sem login</div>
+              <div className="font-display text-5xl leading-tight text-preto">me conta o que ficou.</div>
+              <div className="rounded-2xl bg-white p-6 shadow-[0_10px_40px_-12px_hsl(var(--preto)/0.4)]">
+                <QRCodeSVG value={url} size={420} bgColor="#ffffff" fgColor="#090909" level="M" />
+              </div>
+              <div className="font-mono text-sm uppercase tracking-widest text-preto/60">
+                {url.replace(/^https?:\/\//, "")}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}
