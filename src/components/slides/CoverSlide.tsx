@@ -7,7 +7,7 @@ type Variant = "intro" | "build" | "final";
 
 export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
   const labels: Record<Variant, { eyebrow: string; title: string; sub: string }> = {
-    intro: { eyebrow: "porto alegre · 25.04.2026", title: "CHŎRA", sub: "ideia boa é ideia construída." },
+    intro: { eyebrow: "porto alegre · 25.04.2026 · chŏra lovable", title: "CHŎRA", sub: "construa rápido. sem deixar buracos." },
     build: { eyebrow: "parte 2 · agora", title: "vamos construir.", sub: "ao vivo. com vocês." },
     final: { eyebrow: "fim · começo", title: "vai lá e cria.", sub: "" },
   };
