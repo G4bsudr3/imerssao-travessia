@@ -307,7 +307,7 @@ USING (user_id = auth.uid());`,
       eyebrow: "governança · quem acessa o quê",
       title: "matriz mínima de papéis",
       rows: [
-        { level: "low", risk: "dev solo", impact: "tudo na sua mão = ponto único de falha", fix: "convidar 1 backup com acesso owner" },
+        { level: "medium", risk: "dev solo", impact: "tudo na sua mão = ponto único de falha", fix: "convidar 1 backup com acesso owner" },
         { level: "medium", risk: "time misto", impact: "estagiário com service_role", fix: "papéis Supabase: Owner / Admin / Developer / Read-only" },
         { level: "high", risk: "sem MFA no admin", impact: "credencial vazada = banco vazado", fix: "ativar MFA em todas contas Supabase + GitHub" },
       ],
