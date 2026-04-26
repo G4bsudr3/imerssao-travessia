@@ -145,16 +145,14 @@ function TypewriterCode({ code, language }: { code: string; language: "sql" | "t
   }, [code]);
 
   const done = progress >= 1;
-  // posição do cursor calculada a partir do offset do "char invisível" no measureRef
+  // Trecho de texto puro já "digitado" — usado pra posicionar o cursor sobreposto.
   const visibleChars = Math.round(progress * code.length);
-  const measuredText = code.slice(0, visibleChars);
+  const typedText = code.slice(0, visibleChars);
 
   return (
-    <code className="relative font-mono text-2xl leading-relaxed text-zinc-100">
-      {/* Camada 1: HTML completo já tokenizado, revelado via clip-path por linhas.
-          Usamos um wrapper invisível pra calcular onde fica o cursor. */}
+    <code className="relative block font-mono text-2xl leading-relaxed text-zinc-100">
+      {/* Camada 1: HTML tokenizado, revelado via clip-path. Markup nunca quebra. */}
       <span
-        ref={wrapRef}
         className="block whitespace-pre"
         style={{
           clipPath: reduce ? "none" : `inset(0 ${(1 - progress) * 100}% 0 0)`,
@@ -162,19 +160,21 @@ function TypewriterCode({ code, language }: { code: string; language: "sql" | "t
         }}
         dangerouslySetInnerHTML={{ __html: html }}
       />
-      {/* Camada 2: texto puro invisível pra medir onde colocar o cursor.
-          Posicionado sobre a camada 1; o cursor aparece no fim do trecho visível. */}
-      <span
-        ref={measureRef}
-        aria-hidden
-        className="pointer-events-none absolute inset-0 whitespace-pre opacity-0"
-      >
-        {measuredText}
+      {/* Camada 2: texto puro transparente que empurra o cursor pro fim do trecho.
+          Como a fonte é monoespaçada e usamos whitespace-pre, o alinhamento bate
+          com a camada 1. */}
+      {!reduce && (
         <span
-          className={`inline-block w-[0.6ch] -mb-[2px] ml-[1px] bg-emerald-300 opacity-100 ${done ? "animate-pulse" : ""}`}
-          style={{ height: "1.1em", verticalAlign: "text-bottom" }}
-        />
-      </span>
+          aria-hidden
+          className="pointer-events-none absolute inset-0 block whitespace-pre text-transparent"
+        >
+          {typedText}
+          <span
+            className={`inline-block w-[0.6ch] -mb-[2px] ml-[1px] bg-emerald-300 align-text-bottom ${done ? "animate-pulse" : ""}`}
+            style={{ height: "1.1em" }}
+          />
+        </span>
+      )}
     </code>
   );
 }
