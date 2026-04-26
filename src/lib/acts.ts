@@ -14,19 +14,19 @@ export const ACTS: Record<Act, ActMeta> = {
   4: { number: 4, name: "arquitetura", subtitle: "escalar sem dor" },
 };
 
-// Boundaries por índice (0-based) baseados no slideManifest:
+// Boundaries por índice (0-based) baseados no slideManifest atual (27 slides):
 // Ato 1: 0-5    (cover → ponte_supabase)
-// Ato 2: 6-15   (ato_2_supabase → quiz_resposta)
-// Ato 3: 16-22  (ato_3_codigo → buracos_comuns)
-// Ato 4: 23+    (ato_4_arquitetura → vai_la_proteja)
+// Ato 2: 6-13   (ato_2_supabase → exemplo_bom)
+// Ato 3: 14-20  (ato_3_codigo → buracos_comuns)
+// Ato 4: 21-26  (ato_4_arquitetura → vai_la_proteja)
 export function actForSlide(idx: number): Act {
   if (idx <= 5) return 1;
-  if (idx <= 15) return 2;
-  if (idx <= 22) return 3;
+  if (idx <= 13) return 2;
+  if (idx <= 20) return 3;
   return 4;
 }
 
 // Primeiro slide de cada ato (slide de transição "act")
 export function isActOpener(idx: number): boolean {
-  return idx === 1 || idx === 6 || idx === 16 || idx === 23;
+  return idx === 1 || idx === 6 || idx === 14 || idx === 21;
 }

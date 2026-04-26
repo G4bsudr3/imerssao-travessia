@@ -27,7 +27,7 @@ function renderSlide(idx: number) {
 
   switch (e.component) {
     case "CoverSlide":
-      return <CoverSlide variant={e.key === "vai_la_proteja" ? "final" : "intro"} />;
+      return <CoverSlide variant="intro" />;
     case "LobbySlide": return <LobbySlide />;
     case "FinalSlide": return <FinalSlide />;
     case "PulseCheckSlide": return <PulseCheckSlide {...(e.props ?? {})} />;

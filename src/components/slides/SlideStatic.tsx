@@ -145,7 +145,7 @@ function renderBody(p: StaticProps) {
       return (
         <div className="space-y-6">
           {p.title && (
-            <motion.p initial="hidden" animate="show" variants={fade} className="eyebrow text-base">
+            <motion.p initial="hidden" animate="show" variants={fade} className="eyebrow">
               {p.title}
             </motion.p>
           )}
@@ -159,7 +159,7 @@ function renderBody(p: StaticProps) {
             {p.stat?.value}
           </motion.div>
           {p.stat?.sub && (
-            <motion.p initial="hidden" animate="show" variants={fade} custom={2} className="text-2xl opacity-70">
+            <motion.p initial="hidden" animate="show" variants={fade} custom={2} className="text-3xl opacity-70">
               {p.stat.sub}
             </motion.p>
           )}
@@ -167,7 +167,7 @@ function renderBody(p: StaticProps) {
       );
     case "list":
       return (
-        <ul className="space-y-5 text-left">
+        <ul className="space-y-6 text-left max-w-[1500px] mx-auto">
           {p.items?.map((it, i) => (
             <motion.li
               key={i}
@@ -178,7 +178,7 @@ function renderBody(p: StaticProps) {
               className={`font-display text-[clamp(2rem,5vw,4.5rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
             >
               {it.label}
-              {it.sub && <div className="font-body text-base opacity-60 mt-1">{it.sub}</div>}
+              {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
             </motion.li>
           ))}
         </ul>
@@ -187,7 +187,7 @@ function renderBody(p: StaticProps) {
       const cols = (p.items?.length ?? 0) <= 3 ? "grid-cols-1 md:grid-cols-3" : (p.items?.length ?? 0) === 4 ? "grid-cols-2 md:grid-cols-4" : "grid-cols-2";
       const iconMap: Record<string, LucideIcon> = { brain: Brain, heart: Heart, unknown: HelpCircle };
       return (
-        <div className={`grid w-full max-w-6xl gap-6 ${cols}`}>
+        <div className={`grid w-full max-w-[1500px] gap-7 ${cols}`}>
           {p.items?.map((it, i) => {
             const Icon = it.icon ? iconMap[it.icon] : null;
             return (
@@ -197,7 +197,7 @@ function renderBody(p: StaticProps) {
                 animate="show"
                 variants={fade}
                 custom={i + 1}
-                className={`rounded-2xl p-8 text-left min-h-[140px] flex flex-col justify-center ${
+                className={`rounded-2xl p-10 text-left min-h-[220px] flex flex-col justify-center ${
                   it.empty
                     ? "border-2 border-dashed border-preto/20 bg-transparent"
                     : it.accent
@@ -211,9 +211,9 @@ function renderBody(p: StaticProps) {
                   </div>
                 ) : (
                   <>
-                    {Icon && <Icon className="mb-4 h-8 w-8 text-laranja" strokeWidth={2} />}
+                    {Icon && <Icon className="mb-4 h-10 w-10 text-laranja" strokeWidth={2} />}
                     <div className="font-display text-3xl md:text-4xl leading-tight">{it.label}</div>
-                    {it.sub && <div className="mt-3 text-base opacity-70">{it.sub}</div>}
+                    {it.sub && <div className="mt-3 text-xl opacity-75">{it.sub}</div>}
                   </>
                 )}
               </motion.div>
@@ -251,9 +251,9 @@ function renderBody(p: StaticProps) {
       );
     case "naval":
       return (
-        <div className="max-w-4xl space-y-6 text-bege">
+        <div className="max-w-5xl space-y-6 text-bege">
           {p.title && <motion.h2 initial="hidden" animate="show" variants={fade} className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">{p.title}</motion.h2>}
-          {p.subtitle && <motion.p initial="hidden" animate="show" variants={fade} custom={1} className="text-2xl opacity-70">— {p.subtitle}</motion.p>}
+          {p.subtitle && <motion.p initial="hidden" animate="show" variants={fade} custom={1} className="text-3xl opacity-75">— {p.subtitle}</motion.p>}
         </div>
       );
     case "transition":

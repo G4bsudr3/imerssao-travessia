@@ -7,7 +7,7 @@ type Variant = "intro" | "build" | "final";
 
 export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
   const labels: Record<Variant, { eyebrow: string; title: string; sub: string }> = {
-    intro: { eyebrow: "porto alegre · 25.04.2026", title: "CHŎRA", sub: "ideia boa é ideia construída." },
+    intro: { eyebrow: "porto alegre · 25.04.2026 · chŏra lovable", title: "CHŎRA", sub: "construa rápido. sem deixar buracos." },
     build: { eyebrow: "parte 2 · agora", title: "vamos construir.", sub: "ao vivo. com vocês." },
     final: { eyebrow: "fim · começo", title: "vai lá e cria.", sub: "" },
   };
@@ -22,7 +22,7 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
         ) : (
           <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none">{l.title}</h1>
         )}
-        {l.sub && <p className="text-2xl opacity-70">{l.sub}</p>}
+        {l.sub && <p className="text-3xl opacity-70">{l.sub}</p>}
       </motion.div>
     </SlideShell>
   );
