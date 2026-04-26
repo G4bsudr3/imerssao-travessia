@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import { AnimatePresence, motion } from "framer-motion";
+import { QRCodeSVG } from "qrcode.react";
+import { X } from "lucide-react";
 import { LagrimaGradient } from "@/components/brand/LagrimaGradient";
 import { BalaoSerrado } from "@/components/brand/BalaoSerrado";
 import { CONFETTI_PALETTE } from "@/lib/colors";
