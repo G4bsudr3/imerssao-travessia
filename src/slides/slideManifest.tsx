@@ -374,7 +374,7 @@ USING (user_id = auth.uid());`,
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "5 configs que mudam a maturidade",
+      eyebrow: "4 configs que mudam a maturidade",
       items: [
         { label: "PITR", sub: "point-in-time recovery · volta no tempo" },
         { label: "branching", sub: "ambiente de staging por PR" },
