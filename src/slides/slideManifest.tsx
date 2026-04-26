@@ -225,17 +225,6 @@ USING (user_id = auth.uid());`,
       caption: "auth.uid() é o ID do usuário logado. comparou? só passa o que bate.",
     },
   },
-  {
-    key: "quiz_resposta",
-    kind: "static",
-    staticProps: {
-      variant: "two-line",
-      eyebrow: "resposta",
-      title: "C é a segura.",
-      subtitle: "user_id = auth.uid() · cada um vê só o que é dele.",
-    },
-  },
-
   // ─── ATO 3 · CÓDIGO + LGPD + GOVERNANÇA ───
   {
     key: "ato_3_codigo",
