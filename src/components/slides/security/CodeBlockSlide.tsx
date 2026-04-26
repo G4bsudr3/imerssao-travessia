@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { SlideShell } from "../SlideShell";
@@ -23,7 +23,6 @@ function tokenize(code: string, lang: "sql" | "ts" | "js") {
   const sqlKeywords = /\b(CREATE|POLICY|ON|FOR|USING|WITH|CHECK|TO|AS|SELECT|INSERT|UPDATE|DELETE|ALTER|TABLE|ENABLE|DISABLE|ROW|LEVEL|SECURITY|AUTHENTICATED|FROM|WHERE|TRUE|FALSE|NULL|IS|NOT|AND|OR)\b/gi;
   const tsKeywords = /\b(const|let|var|function|return|if|else|await|async|import|export|from|new|throw|true|false|null|undefined)\b/g;
 
-  // marca strings, comentários e keywords
   let html = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -49,7 +48,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
 
   return (
     <SlideShell>
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-[1500px]">
         {eyebrow && (
           <motion.div initial="hidden" animate="show" variants={fade} className="eyebrow mb-3">
             {eyebrow}
@@ -77,11 +76,11 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
               <span className="h-3 w-3 rounded-full bg-rose-500/60" />
               <span className="h-3 w-3 rounded-full bg-amber-400/60" />
               <span className="h-3 w-3 rounded-full bg-emerald-500/60" />
-              <span className="ml-3 font-mono text-xs uppercase tracking-widest text-white/50">
+              <span className="ml-3 font-mono text-sm uppercase tracking-widest text-white/50">
                 {language}
               </span>
             </div>
-            <span className={`rounded-full px-3 py-1 font-mono text-xs uppercase tracking-wider ${badgeBg}`}>
+            <span className={`rounded-full px-3 py-1 font-mono text-sm uppercase tracking-wider ${badgeBg}`}>
               {badgeLabel}
             </span>
           </div>
@@ -91,7 +90,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
         </motion.div>
 
         {caption && (
-          <motion.p initial="hidden" animate="show" variants={fade} custom={4} className="mt-6 text-center text-lg opacity-60">
+          <motion.p initial="hidden" animate="show" variants={fade} custom={4} className="mt-6 text-center text-2xl opacity-60">
             {caption}
           </motion.p>
         )}
@@ -101,44 +100,81 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
 }
 
 /**
- * Typewriter de código: revela char por char e tokeniza só o trecho já digitado.
- * Reseta sempre que `code` muda (ex.: troca de slide). Respeita prefers-reduced-motion.
+ * Typewriter de código sem vazamento de HTML:
+ * tokeniza o código completo uma vez, mede o layout final e revela
+ * progressivamente via clip-path. O cursor é posicionado em cima do
+ * último caractere visível.
+ *
+ * Respeita prefers-reduced-motion (mostra direto, sem animação).
  */
 function TypewriterCode({ code, language }: { code: string; language: "sql" | "ts" | "js" }) {
-  const [count, setCount] = useState(0);
+  const html = useMemo(() => tokenize(code, language), [code, language]);
+  const [progress, setProgress] = useState(0); // 0..1
+  const [reduce, setReduce] = useState(false);
+
+  // refs pra posicionar o cursor sobre o char "atual" (em texto puro, não HTML).
+  const wrapRef = useRef<HTMLSpanElement>(null);
+  const measureRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setCount(code.length);
+    const r = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
+    setReduce(r);
+    if (r) {
+      setProgress(1);
       return;
     }
-    setCount(0);
+    setProgress(0);
+    const total = code.length;
+    if (total === 0) {
+      setProgress(1);
+      return;
+    }
     let i = 0;
-    // velocidade base ~16ms/char, acelera em quebras de linha pra não arrastar.
+    let timer: number;
     const tick = () => {
-      i = Math.min(i + 1, code.length);
-      setCount(i);
-      if (i < code.length) {
+      i = Math.min(i + 1, total);
+      setProgress(i / total);
+      if (i < total) {
         const ch = code[i - 1];
         const delay = ch === "\n" ? 40 : ch === " " ? 10 : 18;
         timer = window.setTimeout(tick, delay);
       }
     };
-    let timer = window.setTimeout(tick, 350); // pausa inicial pra dar respiro
+    timer = window.setTimeout(tick, 350);
     return () => window.clearTimeout(timer);
   }, [code]);
 
-  const visible = code.slice(0, count);
-  const done = count >= code.length;
+  const done = progress >= 1;
+  // posição do cursor calculada a partir do offset do "char invisível" no measureRef
+  const visibleChars = Math.round(progress * code.length);
+  const measuredText = code.slice(0, visibleChars);
 
   return (
-    <code className="font-mono text-xl leading-relaxed text-zinc-100">
-      <span dangerouslySetInnerHTML={{ __html: tokenize(visible, language) }} />
+    <code className="relative font-mono text-2xl leading-relaxed text-zinc-100">
+      {/* Camada 1: HTML completo já tokenizado, revelado via clip-path por linhas.
+          Usamos um wrapper invisível pra calcular onde fica o cursor. */}
       <span
-        className={`inline-block w-[0.6ch] -mb-[2px] ml-[1px] bg-emerald-300 ${done ? "animate-pulse" : ""}`}
-        style={{ height: "1.1em", verticalAlign: "text-bottom" }}
+        ref={wrapRef}
+        className="block whitespace-pre"
+        style={{
+          clipPath: reduce ? "none" : `inset(0 ${(1 - progress) * 100}% 0 0)`,
+          transition: "clip-path 60ms linear",
+        }}
+        dangerouslySetInnerHTML={{ __html: html }}
       />
+      {/* Camada 2: texto puro invisível pra medir onde colocar o cursor.
+          Posicionado sobre a camada 1; o cursor aparece no fim do trecho visível. */}
+      <span
+        ref={measureRef}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 whitespace-pre opacity-0"
+      >
+        {measuredText}
+        <span
+          className={`inline-block w-[0.6ch] -mb-[2px] ml-[1px] bg-emerald-300 opacity-100 ${done ? "animate-pulse" : ""}`}
+          style={{ height: "1.1em", verticalAlign: "text-bottom" }}
+        />
+      </span>
     </code>
   );
 }
