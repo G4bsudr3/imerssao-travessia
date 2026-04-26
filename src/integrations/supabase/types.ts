@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      feedback_responses: {
+        Row: {
+          created_at: string
+          id: string
+          question: string
+          room_code: string | null
+          topic: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          question: string
+          room_code?: string | null
+          topic: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          question?: string
+          room_code?: string | null
+          topic?: string
+        }
+        Relationships: []
+      }
       ideas: {
         Row: {
           content: string
