@@ -112,10 +112,6 @@ function TypewriterCode({ code, language }: { code: string; language: "sql" | "t
   const [progress, setProgress] = useState(0); // 0..1
   const [reduce, setReduce] = useState(false);
 
-  // refs pra posicionar o cursor sobre o char "atual" (em texto puro, não HTML).
-  const wrapRef = useRef<HTMLSpanElement>(null);
-  const measureRef = useRef<HTMLSpanElement>(null);
-
   useEffect(() => {
     const r = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ?? false;
     setReduce(r);
