@@ -271,8 +271,8 @@ USING (user_id = auth.uid());`,
     props: {
       eyebrow: "LGPD · lei geral de proteção de dados",
       title: "se você guarda dado de brasileiro, vale pra você.",
-      leftTag: "o que muda",
-      rightTag: "o que custa",
+      leftTag: "o que muda na sua app",
+      rightTag: "o que acontece se ignorar",
       left: {
         label: "consentimento + base legal",
         bullets: ["informar o que coleta", "deixar revogar", "guardar só o necessário", "responder pedidos do titular"],
