@@ -251,9 +251,9 @@ function renderBody(p: StaticProps) {
       );
     case "naval":
       return (
-        <div className="max-w-4xl space-y-6 text-bege">
+        <div className="max-w-5xl space-y-6 text-bege">
           {p.title && <motion.h2 initial="hidden" animate="show" variants={fade} className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">{p.title}</motion.h2>}
-          {p.subtitle && <motion.p initial="hidden" animate="show" variants={fade} custom={1} className="text-2xl opacity-70">— {p.subtitle}</motion.p>}
+          {p.subtitle && <motion.p initial="hidden" animate="show" variants={fade} custom={1} className="text-3xl opacity-75">— {p.subtitle}</motion.p>}
         </div>
       );
     case "transition":
