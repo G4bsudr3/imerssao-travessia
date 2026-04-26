@@ -70,7 +70,7 @@ export default function Feedback() {
               </div>
               <h2 className="font-display text-3xl">recebi.</h2>
               <p className="mt-2 text-lg opacity-70">vou ler todas. obrigado de verdade.</p>
-              <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— frattz</p>
+              <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— chŏra</p>
             </motion.div>
           ) : (
             <motion.form

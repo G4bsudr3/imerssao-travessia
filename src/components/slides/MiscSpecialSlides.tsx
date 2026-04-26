@@ -13,7 +13,7 @@ export function OiSlide() {
       <div className="space-y-8 text-center">
         <p className="eyebrow">oi.</p>
         <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-[0.95]">
-          eu sou o frattz.
+          eu sou o chŏra.
         </h1>
       </div>
     </SlideShell>
