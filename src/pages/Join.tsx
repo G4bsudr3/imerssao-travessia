@@ -217,7 +217,7 @@ function LivePhaseScreen({ phaseLabel, nickname, seed }: { phaseLabel: string; n
       </div>
 
       <div className="mt-6 flex flex-col items-center text-center">
-        <p className="eyebrow">frattz tá</p>
+        <p className="eyebrow">chŏra tá</p>
         <p className="mt-1 font-display text-3xl text-laranja">{meta.label}</p>
         <p className="mt-1 text-sm opacity-50">~{expectedM}min esperado</p>
 
