@@ -122,7 +122,7 @@ export function SlideContainer() {
           e os slides com fundo escuro (naval). Pequeno, esmaecido, canto sup. esq. */}
       {currentSlide > 0 && !isDarkSlide(currentSlide) && (
         <div
-          className="pointer-events-none absolute left-6 top-6 z-10 opacity-25 mix-blend-multiply"
+          className="pointer-events-none absolute left-6 bottom-6 z-10 opacity-25 mix-blend-multiply"
           aria-hidden
         >
           <LagrimaGradient size={36} morphing />
