@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { LagrimaGradient } from "@/components/brand/LagrimaGradient";
 import { BalaoSerrado } from "@/components/brand/BalaoSerrado";
 import { CONFETTI_PALETTE } from "@/lib/colors";
