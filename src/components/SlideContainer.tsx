@@ -118,6 +118,17 @@ export function SlideContainer() {
         </motion.div>
       </AnimatePresence>
 
+      {/* Watermark da lágrima → cadeado: presente em todos os slides exceto a capa
+          e os slides com fundo escuro (naval). Pequeno, esmaecido, canto sup. esq. */}
+      {currentSlide > 0 && !isDarkSlide(currentSlide) && (
+        <div
+          className="pointer-events-none absolute left-6 top-6 z-10 opacity-25 mix-blend-multiply"
+          aria-hidden
+        >
+          <LagrimaGradient size={36} morphing />
+        </div>
+      )}
+
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
     </div>
