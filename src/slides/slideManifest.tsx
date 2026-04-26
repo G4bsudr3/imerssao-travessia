@@ -154,18 +154,9 @@ export const slideManifest: SlideEntry[] = [
     key: "o_que_e_rls",
     kind: "static",
     staticProps: {
-      variant: "two-line",
-      eyebrow: "RLS · row level security",
-      title: "regra que define",
-      subtitle: "quem vê qual linha.",
-    },
-  },
-  {
-    key: "quatro_operacoes",
-    kind: "static",
-    staticProps: {
       variant: "grid",
-      eyebrow: "RLS controla 4 operações",
+      eyebrow: "RLS · row level security",
+      title: "regra que define quem vê qual linha",
       items: [
         { label: "SELECT", sub: "quem pode ver" },
         { label: "INSERT", sub: "quem pode criar" },
