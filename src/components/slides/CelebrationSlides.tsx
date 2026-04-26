@@ -59,40 +59,32 @@ export function FinalSlide() {
             <span>vai lá e</span>
             <span
               className="relative inline-block overflow-hidden align-baseline"
-              style={{ minWidth: "5.2em", height: "1.05em" }}
+              style={{ minWidth: "5.5em", height: "1.1em" }}
               aria-live="polite"
             >
-              {/* "constrói" sai sendo empurrada pra esquerda + fade */}
-              <motion.span
-                className="absolute inset-0 flex items-baseline"
-                initial={{ x: 0, opacity: 1 }}
-                animate={
-                  phase === "protect"
-                    ? { x: "-110%", opacity: 0, filter: "blur(6px)" }
-                    : { x: 0, opacity: 1, filter: "blur(0px)" }
-                }
-                transition={{ duration: 0.55, ease: [0.7, 0, 0.3, 1] }}
-              >
-                constrói.
-              </motion.span>
-
-              {/* "protege" entra de fora atropelando, com leve overshoot */}
-              <motion.span
-                className="absolute inset-0 flex items-baseline text-laranja"
-                initial={{ x: "110%", opacity: 0, filter: "blur(6px)" }}
-                animate={
-                  phase === "protect"
-                    ? { x: 0, opacity: 1, filter: "blur(0px)" }
-                    : { x: "110%", opacity: 0, filter: "blur(6px)" }
-                }
-                transition={{
-                  duration: 0.65,
-                  ease: [0.16, 1, 0.3, 1],
-                  delay: phase === "protect" ? 0.08 : 0,
-                }}
-              >
-                protege.
-              </motion.span>
+              <AnimatePresence mode="popLayout" initial={false}>
+                {phase === "build" ? (
+                  <motion.span
+                    key="constroi"
+                    className="absolute inset-0 flex items-baseline"
+                    initial={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+                    exit={{ x: "-115%", opacity: 0, filter: "blur(8px)" }}
+                    transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
+                  >
+                    constrói.
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    key="protege"
+                    className="absolute inset-0 flex items-baseline text-preto"
+                    initial={{ x: "115%", opacity: 0, filter: "blur(8px)" }}
+                    animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
+                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                  >
+                    protege.
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </span>
           </span>
         </BalaoSerrado>
