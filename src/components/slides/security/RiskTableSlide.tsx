@@ -28,7 +28,7 @@ function dotColor(level: RiskRow["level"]) {
 export function RiskTableSlide({ eyebrow, title, rows }: Props) {
   return (
     <SlideShell>
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-[1500px]">
         {eyebrow && (
           <motion.div initial="hidden" animate="show" variants={fade} className="eyebrow mb-3">
             {eyebrow}
@@ -39,7 +39,7 @@ export function RiskTableSlide({ eyebrow, title, rows }: Props) {
         </motion.h1>
 
         <div className="overflow-hidden rounded-2xl border-2 border-preto/10 bg-white/70">
-          <div className="grid grid-cols-[auto_1fr_1fr_1fr] gap-6 border-b-2 border-preto/10 px-8 py-4">
+          <div className="grid grid-cols-[auto_1fr_1fr_1.2fr] gap-6 border-b-2 border-preto/10 px-8 py-4">
             <span className="eyebrow w-3" />
             <span className="eyebrow">risco</span>
             <span className="eyebrow">impacto</span>
@@ -52,12 +52,12 @@ export function RiskTableSlide({ eyebrow, title, rows }: Props) {
               animate="show"
               variants={fade}
               custom={i + 2}
-              className="grid grid-cols-[auto_1fr_1fr_1fr] items-start gap-6 border-b border-preto/5 px-8 py-6 last:border-b-0"
+              className="grid grid-cols-[auto_1fr_1fr_1.2fr] items-start gap-6 border-b border-preto/5 px-8 py-7 last:border-b-0"
             >
               <span className={`mt-2 h-3 w-3 rounded-full ${dotColor(r.level)}`} />
-              <span className="font-display text-2xl md:text-3xl leading-tight">{r.risk}</span>
-              <span className="text-lg leading-snug opacity-75">{r.impact}</span>
-              <span className="text-lg leading-snug opacity-75">{r.fix}</span>
+              <span className="font-body text-2xl font-semibold leading-snug">{r.risk}</span>
+              <span className="text-2xl leading-snug opacity-80">{r.impact}</span>
+              <span className="font-display text-2xl leading-snug text-laranja">{r.fix}</span>
             </motion.div>
           ))}
         </div>
