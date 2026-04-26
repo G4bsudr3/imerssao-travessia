@@ -19,6 +19,15 @@ import { RiskTableSlide } from "./slides/security/RiskTableSlide";
 import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
+import { LagrimaGradient } from "./brand/LagrimaGradient";
+
+/** Slide é "escuro" (fundo naval/preto)? Nesses casos não exibimos o watermark. */
+function isDarkSlide(idx: number): boolean {
+  const e = slideManifest[idx];
+  if (!e) return false;
+  if (e.kind === "static") return e.staticProps.background === "naval";
+  return false;
+}
 
 function renderSlide(idx: number) {
   const e = slideManifest[idx];
@@ -108,6 +117,17 @@ export function SlideContainer() {
           </SlideErrorBoundary>
         </motion.div>
       </AnimatePresence>
+
+      {/* Watermark da lágrima → cadeado: presente em todos os slides exceto a capa
+          e os slides com fundo escuro (naval). Pequeno, esmaecido, canto sup. esq. */}
+      {currentSlide > 0 && !isDarkSlide(currentSlide) && (
+        <div
+          className="pointer-events-none absolute left-6 top-6 z-10 opacity-25 mix-blend-multiply"
+          aria-hidden
+        >
+          <LagrimaGradient size={36} morphing />
+        </div>
+      )}
 
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
