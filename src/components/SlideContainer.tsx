@@ -19,6 +19,15 @@ import { RiskTableSlide } from "./slides/security/RiskTableSlide";
 import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
+import { LagrimaGradient } from "./brand/LagrimaGradient";
+
+/** Slide é "escuro" (fundo naval/preto)? Nesses casos não exibimos o watermark. */
+function isDarkSlide(idx: number): boolean {
+  const e = slideManifest[idx];
+  if (!e) return false;
+  if (e.kind === "static") return e.staticProps.background === "naval";
+  return false;
+}
 
 function renderSlide(idx: number) {
   const e = slideManifest[idx];
