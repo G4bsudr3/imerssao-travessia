@@ -130,7 +130,7 @@ export default function Feedback() {
                 disabled={!topic || submitting}
                 className="rounded-xl border-2 border-preto bg-preto px-6 py-4 font-display text-2xl text-bege transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-laranja enabled:hover:text-preto enabled:active:translate-y-[2px]"
               >
-                {submitting ? "enviando…" : "mandar pro frattz"}
+                {submitting ? "enviando…" : "mandar pro chŏra"}
               </button>
             </motion.form>
           )}
