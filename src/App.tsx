@@ -8,6 +8,7 @@ import { ChromeVisibilityProvider } from "@/contexts/ChromeVisibilityContext";
 import { ToastHost } from "@/components/mobile/ActionFeedback";
 import Index from "./pages/Index.tsx";
 import Join from "./pages/Join.tsx";
+import Feedback from "./pages/Feedback.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/join/:code" element={<Join />} />
+              <Route path="/feedback" element={<Feedback />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ChromeVisibilityProvider>
