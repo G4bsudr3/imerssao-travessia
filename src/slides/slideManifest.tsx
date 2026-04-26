@@ -397,20 +397,6 @@ USING (user_id = auth.uid());`,
     },
   },
   {
-    key: "recap",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "o que fica",
-      items: [
-        { label: "1. RLS é o cadeado", sub: "ative em tudo, sempre por user_id" },
-        { label: "2. valide JWT na edge", sub: "front mente · servidor confere" },
-        { label: "3. LGPD é projeto, não favor", sub: "consentimento + 5 direitos" },
-        { label: "4. governança escala antes do código", sub: "MFA, papéis, backup" },
-      ],
-    },
-  },
-  {
     key: "vai_la_proteja",
     kind: "static",
     staticProps: {
