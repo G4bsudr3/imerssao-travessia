@@ -22,7 +22,7 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
         ) : (
           <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none">{l.title}</h1>
         )}
-        {l.sub && <p className="text-2xl opacity-70">{l.sub}</p>}
+        {l.sub && <p className="text-3xl opacity-70">{l.sub}</p>}
       </motion.div>
     </SlideShell>
   );
