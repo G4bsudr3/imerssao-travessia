@@ -332,7 +332,7 @@ USING (user_id = auth.uid());`,
   {
     key: "ato_4_arquitetura",
     kind: "static",
-    staticProps: { variant: "act", eyebrow: "ato 4", title: "arquitetura", subtitle: "escalar sem reaprender doendo", background: "naval" },
+    staticProps: { variant: "act", eyebrow: "ato 4", title: "arquitetura", subtitle: "escalar sem dor", background: "naval" },
   },
   {
     key: "lovable_cloud_vs_supabase",
