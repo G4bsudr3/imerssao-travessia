@@ -108,7 +108,7 @@
     font-weight: 700;
   }
   .eyebrow {
-    @apply font-mono-caps text-xs;
+    @apply font-mono-caps text-sm;
     color: hsl(var(--preto) / 0.6);
   }
   .gradient-tear {
