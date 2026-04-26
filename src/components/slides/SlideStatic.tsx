@@ -145,7 +145,7 @@ function renderBody(p: StaticProps) {
       return (
         <div className="space-y-6">
           {p.title && (
-            <motion.p initial="hidden" animate="show" variants={fade} className="eyebrow text-base">
+            <motion.p initial="hidden" animate="show" variants={fade} className="eyebrow">
               {p.title}
             </motion.p>
           )}
@@ -159,7 +159,7 @@ function renderBody(p: StaticProps) {
             {p.stat?.value}
           </motion.div>
           {p.stat?.sub && (
-            <motion.p initial="hidden" animate="show" variants={fade} custom={2} className="text-2xl opacity-70">
+            <motion.p initial="hidden" animate="show" variants={fade} custom={2} className="text-3xl opacity-70">
               {p.stat.sub}
             </motion.p>
           )}
@@ -167,7 +167,7 @@ function renderBody(p: StaticProps) {
       );
     case "list":
       return (
-        <ul className="space-y-5 text-left">
+        <ul className="space-y-6 text-left max-w-[1500px] mx-auto">
           {p.items?.map((it, i) => (
             <motion.li
               key={i}
@@ -178,7 +178,7 @@ function renderBody(p: StaticProps) {
               className={`font-display text-[clamp(2rem,5vw,4.5rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
             >
               {it.label}
-              {it.sub && <div className="font-body text-base opacity-60 mt-1">{it.sub}</div>}
+              {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
             </motion.li>
           ))}
         </ul>
