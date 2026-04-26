@@ -33,7 +33,6 @@ export function CelebrationSlide({ message = "deu certo." }: { message?: string 
 
 export function FinalSlide() {
   const fired = useRef(false);
-  const [phase, setPhase] = useState<"build" | "protect">("build");
 
   useEffect(() => {
     if (fired.current) return;
@@ -44,53 +43,15 @@ export function FinalSlide() {
       if (Date.now() < end) requestAnimationFrame(tick);
     };
     tick();
-
-    // Após ~2.4s, "protege" entra atropelando "constrói"
-    const t = setTimeout(() => setPhase("protect"), 2400);
-    return () => clearTimeout(t);
   }, []);
 
   return (
     <SlideShell>
       <div className="flex flex-col items-center gap-12">
-        <LagrimaGradient size={280} spinning morphing={phase === "protect"} />
-
-        {/* "vai lá e [constrói|protege]" — segunda palavra é substituída com animação de atropelo */}
+        <LagrimaGradient size={280} spinning />
         <BalaoSerrado variant="accent" className="!text-7xl md:!text-9xl">
-          <span className="inline-flex items-baseline gap-[0.35em] whitespace-nowrap">
-            <span>vai lá e</span>
-            <span
-              className="relative inline-block overflow-hidden align-baseline"
-              style={{ minWidth: "5.5em", height: "1.1em" }}
-              aria-live="polite"
-            >
-              <AnimatePresence mode="popLayout" initial={false}>
-                {phase === "build" ? (
-                  <motion.span
-                    key="constroi"
-                    className="absolute inset-0 flex items-baseline"
-                    initial={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-                    exit={{ x: "-115%", opacity: 0, filter: "blur(8px)" }}
-                    transition={{ duration: 0.5, ease: [0.7, 0, 0.3, 1] }}
-                  >
-                    constrói.
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="protege"
-                    className="absolute inset-0 flex items-baseline text-preto"
-                    initial={{ x: "115%", opacity: 0, filter: "blur(8px)" }}
-                    animate={{ x: 0, opacity: 1, filter: "blur(0px)" }}
-                    transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-                  >
-                    protege.
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </span>
-          </span>
+          vai lá e protege.
         </BalaoSerrado>
-
         <div className="eyebrow">obrigado, POA. — frattz</div>
       </div>
 
