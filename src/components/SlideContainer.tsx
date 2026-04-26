@@ -131,6 +131,8 @@ export function SlideContainer() {
         </div>
       )}
 
+      {entry?.key === "vai_la_proteja" && <FinalFeedbackQR />}
+
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
     </div>
