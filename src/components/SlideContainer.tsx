@@ -116,7 +116,7 @@ export function SlideContainer() {
           className="absolute inset-0"
         >
           <SlideErrorBoundary slideKey={entry?.key ?? String(currentSlide)}>
-            <StageScaler>{renderSlide(currentSlide)}</StageScaler>
+            {renderSlide(currentSlide)}
           </SlideErrorBoundary>
         </motion.div>
       </AnimatePresence>
