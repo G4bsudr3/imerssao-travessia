@@ -1,11 +1,11 @@
-// Cores brand para uso em SVG/Canvas (confetti, etc) — fora do contexto Tailwind
+// Paleta TRAVESSIA — preto, verde neon, off-white
 export const BRAND = {
-  bege: "#f2e4d8",
-  preto: "#090909",
-  laranja: "#fe7b02",
+  bege: "#0f0f0f",
+  preto: "#f5f5f5",
+  laranja: "#1aff5e",
   vermelho: "#fd4644",
-  rosa: "#f756a6",
-  azul: "#6f77fc",
+  rosa: "#7dff9c",
+  azul: "#22c55e",
 } as const;
 
-export const CONFETTI_PALETTE = [BRAND.laranja, BRAND.rosa, BRAND.azul, BRAND.vermelho];
+export const CONFETTI_PALETTE = [BRAND.laranja, BRAND.rosa, BRAND.azul, "#ffffff"];

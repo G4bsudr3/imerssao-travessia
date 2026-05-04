@@ -43,8 +43,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ["League Gothic", "Urbanist", "sans-serif"],
-        body: ["Urbanist", "system-ui", "sans-serif"],
+        display: ["Anton", "Inter", "sans-serif"],
+        body: ["Inter", "system-ui", "sans-serif"],
         mono: ["JetBrains Mono", "ui-monospace", "monospace"],
       },
       borderRadius: {

@@ -2,46 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-/* chrome auto-hide: classe única compartilhada por StageProgress + HUD */
+/* chrome auto-hide */
 @layer utilities {
   .chrome-fade { transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1); will-change: opacity; }
   .chrome-visible { opacity: 1; }
   .chrome-hidden { opacity: 0; pointer-events: none; }
 }
 
-/* CHŎRA Lovable — Design System
-   Paleta: bege + preto + acentos (laranja, vermelho, rosa, azul).
+/* TRAVESSIA — Design System
+   Paleta: preto profundo + verde neon + off-white.
    Tudo em HSL. NÃO usar cores hex direto em componentes.
 */
 
 @layer base {
   :root {
-    /* Brand core */
-    --bege: 28 50% 90%;          /* #f2e4d8 */
-    --preto: 0 0% 4%;            /* #090909 */
-    --laranja: 26 99% 51%;       /* #fe7b02 */
-    --vermelho: 1 97% 63%;       /* #fd4644 */
-    --rosa: 326 89% 65%;         /* #f756a6 */
-    --azul: 237 96% 71%;         /* #6f77fc */
+    /* Brand tokens — semantica original mantida */
+    --bege: 0 0% 96%;             /* off-white */
+    --preto: 0 0% 6%;             /* preto profundo */
+    --laranja: 130 100% 54%;      /* verde neon TRAVESSIA */
+    --vermelho: 350 90% 60%;
+    --rosa: 130 90% 70%;
+    --azul: 145 70% 45%;
 
-    /* Semantic */
-    --background: var(--bege);
-    --foreground: var(--preto);
+    /* Semantic — palco em modo escuro */
+    --background: var(--preto);
+    --foreground: var(--bege);
 
-    --card: 0 0% 100%;
-    --card-foreground: var(--preto);
+    --card: 0 0% 10%;
+    --card-foreground: var(--bege);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: var(--preto);
+    --popover: 0 0% 10%;
+    --popover-foreground: var(--bege);
 
-    --primary: var(--preto);
-    --primary-foreground: var(--bege);
+    --primary: var(--laranja);
+    --primary-foreground: var(--preto);
 
-    --secondary: 28 35% 84%;
-    --secondary-foreground: var(--preto);
+    --secondary: 0 0% 14%;
+    --secondary-foreground: var(--bege);
 
-    --muted: 28 30% 86%;
-    --muted-foreground: 0 0% 30%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 65%;
 
     --accent: var(--laranja);
     --accent-foreground: var(--preto);
@@ -49,28 +49,27 @@
     --destructive: var(--vermelho);
     --destructive-foreground: 0 0% 100%;
 
-    --border: 28 25% 78%;
-    --input: 28 25% 78%;
-    --ring: var(--preto);
+    --border: 0 0% 18%;
+    --input: 0 0% 18%;
+    --ring: var(--laranja);
 
-    --radius: 1rem;
+    --radius: 0.5rem;
 
-    /* Gradients */
-    --gradient-tear: linear-gradient(135deg, hsl(var(--laranja)), hsl(var(--rosa)) 50%, hsl(var(--azul)));
-    --gradient-screen: linear-gradient(180deg, hsl(var(--bege)) 0%, hsl(28 45% 86%) 100%);
-    --gradient-naval: linear-gradient(180deg, hsl(0 0% 6%) 0%, hsl(0 0% 2%) 100%);
+    /* Gradients verde neon */
+    --gradient-tear: linear-gradient(135deg, hsl(var(--laranja)), hsl(130 100% 70%) 50%, hsl(var(--laranja)));
+    --gradient-screen: linear-gradient(180deg, hsl(var(--preto)) 0%, hsl(0 0% 3%) 100%);
+    --gradient-naval: linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(0 0% 2%) 100%);
 
-    /* Shadows */
-    --shadow-card: 0 8px 32px -8px hsl(var(--preto) / 0.18);
-    --shadow-pop: 0 20px 60px -16px hsl(var(--preto) / 0.32);
+    /* Shadows / glows */
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.6);
+    --shadow-pop: 0 20px 60px -16px hsl(0 0% 0% / 0.8);
     --shadow-laranja: 0 12px 40px -12px hsl(var(--laranja) / 0.55);
-    --shadow-soft: 0 2px 12px -4px hsl(var(--preto) / 0.08);
+    --shadow-soft: 0 2px 12px -4px hsl(0 0% 0% / 0.4);
   }
 
   .dark {
-    /* não usado — palco roda em modo claro/bege */
-    --background: var(--preto);
-    --foreground: var(--bege);
+    --background: var(--bege);
+    --foreground: var(--preto);
   }
 }
 
@@ -85,7 +84,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Urbanist', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     overscroll-behavior: none;
   }
@@ -93,13 +92,14 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'League Gothic', 'Urbanist', sans-serif;
+    font-family: 'Anton', 'Inter', sans-serif;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0;
     line-height: 0.92;
+    text-transform: uppercase;
   }
   .font-body {
-    font-family: 'Urbanist', system-ui, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
   .font-mono-caps {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -109,7 +109,7 @@
   }
   .eyebrow {
     @apply font-mono-caps text-sm;
-    color: hsl(var(--preto) / 0.6);
+    color: hsl(var(--laranja));
   }
   .gradient-tear {
     background: var(--gradient-tear);
@@ -143,22 +143,25 @@
 
   /* === MOBILE LANGUAGE === */
   .card-mobile {
-    @apply rounded-3xl bg-white p-5;
+    @apply rounded-xl p-5;
+    background: hsl(0 0% 10%);
     box-shadow: var(--shadow-card);
-    border: 1px solid hsl(var(--laranja) / 0.08);
+    border: 1px solid hsl(var(--laranja) / 0.18);
   }
   .input-line {
     @apply w-full bg-transparent px-1 pb-3 pt-1 text-2xl outline-none;
     border: none;
-    border-bottom: 2px solid hsl(var(--preto) / 0.2);
+    border-bottom: 2px solid hsl(var(--preto) / 0.3);
     border-radius: 0;
     transition: border-color 200ms ease;
+    color: hsl(var(--preto));
   }
   .input-line:focus {
     border-bottom-color: hsl(var(--laranja));
   }
   .btn-laranja {
-    @apply h-14 w-full rounded-2xl bg-laranja font-display text-2xl text-preto transition active:scale-[0.97];
+    @apply h-14 w-full rounded-lg bg-laranja font-display text-2xl transition active:scale-[0.97];
+    color: hsl(0 0% 6%);
     box-shadow: var(--shadow-laranja);
   }
   .btn-laranja:disabled {
@@ -166,7 +169,7 @@
     box-shadow: none;
   }
 
-  /* Background lágrima blur fixo no mobile */
+  /* Background glow verde fixo no mobile (substitui o antigo bg-lagrima-blur) */
   .bg-lagrima-blur {
     position: relative;
     isolation: isolate;
@@ -178,16 +181,17 @@
     z-index: -1;
     background:
       radial-gradient(circle at 20% 15%, hsl(var(--laranja) / 0.18), transparent 40%),
-      radial-gradient(circle at 80% 85%, hsl(var(--rosa) / 0.14), transparent 45%),
-      radial-gradient(circle at 50% 50%, hsl(var(--azul) / 0.08), transparent 50%);
+      radial-gradient(circle at 80% 85%, hsl(var(--laranja) / 0.10), transparent 45%),
+      radial-gradient(circle at 50% 50%, hsl(var(--laranja) / 0.06), transparent 50%);
     filter: blur(40px);
     pointer-events: none;
     animation: lagrima-drift 18s ease-in-out infinite;
   }
 
-  /* Toast laranja */
+  /* Toast verde */
   .toast-laranja {
-    @apply pointer-events-auto fixed left-1/2 top-6 z-[100] -translate-x-1/2 rounded-full bg-laranja px-6 py-3 font-display text-xl text-preto;
+    @apply pointer-events-auto fixed left-1/2 top-6 z-[100] -translate-x-1/2 rounded-full bg-laranja px-6 py-3 font-display text-xl;
+    color: hsl(0 0% 6%);
     box-shadow: var(--shadow-laranja);
     animation: toast-in 300ms cubic-bezier(0.22, 1, 0.36, 1) both;
   }
@@ -216,7 +220,6 @@
   }
   .animate-pulse-soft { animation: pulse-soft 2.4s ease-in-out infinite; }
 
-  /* Acessibilidade: respeita prefers-reduced-motion */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;

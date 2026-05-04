@@ -13,7 +13,7 @@ export function SlideShell({ children, className, background = "bege", align = "
       ? "bg-preto text-bege"
       : background === "accent"
         ? "bg-laranja text-preto"
-        : "bg-background text-foreground";
+        : "bg-bege text-preto";
   return (
     <div
       className={cn(
