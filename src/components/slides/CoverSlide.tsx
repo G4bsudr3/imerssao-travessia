@@ -8,7 +8,7 @@ type Variant = "intro" | "build" | "final";
 export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
   const labels: Record<Variant, { eyebrow: string; title: string; sub: string }> = {
     intro: {
-      eyebrow: "alphaville · sp · 06.06.2026 · imersão travessia",
+      eyebrow: "ALPHAVILE · 06.06.2026 · IMERSÃO TRAVESSIA",
       title: "TRAVESSIA",
       sub: "do vibe coder ao empresário de software.",
     },
@@ -33,8 +33,8 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
         )}
         {l.sub && <p className="text-3xl opacity-70 text-bege">{l.sub}</p>}
         {variant === "intro" && (
-          <p className="font-mono text-sm uppercase tracking-[0.3em] text-bege/60">
-            presencial · alphaville · sp · 06.06.2026
+          <p className="font-mono text-sm uppercase tracking-[0.3em] text-bege/60 whitespace-pre-line">
+            ALPHAVILE · 06.06.2026 · IMERSÃO TRAVESSIA{"\n\n\n\n"}
           </p>
         )}
       </motion.div>
