@@ -436,7 +436,7 @@ export function UmEPoucoSlide() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.2, duration: 0.5 }}
               className={`flex items-baseline gap-6 font-display leading-none ${l.cls}`}
-              style={{ fontSize: `clamp(3rem, ${4 + i * 1.5}vw, ${4 + i * 2}rem)` }}
+              style={{ fontSize: `clamp(3rem, ${4 + i * 1.5}cqw, ${4 + i * 2}rem)` }}
             >
               <span className="opacity-40">{l.n}</span>
               <span>{l.txt}</span>
