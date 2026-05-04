@@ -161,7 +161,7 @@
     border-bottom-color: hsl(var(--laranja));
   }
   .btn-laranja {
-    @apply h-14 w-full rounded-lg bg-laranja font-display text-2xl text-preto-on-accent transition active:scale-[0.97];
+    @apply h-14 w-full rounded-lg bg-laranja font-display text-2xl transition active:scale-[0.97];
     color: hsl(0 0% 6%);
     box-shadow: var(--shadow-laranja);
   }
