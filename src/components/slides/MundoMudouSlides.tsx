@@ -11,7 +11,7 @@ import { SlideShell } from "./SlideShell";
 // ────────────────────────────────────────────────────────────────────────────
 export function BH1900Slide() {
   const lines = [
-    { text: "de Belo Horizonte para Porto Alegre", delay: 0.4 },
+    { text: "de Belo Horizonte para Alphaville", delay: 0.4 },
     { text: "~1.700 km", delay: 0.55 },
     { text: "a pé. de burro. talvez de charrete.", delay: 0.7 },
     { text: "semanas de viagem.", delay: 0.9, bold: true },
@@ -398,7 +398,7 @@ export function EncurtouMaisSlide() {
           transition={{ duration: 0.5, delay: 1.3 }}
           className="font-display text-2xl text-laranja"
         >
-          BH → Porto Alegre: 2h15min
+          BH → Alphaville: 1h30min
         </motion.div>
       </div>
     </SlideShell>

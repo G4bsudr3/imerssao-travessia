@@ -52,7 +52,7 @@ export function FinalSlide() {
         <BalaoSerrado variant="accent" className="!text-7xl md:!text-9xl">
           vai lá e protege.
         </BalaoSerrado>
-        <div className="eyebrow">obrigado, POA. — chŏra</div>
+        <div className="eyebrow">obrigado, alphaville. — travessia</div>
       </div>
 
       <FeedbackQR />

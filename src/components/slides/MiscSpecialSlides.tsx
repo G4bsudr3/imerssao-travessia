@@ -13,7 +13,7 @@ export function OiSlide() {
       <div className="space-y-8 text-center">
         <p className="eyebrow">oi.</p>
         <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-[0.95]">
-          eu sou o chŏra.
+          bem-vindo à travessia.
         </h1>
       </div>
     </SlideShell>
@@ -37,7 +37,7 @@ export function HojeSlide() {
 export function TudoLovable() {
   return (
     <SlideShell align="start">
-      <p className="eyebrow mb-6">tudo isso, em lovable</p>
+      <p className="eyebrow mb-6">tudo isso, construído rápido</p>
       <div className="grid w-full grid-cols-2 gap-4">
         {[1, 2, 3, 4].map((n) => (
           <PlaceholderIllustration key={n} variant="screen" label={`projeto · ${n}`} />

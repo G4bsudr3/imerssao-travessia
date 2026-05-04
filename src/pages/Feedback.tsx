@@ -52,7 +52,7 @@ export default function Feedback() {
         <header className="flex items-center gap-3">
           <LagrimaGradient size={36} />
           <div>
-            <div className="eyebrow">chŏra · feedback</div>
+            <div className="eyebrow">travessia · feedback</div>
             <h1 className="font-display text-3xl leading-tight">o que ficou pulsando aí?</h1>
           </div>
         </header>
@@ -70,7 +70,7 @@ export default function Feedback() {
               </div>
               <h2 className="font-display text-3xl">recebi.</h2>
               <p className="mt-2 text-lg opacity-70">vou ler todas. obrigado de verdade.</p>
-              <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— chŏra</p>
+              <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— travessia</p>
             </motion.div>
           ) : (
             <motion.form
@@ -130,7 +130,7 @@ export default function Feedback() {
                 disabled={!topic || submitting}
                 className="rounded-xl border-2 border-preto bg-preto px-6 py-4 font-display text-2xl text-bege transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-laranja enabled:hover:text-preto enabled:active:translate-y-[2px]"
               >
-                {submitting ? "enviando…" : "mandar pro chŏra"}
+                {submitting ? "enviando…" : "mandar pra travessia"}
               </button>
             </motion.form>
           )}
