@@ -1,5 +1,5 @@
-// Manifest dos slides — apresentação chŏra
-// "Segurança, Infra e Governança no Lovable" · 4 atos · ~30 min
+// Manifest dos slides — Imersão TRAVESSIA
+// "Do vibe coder ao empresário de software" · 4 atos · ~30 min
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
@@ -88,7 +88,7 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "stat",
-      title: "a maioria das apps Lovable em produção",
+      title: "a maioria das apps geradas com IA em produção",
       stat: { value: "tem RLS aberto", sub: "o cadeado do banco está destrancado." },
     },
   },
