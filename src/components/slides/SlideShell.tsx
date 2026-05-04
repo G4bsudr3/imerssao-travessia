@@ -10,10 +10,10 @@ type Props = {
 export function SlideShell({ children, className, background = "bege", align = "center" }: Props) {
   const bg =
     background === "naval"
-      ? "bg-black text-foreground"
+      ? "bg-preto text-bege"
       : background === "accent"
-        ? "bg-laranja text-black"
-        : "bg-background text-foreground";
+        ? "bg-laranja text-preto"
+        : "bg-bege text-preto";
   return (
     <div
       className={cn(
