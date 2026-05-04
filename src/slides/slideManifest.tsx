@@ -74,7 +74,7 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "agenda · 30 min",
+      eyebrow: "AGENDA · 60 MIN",
       items: [
         { label: "1. por quê", sub: "o risco que você não vê" },
         { label: "2. supabase", sub: "RLS, edge, RPC" },
