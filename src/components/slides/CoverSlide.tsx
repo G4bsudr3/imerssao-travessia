@@ -27,9 +27,9 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
         <LagrimaGradient size={120} morphing />
         <div className="eyebrow">{l.eyebrow}</div>
         {variant === "intro" ? (
-          <ChoraLogo className="text-[clamp(5rem,16cqw,16rem)] whitespace-nowrap" />
+          <ChoraLogo className="text-[clamp(5rem,16vw,16rem)] whitespace-nowrap" />
         ) : (
-          <h1 className="font-display text-[clamp(4rem,12cqw,12rem)] leading-none text-bege">{l.title}</h1>
+          <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none text-bege">{l.title}</h1>
         )}
         {l.sub && <p className="text-3xl opacity-70 text-bege">{l.sub}</p>}
         {variant === "intro" && (

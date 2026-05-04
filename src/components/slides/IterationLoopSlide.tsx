@@ -63,7 +63,7 @@ export function IterationLoopSlide() {
       <div className="flex w-full items-baseline justify-between gap-6">
         <div>
           <p className="eyebrow">iteração</p>
-          <p className="font-display text-[clamp(4rem,14cqw,12rem)] leading-none">
+          <p className="font-display text-[clamp(4rem,14vw,12rem)] leading-none">
             #<span className="text-laranja">{iter}</span>
           </p>
         </div>

@@ -106,18 +106,18 @@ function renderBody(p: StaticProps) {
   switch (p.variant) {
     case "headline":
       return (
-        <h1 className="font-display text-[clamp(4rem,12cqw,12rem)] leading-[0.9]">
+        <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-[0.9]">
           <Kinetic text={p.title ?? ""} />
         </h1>
       );
     case "two-line":
       return (
         <div className="space-y-2">
-          <h1 className="font-display text-[clamp(3.5rem,10cqw,9rem)] leading-[0.9]">
+          <h1 className="font-display text-[clamp(3.5rem,10vw,9rem)] leading-[0.9]">
             <Kinetic text={p.title ?? ""} />
           </h1>
           {p.subtitle && (
-            <p className="font-display text-[clamp(2.5rem,7cqw,6rem)] leading-[0.95] text-laranja">
+            <p className="font-display text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] text-laranja">
               <Kinetic text={p.subtitle} baseDelay={(p.title?.split(" ").length ?? 0) * 0.09 + 0.1} />
             </p>
           )}
@@ -131,7 +131,7 @@ function renderBody(p: StaticProps) {
               {p.asset}
             </motion.div>
           )}
-          <h1 className="font-display text-[clamp(5rem,15cqw,14rem)] leading-none text-bege">
+          <h1 className="font-display text-[clamp(5rem,15vw,14rem)] leading-none text-bege">
             <Kinetic text={p.title ?? ""} />
           </h1>
           {p.subtitle && (
@@ -154,7 +154,7 @@ function renderBody(p: StaticProps) {
             animate="show"
             variants={fade}
             custom={1}
-            className={`font-display text-[clamp(7rem,22cqw,20rem)] leading-none ${p.stat?.strike ? "strike-diagonal" : ""}`}
+            className={`font-display text-[clamp(7rem,22vw,20rem)] leading-none ${p.stat?.strike ? "strike-diagonal" : ""}`}
           >
             {p.stat?.value}
           </motion.div>
@@ -175,7 +175,7 @@ function renderBody(p: StaticProps) {
               animate="show"
               variants={fade}
               custom={i + 1}
-              className={`font-display text-[clamp(2rem,5cqw,4.5rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
+              className={`font-display text-[clamp(2rem,5vw,4.5rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
             >
               {it.label}
               {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
@@ -252,13 +252,13 @@ function renderBody(p: StaticProps) {
     case "naval":
       return (
         <div className="max-w-5xl space-y-6 text-bege">
-          {p.title && <motion.h2 initial="hidden" animate="show" variants={fade} className="font-display text-[clamp(2.5rem,6cqw,5rem)] leading-tight">{p.title}</motion.h2>}
+          {p.title && <motion.h2 initial="hidden" animate="show" variants={fade} className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">{p.title}</motion.h2>}
           {p.subtitle && <motion.p initial="hidden" animate="show" variants={fade} custom={1} className="text-3xl opacity-75">— {p.subtitle}</motion.p>}
         </div>
       );
     case "transition":
       return (
-        <div className="font-display text-[clamp(3rem,8cqw,7rem)] leading-tight text-laranja">
+        <div className="font-display text-[clamp(3rem,8vw,7rem)] leading-tight text-laranja">
           <Kinetic text={p.title ?? ""} />
         </div>
       );

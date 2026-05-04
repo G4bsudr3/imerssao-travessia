@@ -32,7 +32,7 @@ export function ComparisonSlide({ eyebrow, title, left, right, leftTag = "lado A
           </motion.div>
         )}
         {title && (
-          <motion.h1 initial="hidden" animate="show" variants={fade} custom={1} className="mb-10 font-display text-[clamp(2.5rem,6cqw,5rem)] leading-tight">
+          <motion.h1 initial="hidden" animate="show" variants={fade} custom={1} className="mb-10 font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">
             {title}
           </motion.h1>
         )}
