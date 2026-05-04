@@ -11,7 +11,7 @@ export function BrainstormQuestion({ slideKey, question }: { slideKey: string; q
     <SlideShell>
       <div className="space-y-6">
         <p className="eyebrow">brainstorm</p>
-        <h1 className="font-display text-[clamp(3rem,8vw,8rem)] leading-tight">{question}</h1>
+        <h1 className="font-display text-[clamp(3rem,8cqw,8rem)] leading-tight">{question}</h1>
         <p className="text-xl opacity-60">manda no celular. quantas ideias quiser.</p>
       </div>
     </SlideShell>

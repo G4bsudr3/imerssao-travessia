@@ -26,7 +26,7 @@ export function BH1900Slide() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="font-display text-[clamp(7rem,18vw,14rem)] leading-none"
+          className="font-display text-[clamp(7rem,18cqw,14rem)] leading-none"
         >
           1900
         </motion.h1>
@@ -63,7 +63,7 @@ export function VieramCarrosSlide() {
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight"
         >
           vieram os carros.
         </motion.h1>
@@ -115,7 +115,7 @@ export function EncurtouCaminhoSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight text-center"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight text-center"
         >
           e encurtou o caminho.
         </motion.h1>
@@ -171,7 +171,7 @@ export function MatouProfissoesSlide() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-display text-[clamp(3rem,7vw,6rem)] leading-tight text-center"
+          className="font-display text-[clamp(3rem,7cqw,6rem)] leading-tight text-center"
         >
           e profissões praticamente <span className="text-laranja">desapareceram.</span>
         </motion.h1>
@@ -233,7 +233,7 @@ export function ProfissoesSurgiramSlide() {
           initial={{ opacity: 0, scale: 0.3 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.4, ease: "easeOut" }}
-          className="font-display text-[clamp(7rem,18vw,15rem)] leading-none text-laranja"
+          className="font-display text-[clamp(7rem,18cqw,15rem)] leading-none text-laranja"
         >
           ~30 mi
         </motion.h1>
@@ -284,7 +284,7 @@ export function VieramAvioesSlide() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight"
         >
           vieram os aviões.
         </motion.h1>
@@ -328,7 +328,7 @@ export function AviaoNaoMatouSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="font-display text-[clamp(3rem,8vw,6.5rem)] leading-tight text-center"
+          className="font-display text-[clamp(3rem,8cqw,6.5rem)] leading-tight text-center"
         >
           o avião não matou o carro.
         </motion.h1>
@@ -364,7 +364,7 @@ export function EncurtouMaisSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight text-center"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight text-center"
         >
           e encurtou <span className="text-laranja">ainda mais.</span>
         </motion.h1>
@@ -416,7 +416,7 @@ export function TrabalhoMudaSlide() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight text-center"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight text-center"
         >
           o trabalho não some.
         </motion.h1>
@@ -424,7 +424,7 @@ export function TrabalhoMudaSlide() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight text-laranja text-center"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight text-laranja text-center"
         >
           ele muda de lugar.
         </motion.h2>
@@ -455,7 +455,7 @@ export function IAFazendoSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-display text-[clamp(3rem,7.5vw,6rem)] leading-tight text-center"
+          className="font-display text-[clamp(3rem,7.5cqw,6rem)] leading-tight text-center"
         >
           a IA está fazendo <span className="text-laranja">exatamente isso.</span>
         </motion.h1>
@@ -502,7 +502,7 @@ export function NadaNovoSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="font-display text-[clamp(3.5rem,9vw,7rem)] leading-tight text-center"
+          className="font-display text-[clamp(3.5rem,9cqw,7rem)] leading-tight text-center"
         >
           nada disso é novo.
         </motion.h1>
@@ -526,7 +526,7 @@ export function NadaNovoSlide() {
           transition={{ duration: 0.6, delay: 1.2 }}
           className="flex flex-col items-center gap-2"
         >
-          <p className="font-display text-[clamp(2.5rem,5vw,4rem)] text-center leading-tight">
+          <p className="font-display text-[clamp(2.5rem,5cqw,4rem)] text-center leading-tight">
             a <span className="text-laranja">IA</span> comprimiu o tempo.
           </p>
           <motion.p
@@ -559,7 +559,7 @@ export function MaisFacilSlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-5xl font-display text-[clamp(2.5rem,6vw,4.5rem)] leading-tight text-center"
+          className="max-w-5xl font-display text-[clamp(2.5rem,6cqw,4.5rem)] leading-tight text-center"
         >
           quando fica mais fácil começar, <span className="text-laranja">você vai mais longe.</span>
         </motion.h1>
@@ -602,7 +602,7 @@ export function HumanoSeOcuparSlide() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.0 }}
-          className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-snug text-preto/75"
+          className="font-display text-[clamp(2rem,4.5cqw,3.5rem)] leading-snug text-preto/75"
         >
           o ser humano nunca vai deixar de encontrar motivo para se ocupar.
         </motion.p>
@@ -610,7 +610,7 @@ export function HumanoSeOcuparSlide() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-          className="font-display text-[clamp(2.5rem,5.5vw,4.5rem)] leading-tight"
+          className="font-display text-[clamp(2.5rem,5.5cqw,4.5rem)] leading-tight"
         >
           é isso que significa estar vivo.
         </motion.p>
@@ -618,7 +618,7 @@ export function HumanoSeOcuparSlide() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.6, ease: "easeOut" }}
-          className="font-display text-[clamp(3rem,6.5vw,5.5rem)] leading-tight text-laranja"
+          className="font-display text-[clamp(3rem,6.5cqw,5.5rem)] leading-tight text-laranja"
         >
           a busca eterna pela perfeição.
         </motion.p>
@@ -638,7 +638,7 @@ export function RiscoCharreteSlide() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-snug text-preto/65"
+          className="font-display text-[clamp(2rem,4.5cqw,3.5rem)] leading-snug text-preto/65"
         >
           o <span className="text-laranja">risco</span> não é a IA acabar com empregos.
         </motion.p>
@@ -646,7 +646,7 @@ export function RiscoCharreteSlide() {
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-          className="font-display text-[clamp(3rem,7vw,6rem)] leading-tight text-laranja"
+          className="font-display text-[clamp(3rem,7cqw,6rem)] leading-tight text-laranja"
         >
           é continuar na charrete num mundo que já voa.
         </motion.h1>
@@ -680,7 +680,7 @@ export function EAgoraIASlide() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="font-display text-[clamp(3rem,8vw,6.5rem)] leading-tight text-center"
+          className="font-display text-[clamp(3rem,8cqw,6.5rem)] leading-tight text-center"
         >
           estamos no momento da <span className="text-laranja">IA.</span>
         </motion.h1>
@@ -732,7 +732,7 @@ export function EAgoraIASlide() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 2.5 }}
-          className="font-display text-[clamp(2rem,4vw,3.5rem)] text-laranja"
+          className="font-display text-[clamp(2rem,4cqw,3.5rem)] text-laranja"
         >
           eu escolhi voar.
         </motion.p>
