@@ -17,21 +17,26 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
   };
   const l = labels[variant];
   return (
-    <SlideShell>
+    <SlideShell background="naval">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col items-center gap-8"
       >
-        <LagrimaGradient size={140} morphing />
+        <LagrimaGradient size={120} morphing />
         <div className="eyebrow">{l.eyebrow}</div>
         {variant === "intro" ? (
-          <ChoraLogo className="text-[clamp(6rem,18vw,18rem)]" />
+          <ChoraLogo className="text-[clamp(7rem,20vw,20rem)]" />
         ) : (
-          <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none">{l.title}</h1>
+          <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none text-bege">{l.title}</h1>
         )}
-        {l.sub && <p className="text-3xl opacity-70">{l.sub}</p>}
+        {l.sub && <p className="text-3xl opacity-70 text-bege">{l.sub}</p>}
+        {variant === "intro" && (
+          <p className="font-mono text-sm uppercase tracking-[0.3em] text-bege/60">
+            presencial · alphaville · sp · 06.06.2026
+          </p>
+        )}
       </motion.div>
     </SlideShell>
   );
