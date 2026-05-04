@@ -16,36 +16,35 @@
 
 @layer base {
   :root {
-    /* Brand core (tokens mantêm os nomes originais por compatibilidade,
-       mas remappeados pra paleta TRAVESSIA) */
-    --bege: 0 0% 6%;             /* surface "clara" no contexto dark = preto suave */
-    --preto: 0 0% 96%;            /* foreground = off-white */
+    /* Brand tokens — semantica original mantida */
+    --bege: 0 0% 96%;             /* off-white */
+    --preto: 0 0% 6%;             /* preto profundo */
     --laranja: 130 100% 54%;      /* verde neon TRAVESSIA */
     --vermelho: 350 90% 60%;
     --rosa: 130 90% 70%;
     --azul: 145 70% 45%;
 
-    /* Semantic */
-    --background: var(--bege);
-    --foreground: var(--preto);
+    /* Semantic — palco em modo escuro */
+    --background: var(--preto);
+    --foreground: var(--bege);
 
     --card: 0 0% 10%;
-    --card-foreground: var(--preto);
+    --card-foreground: var(--bege);
 
     --popover: 0 0% 10%;
-    --popover-foreground: var(--preto);
+    --popover-foreground: var(--bege);
 
-    --primary: var(--preto);
-    --primary-foreground: var(--bege);
+    --primary: var(--laranja);
+    --primary-foreground: var(--preto);
 
     --secondary: 0 0% 14%;
-    --secondary-foreground: var(--preto);
+    --secondary-foreground: var(--bege);
 
     --muted: 0 0% 12%;
     --muted-foreground: 0 0% 65%;
 
     --accent: var(--laranja);
-    --accent-foreground: 0 0% 6%;
+    --accent-foreground: var(--preto);
 
     --destructive: var(--vermelho);
     --destructive-foreground: 0 0% 100%;
@@ -58,7 +57,7 @@
 
     /* Gradients verde neon */
     --gradient-tear: linear-gradient(135deg, hsl(var(--laranja)), hsl(130 100% 70%) 50%, hsl(var(--laranja)));
-    --gradient-screen: linear-gradient(180deg, hsl(var(--bege)) 0%, hsl(0 0% 3%) 100%);
+    --gradient-screen: linear-gradient(180deg, hsl(var(--preto)) 0%, hsl(0 0% 3%) 100%);
     --gradient-naval: linear-gradient(180deg, hsl(0 0% 8%) 0%, hsl(0 0% 2%) 100%);
 
     /* Shadows / glows */
