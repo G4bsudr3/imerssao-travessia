@@ -38,6 +38,7 @@ export function StageScaler({ children }: { children: React.ReactNode }) {
           transform: `scale(${scale})`,
           transformOrigin: "center center",
           flexShrink: 0,
+          containerType: "size",
         }}
       >
         {children}
