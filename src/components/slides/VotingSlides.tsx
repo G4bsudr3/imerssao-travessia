@@ -101,7 +101,7 @@ export function VotingWinner() {
     <SlideShell>
       <div className="space-y-8">
         <p className="eyebrow">vencedora</p>
-        <motion.h1 initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 200, damping: 20 }} className="font-display text-[clamp(3rem,8cqw,8rem)] leading-tight text-laranja">
+        <motion.h1 initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ type: "spring", stiffness: 200, damping: 20 }} className="font-display text-[clamp(3rem,8vw,5.6rem)] leading-tight text-laranja">
           {winner?.content ?? "—"}
         </motion.h1>
         <p className="text-2xl opacity-60">{winner?.votes_count ?? 0} votos</p>

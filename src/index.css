@@ -121,7 +121,7 @@
     color: transparent;
   }
   .stage-safe {
-    padding: clamp(2rem, 6cqh, 5rem) clamp(2rem, 6cqw, 6rem);
+    padding: clamp(2rem, 6vh, 5rem) clamp(2rem, 6vw, 6rem);
   }
   .strike-diagonal {
     position: relative;

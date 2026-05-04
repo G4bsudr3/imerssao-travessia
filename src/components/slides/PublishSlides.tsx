@@ -16,7 +16,7 @@ export function PublishUrl() {
     <SlideShell>
       <div className="space-y-8">
         <p className="eyebrow">no ar.</p>
-        <ChromeFrame url={url} className="w-[min(80cqw,900px)]">
+        <ChromeFrame url={url} className="w-[min(80vw,900px)]">
           <div className="flex items-center justify-center bg-bege p-16">
             <p className="overflow-hidden whitespace-nowrap font-display text-4xl md:text-6xl text-preto animate-typewriter border-r-4 border-preto pr-2 animate-blink">{url}</p>
           </div>

@@ -72,7 +72,7 @@ export function PollSlide({
     <SlideShell>
       <div className="w-full max-w-6xl space-y-10">
         {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-        <h1 className="font-display text-[clamp(3rem,7cqw,6rem)] leading-tight">{question}</h1>
+        <h1 className="font-display text-[clamp(3rem,7vw,4.2rem)] leading-tight">{question}</h1>
         <div className={`grid gap-6 ${cols}`}>
           {options.map((o) => (
             <Bar key={o.value} label={o.label} sub={o.sub} count={counts[o.value] ?? 0} pct={((counts[o.value] ?? 0) / total) * 100} accent={o.accent} />
