@@ -56,7 +56,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
         )}
         <motion.div initial="hidden" animate="show" variants={fade} custom={1} className="mb-2 flex items-center gap-4">
           <Icon className={`h-12 w-12 ${accent}`} strokeWidth={2} />
-          <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">{title}</h1>
+          <h1 className="font-display text-[clamp(2.5rem,6vw,3.5rem)] leading-tight">{title}</h1>
         </motion.div>
         {subtitle && (
           <motion.p initial="hidden" animate="show" variants={fade} custom={2} className="mb-8 text-2xl opacity-70">

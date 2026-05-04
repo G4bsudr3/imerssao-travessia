@@ -28,7 +28,7 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
             {eyebrow}
           </motion.div>
         )}
-        <motion.h1 initial="hidden" animate="show" variants={fade} custom={1} className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-tight">
+        <motion.h1 initial="hidden" animate="show" variants={fade} custom={1} className="font-display text-[clamp(2.5rem,6vw,3.5rem)] leading-tight">
           {title}
         </motion.h1>
         {subtitle && (

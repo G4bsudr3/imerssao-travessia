@@ -36,7 +36,7 @@ export function NoComecoSlide() {
         />
         <div className="space-y-6">
           <p className="eyebrow">no começo…</p>
-          <h1 className="font-display text-[clamp(3.5rem,9vw,9rem)] leading-[0.92]">
+          <h1 className="font-display text-[clamp(3.5rem,9vw,6.3rem)] leading-[0.92]">
             tinha mais
             <br />
             <span className="text-laranja">pergunta</span>
@@ -55,7 +55,7 @@ export function NoMeioSlide() {
       <div className="grid w-full grid-cols-1 items-center gap-12 md:grid-cols-2">
         <div className="space-y-6 md:order-2">
           <p className="eyebrow">no meio…</p>
-          <h1 className="font-display text-[clamp(3.5rem,9vw,9rem)] leading-[0.92]">
+          <h1 className="font-display text-[clamp(3.5rem,9vw,6.3rem)] leading-[0.92]">
             tinha mais
             <br />
             <span className="text-laranja">oposição</span>
@@ -84,7 +84,7 @@ export function OposicaoIntroSlide() {
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7 }}
-          className="font-display text-[clamp(5rem,15vw,15rem)] leading-[0.85]"
+          className="font-display text-[clamp(5rem,15vw,10.5rem)] leading-[0.85]"
         >
           oposição
         </motion.h1>
@@ -92,7 +92,7 @@ export function OposicaoIntroSlide() {
           initial={{ opacity: 0, x: 40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.4 }}
-          className="font-display text-[clamp(5rem,15vw,15rem)] leading-[0.85] text-laranja"
+          className="font-display text-[clamp(5rem,15vw,10.5rem)] leading-[0.85] text-laranja"
         >
           clareza
         </motion.h1>
@@ -217,7 +217,7 @@ export function SucessoMedidaErradaSlide() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-display text-[clamp(4rem,12vw,12rem)] leading-none"
+            className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-none"
           >
             salário
           </motion.div>
@@ -225,7 +225,7 @@ export function SucessoMedidaErradaSlide() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="font-display text-[clamp(4rem,12vw,12rem)] leading-none"
+            className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-none"
           >
             cargo
           </motion.div>
@@ -503,7 +503,7 @@ export function MegazordVisualSlide() {
             <rect x="106" y="148" width="26" height="42" rx="4" fill="url(#mg)" />
           </svg>
         </motion.div>
-        <h1 className="font-display text-[clamp(3rem,9vw,9rem)] leading-none">
+        <h1 className="font-display text-[clamp(3rem,9vw,6.3rem)] leading-none">
           monta o teu <span className="text-laranja">megazord</span>.
         </h1>
         <p className="text-xl opacity-60">cada IA é um membro. tu é a alma.</p>

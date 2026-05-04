@@ -31,7 +31,7 @@ export function AltTabLiveSlide({ phase }: { phase: Exclude<Phase, "idle"> }) {
         <LagrimaGradient size={120} spinning className="animate-tear-spin-fast" />
         <div className="space-y-4 text-center">
           <p className="eyebrow">{copy.eyebrow}</p>
-          <h1 className="font-display text-[clamp(5rem,16vw,15rem)] leading-none">
+          <h1 className="font-display text-[clamp(5rem,16vw,10.5rem)] leading-none">
             {copy.title}
           </h1>
           <p className="text-2xl opacity-50">tô no outro app. já volto.</p>

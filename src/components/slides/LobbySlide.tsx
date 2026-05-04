@@ -85,7 +85,7 @@ export function LobbySlide() {
           <div className="flex items-end justify-between gap-6">
             <div>
               <p className="eyebrow">na sala</p>
-              <p className="font-display text-[clamp(4rem,10vw,9rem)] leading-none">
+              <p className="font-display text-[clamp(4rem,10vw,6.3rem)] leading-none">
                 <AnimatedCount value={ordered.length} />
                 <span className="ml-3 text-3xl opacity-50">/ 40</span>
               </p>

@@ -12,7 +12,7 @@ export function OiSlide() {
     <SlideShell>
       <div className="space-y-8 text-center">
         <p className="eyebrow">oi.</p>
-        <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-[0.95]">
+        <h1 className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-[0.95]">
           bem-vindo à travessia.
         </h1>
       </div>
@@ -53,7 +53,7 @@ export function BuildIntro() {
       <div className="flex flex-col items-center gap-8">
         <LagrimaGradient size={160} spinning />
         <p className="eyebrow">parte 2</p>
-        <h1 className="font-display text-[clamp(4rem,12vw,12rem)] leading-none">construir.</h1>
+        <h1 className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-none">construir.</h1>
         <p className="text-2xl opacity-60">ao vivo. com vocês.</p>
       </div>
     </SlideShell>
