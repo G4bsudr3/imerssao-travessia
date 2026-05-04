@@ -184,10 +184,11 @@ function renderBody(p: StaticProps) {
         </ul>
       );
     case "grid": {
-      const cols = (p.items?.length ?? 0) <= 3 ? "grid-cols-1 md:grid-cols-3" : (p.items?.length ?? 0) === 4 ? "grid-cols-2 md:grid-cols-4" : "grid-cols-2";
+      const n = p.items?.length ?? 0;
+      const cols = n <= 3 ? "grid-cols-1 md:grid-cols-3" : n === 4 ? "grid-cols-2 md:grid-cols-4" : n === 5 ? "grid-cols-2 md:grid-cols-5" : "grid-cols-2 md:grid-cols-3";
       const iconMap: Record<string, LucideIcon> = { brain: Brain, heart: Heart, unknown: HelpCircle };
       return (
-        <div className={`grid w-full max-w-[1500px] gap-7 ${cols}`}>
+        <div className={`grid w-full max-w-[1500px] gap-[clamp(0.75rem,1.5vw,1.5rem)] ${cols}`}>
           {p.items?.map((it, i) => {
             const Icon = it.icon ? iconMap[it.icon] : null;
             return (
@@ -197,7 +198,7 @@ function renderBody(p: StaticProps) {
                 animate="show"
                 variants={fade}
                 custom={i + 1}
-                className={`rounded-2xl p-10 text-left min-h-[220px] flex flex-col justify-center ${
+                className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left flex flex-col justify-center ${
                   it.empty
                     ? "border-2 border-dashed border-preto/20 bg-transparent"
                     : it.accent
@@ -211,9 +212,9 @@ function renderBody(p: StaticProps) {
                   </div>
                 ) : (
                   <>
-                    {Icon && <Icon className="mb-4 h-10 w-10 text-laranja" strokeWidth={2} />}
-                    <div className="font-display text-3xl md:text-4xl leading-tight">{it.label}</div>
-                    {it.sub && <div className="mt-3 text-xl opacity-75">{it.sub}</div>}
+                    {Icon && <Icon className="mb-3 h-9 w-9 text-laranja" strokeWidth={2} />}
+                    <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)]">{it.label}</div>
+                    {it.sub && <div className="mt-2 opacity-75 text-[clamp(0.875rem,1.1vw,1.15rem)]">{it.sub}</div>}
                   </>
                 )}
               </motion.div>
