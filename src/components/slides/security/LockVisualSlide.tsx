@@ -155,7 +155,7 @@ export function LockVisualSlide({ eyebrow, title, subtitle, state }: Props) {
           <LagrimaCofre state={state} size={260} />
         </motion.div>
 
-        <motion.h1 initial="hidden" animate="show" variants={fade} custom={2} className="font-display text-[clamp(3rem,8vw,7rem)] leading-tight">
+        <motion.h1 initial="hidden" animate="show" variants={fade} custom={2} className="font-display text-[clamp(3rem,8cqw,7rem)] leading-tight">
           {title}
         </motion.h1>
         {subtitle && (

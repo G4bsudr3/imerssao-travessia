@@ -8,6 +8,7 @@ import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import { slideManifest, TOTAL_SLIDES } from "@/slides/slideManifest";
 import { StageProgress } from "./stage/StageProgress";
+import { StageScaler } from "./stage/StageScaler";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
@@ -115,7 +116,7 @@ export function SlideContainer() {
           className="absolute inset-0"
         >
           <SlideErrorBoundary slideKey={entry?.key ?? String(currentSlide)}>
-            {renderSlide(currentSlide)}
+            <StageScaler>{renderSlide(currentSlide)}</StageScaler>
           </SlideErrorBoundary>
         </motion.div>
       </AnimatePresence>

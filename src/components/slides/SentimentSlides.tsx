@@ -22,7 +22,7 @@ export function SentimentQuestion() {
     <SlideShell>
       <div className="space-y-6">
         <p className="eyebrow">em uma palavra ou frase curta</p>
-        <h1 className="font-display text-[clamp(3rem,8vw,8rem)] leading-tight">
+        <h1 className="font-display text-[clamp(3rem,8cqw,8rem)] leading-tight">
           o que é <span className="text-laranja">sucesso</span> <br /> na vida pra ti?
         </h1>
         <p className="text-xl opacity-60">responde no celular. sem julgamento.</p>
