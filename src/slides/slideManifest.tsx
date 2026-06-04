@@ -1,5 +1,5 @@
 // Manifest dos slides — Imersão TRAVESSIA
-// "Do vibe coder ao empresário de software" · 4 atos · ~30 min
+// "Do vibe coder ao empresário de software" · 4 atos · ~90 min
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
@@ -74,11 +74,11 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "AGENDA · 60 MIN",
+      eyebrow: "AGENDA · 90 MIN",
       items: [
         { label: "1. por quê", sub: "o risco que você não vê" },
         { label: "2. supabase", sub: "RLS, edge, RPC" },
-        { label: "3. código + LGPD", sub: "auditoria e conformidade" },
+        { label: "3. código + LGPD", sub: "conformidade + ferramentas" },
         { label: "4. arquitetura", sub: "escalar sem dor" },
       ],
     },
@@ -264,22 +264,91 @@ USING (user_id = auth.uid());`,
       ],
     },
   },
+  // ─── LGPD · fundação ───
+  {
+    key: "ato_3_lgpd",
+    kind: "static",
+    staticProps: { variant: "transition", title: "segurança é técnica. LGPD é lei." },
+  },
+  {
+    key: "lgpd_o_que_e",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "LGPD · o que é",
+      title: "a lei que diz como você pode tratar dado de pessoa",
+      items: [
+        { label: "Lei 13.709/2018", sub: "a lei geral de proteção de dados do Brasil" },
+        { label: "inspirada no GDPR", sub: "o padrão europeu que virou referência mundial" },
+        { label: "criou a ANPD", sub: "a autoridade que fiscaliza, orienta e multa" },
+        { label: "vale pra você", sub: "tratou dado de brasileiro? está sob a LGPD — até o MVP" },
+      ],
+    },
+  },
+  {
+    key: "lgpd_linha_tempo",
+    kind: "static",
+    staticProps: {
+      variant: "timeline",
+      eyebrow: "LGPD · quando nasceu",
+      timeline: [
+        { year: "2018", label: "sancionada (Lei 13.709)" },
+        { year: "2020", label: "entra em vigor" },
+        { year: "2021", label: "ANPD começa a aplicar sanções" },
+      ],
+    },
+  },
+  {
+    key: "lgpd_dado_sensivel",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "nem todo dado é igual",
+      title: "dado pessoal × dado sensível",
+      leftTag: "dado pessoal",
+      rightTag: "dado sensível",
+      rightAccent: true,
+      left: {
+        label: "identifica a pessoa",
+        bullets: ["nome, e-mail, telefone", "CPF, endereço", "IP, cookie, geolocalização", "qualquer ID que ligue ao indivíduo"],
+      },
+      right: {
+        label: "regime reforçado",
+        sub: "vazou? o estrago e a multa são muito maiores.",
+        bullets: ["saúde e dados genéticos", "biometria (face, digital)", "raça, religião, política", "orientação sexual"],
+      },
+    },
+  },
+  {
+    key: "lgpd_bases_legais",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "as 10 bases legais · consentimento é só UMA",
+      items: [
+        { label: "execução de contrato", sub: "a base mais comum em SaaS — você precisa do dado pra entregar o serviço", accent: true },
+        { label: "legítimo interesse", sub: "usos esperados (antifraude, melhoria do produto) com teste de proporcionalidade" },
+        { label: "obrigação legal", sub: "guardar nota fiscal, dado fiscal, etc." },
+        { label: "consentimento", sub: "a mais frágil: pode ser revogado a qualquer hora. evite depender só dela", strike: true },
+      ],
+    },
+  },
   {
     key: "lgpd_basico",
     kind: "special",
     component: "ComparisonSlide",
     props: {
-      eyebrow: "LGPD · lei geral de proteção de dados",
+      eyebrow: "LGPD · por que levar a sério",
       title: "se você guarda dado de brasileiro, vale pra você.",
       leftTag: "o que muda na sua app",
       rightTag: "o que acontece se ignorar",
       left: {
-        label: "consentimento + base legal",
-        bullets: ["informar o que coleta", "deixar revogar", "guardar só o necessário", "responder pedidos do titular"],
+        label: "base legal + transparência",
+        bullets: ["escolher a base legal certa", "informar o que coleta e por quê", "guardar só o necessário", "responder pedidos do titular"],
       },
       right: {
         label: "consequência prática",
-        sub: "multa da ANPD pode chegar a 2% do faturamento (teto R$ 50mi).",
+        sub: "multa da ANPD pode chegar a 2% do faturamento (teto R$ 50mi por infração).",
         bullets: ["bloqueio de tratamento por ordem da ANPD", "danos morais coletivos via MP", "perda de confiança do usuário", "exposição em vazamento vira capa de jornal"],
       },
     },
@@ -289,13 +358,29 @@ USING (user_id = auth.uid());`,
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "5 direitos do titular",
+      eyebrow: "os direitos do titular (art. 18)",
       items: [
         { label: "acessar", sub: "ver tudo que você tem dele" },
         { label: "corrigir", sub: "atualizar dado errado" },
         { label: "portar", sub: "exportar pra outro serviço" },
         { label: "revogar", sub: "tirar consentimento" },
         { label: "excluir", sub: "apagar conta + dados" },
+        { label: "revisar decisão automatizada", sub: "contestar o que a IA decidiu sobre ele", accent: true },
+      ],
+    },
+  },
+  {
+    key: "lgpd_vira_codigo",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "como a LGPD vira código no Supabase",
+      items: [
+        { label: "direito de exclusão", sub: "edge function \"apagar minha conta\" + DELETE em cascata" },
+        { label: "portabilidade", sub: "endpoint de export em JSON/CSV" },
+        { label: "minimização", sub: "não logar PII · views mascaradas pra quem não precisa do dado cru" },
+        { label: "consentimento registrado", sub: "tabela consents com timestamp + versão do termo aceito" },
+        { label: "notificação de incidente", sub: "observability + alerta → você tem que avisar a ANPD e os titulares" },
       ],
     },
   },
@@ -325,6 +410,74 @@ USING (user_id = auth.uid());`,
         { label: "logs com PII", sub: "dado sensível em texto puro no console e em ferramentas externas" },
         { label: "secrets no Git", sub: "chave commitada uma vez = chave vazada pra sempre" },
         { label: "anon key tratada como segredo", sub: "ela é pública, sua proteção é a RLS por baixo" },
+      ],
+    },
+  },
+
+  // ─── FERRAMENTAS · IA a favor da defesa ───
+  {
+    key: "ferramentas_intro",
+    kind: "static",
+    staticProps: { variant: "transition", title: "a mesma IA que ataca, defende." },
+  },
+  {
+    key: "ferramentas_principais",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "a artilharia pesada · 2026",
+      title: "pentest e descoberta de vulnerabilidade com IA",
+      leftTag: "AWS Security Agent",
+      rightTag: "Anthropic Mythos",
+      rightAccent: true,
+      left: {
+        label: "pentest autônomo · já disponível (GA)",
+        bullets: ["multi-agente: explora, valida e prioriza", "lê seu código-fonte (multicloud, serve p/ Supabase)", "pentest de semanas → 1-2 dias", "~US$ 50/hora · ~US$ 400 num app pequeno"],
+      },
+      right: {
+        label: "descoberta sobre-humana · ainda em preview",
+        sub: "da Anthropic (criadora do Claude) — não da AWS.",
+        bullets: ["271 vulnerabilidades no Firefox de uma vez", "bug de 27 anos no OpenBSD", "RCE de 17 anos no FreeBSD", "gated: o teto do que IA já faz por AppSec"],
+      },
+    },
+  },
+  {
+    key: "ferramentas_gancho",
+    kind: "static",
+    staticProps: {
+      variant: "stat",
+      title: "pentest de nível enterprise",
+      stat: { value: "US$ 400", sub: "o que custava R$ 50 mil e 1 mês agora cabe num fim de semana." },
+    },
+  },
+  {
+    key: "kit_dia_a_dia",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "seu kit do dia a dia · grátis ou barato",
+      items: [
+        { label: "Security Advisor", sub: "Supabase · acha RLS aberto em 2 min" },
+        { label: "GitGuardian / gitleaks", sub: "caça secret vazado no Git" },
+        { label: "Semgrep / Snyk", sub: "SAST: analisa o código por falhas" },
+        { label: "Dependabot", sub: "alerta dependência vulnerável" },
+        { label: "Claude / GPT", sub: "audita seu RLS e schema com um prompt" },
+      ],
+    },
+  },
+  {
+    key: "prompt_auditoria",
+    kind: "special",
+    component: "PromptCardSlide",
+    props: {
+      eyebrow: "comece agora · sem custo",
+      title: "audite seu RLS com IA",
+      subtitle: "cole no Claude ou GPT junto com seu schema e suas policies",
+      prompts: [
+        {
+          label: "prompt de auditoria",
+          body: "Aja como um pentester. Aqui estão meu schema e minhas policies de RLS do Supabase. Aponte: tabelas sem RLS ativo, policies com USING (true), INSERT sem WITH CHECK, UPDATE/DELETE sem checagem de dono e funções SECURITY DEFINER perigosas. Priorize por risco e me dê o SQL corrigido.",
+        },
       ],
     },
   },
@@ -393,6 +546,7 @@ USING (user_id = auth.uid());`,
       items: [
         { label: "ativar RLS em tudo", sub: "comece pelas tabelas com user_id" },
         { label: "rodar Security Advisor", sub: "Supabase · grátis · 2 minutos" },
+        { label: "auditar o RLS com IA", sub: "cole o schema no Claude/GPT" },
         { label: "MFA em tudo", sub: "Lovable, Supabase, GitHub" },
       ],
     },
