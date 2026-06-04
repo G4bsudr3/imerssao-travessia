@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { SlideShell } from "../SlideShell";
 
 type Prompt = {
@@ -20,6 +21,27 @@ const fade = {
 };
 
 export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
+  const [copied, setCopied] = useState<number | null>(null);
+
+  const handleCopy = async (text: string, i: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(i);
+      window.setTimeout(() => setCopied((c) => (c === i ? null : c)), 2000);
+    } catch {
+      // clipboard pode falhar sem https/permissão — ignora silenciosamente
+    }
+  };
+
+  // grid se adapta à quantidade: 1 prompt vira um card largo e centrado,
+  // 2 ou 3+ usam colunas como antes.
+  const cols =
+    prompts.length === 1
+      ? "grid-cols-1 max-w-3xl mx-auto"
+      : prompts.length === 2
+        ? "md:grid-cols-2"
+        : "md:grid-cols-3";
+
   return (
     <SlideShell>
       <div className="w-full max-w-6xl">
@@ -37,7 +59,7 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
           </motion.p>
         )}
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div className={`grid grid-cols-1 gap-5 ${cols}`}>
           {prompts.map((p, i) => (
             <motion.div
               key={i}
@@ -47,9 +69,26 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
               custom={i + 3}
               className="relative rounded-2xl border-2 border-laranja/30 bg-white p-6 text-left shadow-[0_8px_32px_-8px_hsl(var(--preto)/0.18)]"
             >
-              <div className="mb-3 flex items-center justify-between">
+              <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="eyebrow text-laranja">prompt {i + 1}</span>
-                <Copy className="h-4 w-4 opacity-40" strokeWidth={2} />
+                <button
+                  type="button"
+                  onClick={() => handleCopy(p.body, i)}
+                  className="inline-flex items-center gap-1.5 rounded-full border-2 border-preto/10 bg-bege/60 px-3 py-1.5 text-sm font-medium text-preto/70 transition-colors hover:bg-laranja hover:text-preto focus:outline-none focus-visible:ring-2 focus-visible:ring-laranja/50"
+                  aria-label="copiar prompt"
+                >
+                  {copied === i ? (
+                    <>
+                      <Check className="h-4 w-4" strokeWidth={2.5} />
+                      copiado!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-4 w-4" strokeWidth={2} />
+                      copiar
+                    </>
+                  )}
+                </button>
               </div>
               <div className="mb-3 font-display text-2xl leading-tight">{p.label}</div>
               <p className="font-mono text-sm leading-relaxed text-preto/70 whitespace-pre-wrap">{p.body}</p>
