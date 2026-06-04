@@ -93,6 +93,20 @@ export const slideManifest: SlideEntry[] = [
     },
   },
   {
+    key: "historia_real",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "como vaza na vida real",
+      items: [
+        { label: "sexta: você lança no grupo do zap" },
+        { label: "sábado: 200 cadastros, com CPF e tudo" },
+        { label: "domingo: alguém abre o DevTools" },
+        { label: "segunda: a tabela inteira tá num fórum", accent: true },
+      ],
+    },
+  },
+  {
     key: "tres_camadas",
     kind: "static",
     staticProps: {
@@ -320,6 +334,21 @@ USING (user_id = auth.uid());`,
     },
   },
   {
+    key: "lgpd_pii_escondida",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "você coleta mais do que pensa",
+      title: "PII escondida no seu SaaS",
+      items: [
+        { label: "IP + user agent", sub: "todo request loga, mesmo sem cadastro" },
+        { label: "geolocalização", sub: "o popup de 'permitir localização'" },
+        { label: "device ID", sub: "analytics, push, fingerprint" },
+        { label: "e-mail + nome", sub: "óbvio — mas continua sendo PII" },
+      ],
+    },
+  },
+  {
     key: "lgpd_bases_legais",
     kind: "static",
     staticProps: {
@@ -350,6 +379,56 @@ USING (user_id = auth.uid());`,
         label: "consequência prática",
         sub: "multa da ANPD pode chegar a 2% do faturamento (teto R$ 50mi por infração).",
         bullets: ["bloqueio de tratamento por ordem da ANPD", "danos morais coletivos via MP", "perda de confiança do usuário", "exposição em vazamento vira capa de jornal"],
+      },
+    },
+  },
+  // ─── LGPD · casos reais de quem se ferrou ───
+  {
+    key: "lgpd_quanto_custa",
+    kind: "static",
+    staticProps: { variant: "transition", title: "ignorar isso tem preço. e vira manchete." },
+  },
+  {
+    key: "lgpd_multa_recorde",
+    kind: "static",
+    staticProps: {
+      variant: "stat",
+      title: "a maior multa de proteção de dados da história",
+      stat: { value: "€ 1,2 bi", sub: "Meta, 2023 — por mandar dados de europeus pros EUA." },
+    },
+  },
+  {
+    key: "lgpd_casos_reais",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "casos reais · o que custou",
+      items: [
+        { label: "Meta — € 1,2 bilhão", sub: "transferiu dados de europeus sem base legal (2023)" },
+        { label: "Amazon — € 746 milhões", sub: "publicidade sem consentimento válido" },
+        { label: "TikTok — € 345 milhões", sub: "dados de crianças mal protegidos" },
+        { label: "Telekall (BR) — R$ 14,4 mil", sub: "vendeu lista de WhatsApp · 1ª multa da ANPD", accent: true },
+      ],
+    },
+  },
+  {
+    key: "lgpd_brasil_hoje",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "e no Brasil?",
+      title: "a multa ainda é tímida. o estrago, não.",
+      leftTag: "fiscalização hoje",
+      rightTag: "a conta que chega",
+      rightAccent: true,
+      left: {
+        label: "ANPD ainda amadurecendo",
+        bullets: ["1ª multa só em 2023 (R$ 14 mil)", "o teto de R$ 50mi nunca foi aplicado", "mas endureceu a partir de 2024"],
+      },
+      right: {
+        label: "o que dói de verdade",
+        sub: "vazamento não espera a ANPD pra te machucar.",
+        bullets: ["Serasa: +200 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
       },
     },
   },
