@@ -76,10 +76,7 @@ export default function Feedback() {
       <div className="mx-auto flex max-w-xl flex-col gap-8">
         <header className="flex items-center gap-3">
           <LagrimaGradient size={36} />
-          <div>
-            <div className={kicker}>travessia · feedback</div>
-            <h1 className="font-display text-3xl leading-tight text-preto">o que ficou pulsando aí?</h1>
-          </div>
+          <div className={kicker}>travessia · feedback</div>
         </header>
 
         <AnimatePresence mode="wait">
