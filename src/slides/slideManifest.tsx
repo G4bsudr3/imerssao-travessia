@@ -748,6 +748,15 @@ USING (user_id = auth.uid());`,
     },
   },
   {
+    key: "confianca",
+    kind: "static",
+    staticProps: {
+      variant: "naval",
+      title: "o cliente compra a funcionalidade.",
+      subtitle: "mas fica pela confiança.",
+    },
+  },
+  {
     key: "vai_la_proteja",
     kind: "static",
     staticProps: {
