@@ -117,7 +117,7 @@ function renderBody(p: StaticProps) {
             <Kinetic text={p.title ?? ""} />
           </h1>
           {p.subtitle && (
-            <p className="font-display text-[clamp(2.5rem,7vw,4.2rem)] leading-[0.95] text-laranja">
+            <p className="font-display text-[clamp(2.5rem,7vw,4.2rem)] leading-[0.95] text-laranja neon-legivel">
               <Kinetic text={p.subtitle} baseDelay={(p.title?.split(" ").length ?? 0) * 0.09 + 0.1} />
             </p>
           )}
@@ -175,7 +175,7 @@ function renderBody(p: StaticProps) {
               animate="show"
               variants={fade}
               custom={i + 1}
-              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
+              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja neon-legivel" : ""}`}
             >
               {it.label}
               {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
@@ -214,7 +214,7 @@ function renderBody(p: StaticProps) {
                   <>
                     {Icon && <Icon className="mb-3 h-9 w-9 text-laranja" strokeWidth={2} />}
                     <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)]">{it.label}</div>
-                    {it.sub && <div className="mt-2 opacity-75 text-[clamp(0.875rem,1.1vw,1.15rem)]">{it.sub}</div>}
+                    {it.sub && <div className="mt-2 opacity-80 text-[clamp(1rem,1.3vw,1.4rem)]">{it.sub}</div>}
                   </>
                 )}
               </motion.div>
@@ -259,7 +259,7 @@ function renderBody(p: StaticProps) {
       );
     case "transition":
       return (
-        <div className="font-display text-[clamp(3rem,8vw,4.9rem)] leading-tight text-laranja">
+        <div className="font-display text-[clamp(3rem,8vw,4.9rem)] leading-tight text-laranja neon-legivel">
           <Kinetic text={p.title ?? ""} />
         </div>
       );
