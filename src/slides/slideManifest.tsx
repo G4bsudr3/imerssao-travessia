@@ -282,7 +282,7 @@ USING (user_id = auth.uid());`,
   {
     key: "ato_3_lgpd",
     kind: "static",
-    staticProps: { variant: "transition", title: "segurança é técnica. LGPD é lei." },
+    staticProps: { variant: "transition", title: "agora, a parte que assusta: LGPD." },
   },
   {
     key: "lgpd_o_que_e",
@@ -349,17 +349,125 @@ USING (user_id = auth.uid());`,
     },
   },
   {
+    key: "lgpd_mito",
+    kind: "static",
+    staticProps: { variant: "transition", title: "LGPD não é só pedir consentimento." },
+  },
+  {
     key: "lgpd_bases_legais",
     kind: "static",
     staticProps: {
-      variant: "list",
-      eyebrow: "as 10 bases legais · consentimento é só UMA",
+      variant: "grid",
+      eyebrow: "10 bases legais · 3 que importam no SaaS",
+      title: "qual base legal cobre cada dado?",
       items: [
-        { label: "execução de contrato", sub: "a mais comum em SaaS", accent: true },
-        { label: "legítimo interesse", sub: "antifraude, melhoria do produto" },
-        { label: "obrigação legal", sub: "guardar nota fiscal, dado fiscal" },
-        { label: "consentimento", sub: "frágil: pode ser revogado a qualquer hora", strike: true },
+        { label: "execução de contrato", sub: "o dado é necessário pra entregar o serviço", accent: true },
+        { label: "legítimo interesse", sub: "uso esperado: segurança, antifraude, logs" },
+        { label: "consentimento", sub: "o extra e opcional: marketing, cookies" },
       ],
+    },
+  },
+  {
+    key: "lgpd_teste_contrato",
+    kind: "static",
+    staticProps: {
+      variant: "naval",
+      title: "\"se eu parar de tratar esse dado, ainda consigo prestar o serviço?\"",
+      subtitle: "se a resposta é não, a base é execução de contrato — sem consentimento.",
+    },
+  },
+  {
+    key: "lgpd_exemplos_base",
+    kind: "static",
+    staticProps: {
+      variant: "grid",
+      eyebrow: "na prática · qual base usar",
+      items: [
+        { label: "e-mail + senha", sub: "execução de contrato" },
+        { label: "CPF na nota fiscal", sub: "execução de contrato" },
+        { label: "endereço de entrega", sub: "execução de contrato" },
+        { label: "logs · IP · antifraude", sub: "legítimo interesse" },
+        { label: "newsletter / marketing", sub: "consentimento", accent: true },
+        { label: "compartilhar com parceiro", sub: "consentimento", accent: true },
+      ],
+    },
+  },
+  {
+    key: "lgpd_aws_q",
+    kind: "static",
+    staticProps: {
+      variant: "naval",
+      title: "quem aí acha que a AWS precisa do seu consentimento pra guardar o e-mail do seu login?",
+    },
+  },
+  {
+    key: "lgpd_aws_a",
+    kind: "static",
+    staticProps: {
+      variant: "two-line",
+      title: "se precisasse,",
+      subtitle: "a internet não funcionaria.",
+    },
+  },
+  {
+    key: "lgpd_frase_efeito",
+    kind: "static",
+    staticProps: { variant: "transition", title: "a LGPD não exige consentimento. exige base legal válida." },
+  },
+  {
+    key: "lgpd_onde_mora_risco",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "onde mora o risco de verdade",
+      items: [
+        { label: "usar a base pra marketing não relacionado" },
+        { label: "compartilhar com parceiro comercial" },
+        { label: "treinar IA própria com dado do cliente" },
+        { label: "qualquer uso que o usuário não espera", accent: true },
+      ],
+    },
+  },
+  {
+    key: "lgpd_transparencia",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "não precisar de consentimento ≠ poder esconder",
+      title: "transparência é obrigatória — sempre.",
+      leftTag: "❌ o erro",
+      rightTag: "✅ o certo",
+      rightAccent: true,
+      left: {
+        label: "esconder o tratamento",
+        sub: "\"não preciso de consentimento, então nem aviso.\"",
+      },
+      right: {
+        label: "informar com clareza",
+        sub: "\"aviso na política — mas não preciso pedir aceite.\"",
+        bullets: ["base legal: execução de contrato", "política de privacidade clara", "direitos do titular garantidos"],
+      },
+    },
+  },
+  {
+    key: "lgpd_controlador_operador",
+    kind: "special",
+    component: "ComparisonSlide",
+    props: {
+      eyebrow: "o tema que todo SaaS confunde",
+      title: "controlador × operador",
+      leftTag: "controlador",
+      rightTag: "operador (geralmente você)",
+      rightAccent: true,
+      left: {
+        label: "decide o porquê e o como",
+        bullets: ["ex: a escola que cadastra os alunos", "define a finalidade do tratamento", "responde pelo tratamento"],
+      },
+      right: {
+        label: "trata em nome do controlador",
+        sub: "seu SaaS processando o dado do cliente.",
+        bullets: ["segue as instruções dele", "MAS vira controlador se usar pra analytics/IA próprios", "pode ser os dois ao mesmo tempo"],
+      },
     },
   },
   {
@@ -423,13 +531,22 @@ USING (user_id = auth.uid());`,
       rightAccent: true,
       left: {
         label: "ANPD ainda amadurecendo",
-        bullets: ["1ª multa só em 2023 (R$ 14 mil)", "o teto de R$ 50mi nunca foi aplicado", "mas endureceu a partir de 2024"],
+        bullets: ["1ª multa só em 2023 (R$ 14 mil)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024"],
       },
       right: {
         label: "o que dói de verdade",
         sub: "vazamento não espera a ANPD pra te machucar.",
         bullets: ["Serasa: +200 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
       },
+    },
+  },
+  {
+    key: "lgpd_cyber",
+    kind: "static",
+    staticProps: {
+      variant: "two-line",
+      title: "LGPD é governança de dados.",
+      subtitle: "sem cybersecurity, não existe na prática.",
     },
   },
   {
