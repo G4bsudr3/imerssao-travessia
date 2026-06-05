@@ -91,7 +91,7 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
                 </button>
               </div>
               <div className="mb-3 font-display text-2xl leading-tight">{p.label}</div>
-              <p className="font-mono text-sm leading-relaxed text-preto/70 whitespace-pre-wrap">{p.body}</p>
+              <p className="font-mono text-base md:text-lg leading-relaxed text-preto/80 whitespace-pre-wrap">{p.body}</p>
             </motion.div>
           ))}
         </div>
