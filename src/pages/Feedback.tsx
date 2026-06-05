@@ -88,35 +88,35 @@ export default function Feedback() {
               key="done"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="rounded-2xl border-2 border-preto/10 bg-white/80 p-8 text-center"
+              className="rounded-2xl border-2 border-preto/25 bg-white/90 p-8 text-center text-preto"
             >
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-laranja">
                 <Check className="h-7 w-7 text-preto" strokeWidth={3} />
               </div>
-              <h2 className="font-display text-4xl">recebi, {name.trim() || "você"}.</h2>
-              <p className="mt-3 text-xl text-preto/75">vou ler e te responder. obrigado de verdade.</p>
+              <h2 className="font-display text-4xl text-preto">recebi, {name.trim() || "você"}.</h2>
+              <p className="mt-3 text-xl text-preto/80">vou ler e te responder. obrigado de verdade.</p>
 
               {/* Piada de callback: agora coletou nome + contato → base legal é consentimento. */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="mt-7 rounded-2xl border-2 border-dashed border-preto/30 bg-bege p-5 text-left"
+                className="mt-7 rounded-2xl border-2 border-dashed border-preto/40 bg-bege p-5 text-left text-preto"
               >
-                <div className="eyebrow mb-2">ah, e antes que você pergunte…</div>
-                <p className="text-lg leading-snug text-preto/90">
+                <div className={`${kicker} mb-2`}>ah, e antes que você pergunte…</div>
+                <p className="text-lg leading-snug text-preto">
                   reparou que agora eu pedi seu <strong>nome</strong> e seu <strong>contato</strong>? como não é
                   necessário pro evento e você <strong>topou me dar</strong>, a base aqui muda. 😏
                 </p>
                 <p className="mt-4 font-mono text-sm font-bold uppercase tracking-wider text-preto">
                   base legal: <span className="text-azul">consentimento</span>
                 </p>
-                <p className="mt-2 text-base leading-snug text-preto/70">
+                <p className="mt-2 text-base leading-snug text-preto/80">
                   uso só pra te responder essa dúvida. sem spam, sem repassar pra ninguém. (viu? transparência. 😉)
                 </p>
               </motion.div>
 
-              <p className="mt-7 font-mono text-xs uppercase tracking-widest text-preto/50">— travessia</p>
+              <p className="mt-7 font-mono text-xs uppercase tracking-widest text-preto/60">— travessia</p>
             </motion.div>
           ) : (
             <motion.form
