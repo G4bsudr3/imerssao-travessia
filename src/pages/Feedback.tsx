@@ -127,18 +127,18 @@ export default function Feedback() {
               className="flex flex-col gap-7"
             >
               <fieldset className="flex flex-col gap-3">
-                <legend className="eyebrow mb-2">como te chamo?</legend>
+                <legend className={`${kicker} mb-2`}>como te chamo?</legend>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   maxLength={60}
                   placeholder="teu nome"
-                  className="w-full rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg outline-none transition-colors placeholder:opacity-40 focus:border-preto"
+                  className="w-full rounded-xl border-2 border-preto/30 bg-white/90 p-4 text-lg text-preto outline-none transition-colors placeholder:text-preto/40 focus:border-preto"
                 />
               </fieldset>
 
               <fieldset className="flex flex-col gap-3">
-                <legend className="eyebrow mb-2">tua principal preocupação</legend>
+                <legend className={`${kicker} mb-2`}>tua principal preocupação</legend>
                 <div className="grid grid-cols-2 gap-3">
                   {TOPICS.map((t) => {
                     const active = topic === t.id;
@@ -147,14 +147,14 @@ export default function Feedback() {
                         key={t.id}
                         type="button"
                         onClick={() => setTopic(t.id)}
-                        className={`rounded-xl border-2 p-4 text-left transition-all ${
+                        className={`rounded-xl border-2 p-4 text-left text-preto transition-all ${
                           active
                             ? "border-preto bg-laranja shadow-[0_4px_0_0_hsl(var(--preto))]"
-                            : "border-preto/15 bg-white/70 hover:border-preto/40"
+                            : "border-preto/30 bg-white/80 hover:border-preto/60"
                         }`}
                       >
-                        <div className="font-display text-2xl leading-tight">{t.label}</div>
-                        <div className="mt-1 text-sm text-preto/70">{t.sub}</div>
+                        <div className="font-display text-2xl leading-tight text-preto">{t.label}</div>
+                        <div className="mt-1 text-sm text-preto/75">{t.sub}</div>
                       </button>
                     );
                   })}
@@ -162,22 +162,22 @@ export default function Feedback() {
               </fieldset>
 
               <fieldset className="flex flex-col gap-3">
-                <legend className="eyebrow mb-2">tua principal dúvida</legend>
+                <legend className={`${kicker} mb-2`}>tua principal dúvida</legend>
                 <textarea
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   maxLength={1000}
                   rows={5}
                   placeholder="escreve do teu jeito."
-                  className="w-full resize-none rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg leading-snug outline-none transition-colors placeholder:opacity-40 focus:border-preto"
+                  className="w-full resize-none rounded-xl border-2 border-preto/30 bg-white/90 p-4 text-lg leading-snug text-preto outline-none transition-colors placeholder:text-preto/40 focus:border-preto"
                 />
-                <div className="flex justify-end font-mono text-xs opacity-50">
+                <div className="flex justify-end font-mono text-xs text-preto/60">
                   {question.length}/1000
                 </div>
               </fieldset>
 
               <fieldset className="flex flex-col gap-3">
-                <legend className="eyebrow mb-2">onde te respondo?</legend>
+                <legend className={`${kicker} mb-2`}>onde te respondo?</legend>
                 <div className="grid grid-cols-2 gap-3">
                   {([
                     { id: "whatsapp", label: "WhatsApp" },
@@ -189,10 +189,10 @@ export default function Feedback() {
                         key={c.id}
                         type="button"
                         onClick={() => { setContactType(c.id); setContact(""); }}
-                        className={`rounded-xl border-2 p-4 text-center font-display text-2xl transition-all ${
+                        className={`rounded-xl border-2 p-4 text-center font-display text-2xl text-preto transition-all ${
                           active
                             ? "border-preto bg-laranja shadow-[0_4px_0_0_hsl(var(--preto))]"
-                            : "border-preto/15 bg-white/70 hover:border-preto/40"
+                            : "border-preto/30 bg-white/80 hover:border-preto/60"
                         }`}
                       >
                         {c.label}
@@ -210,7 +210,7 @@ export default function Feedback() {
                     maxLength={80}
                     inputMode={contactType === "whatsapp" ? "tel" : "text"}
                     placeholder={contactPlaceholder}
-                    className="w-full rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg outline-none transition-colors placeholder:opacity-40 focus:border-preto"
+                    className="w-full rounded-xl border-2 border-preto/30 bg-white/90 p-4 text-lg text-preto outline-none transition-colors placeholder:text-preto/40 focus:border-preto"
                   />
                 )}
               </fieldset>
