@@ -278,11 +278,17 @@ USING (user_id = auth.uid());`,
       ],
     },
   },
-  // ─── LGPD · fundação ───
+  // ─── DIVISOR · LGPD ───
   {
     key: "ato_3_lgpd",
     kind: "static",
-    staticProps: { variant: "transition", title: "agora, a parte que assusta: LGPD." },
+    staticProps: {
+      variant: "act",
+      eyebrow: "a lei",
+      title: "LGPD",
+      subtitle: "a parte que assusta — sem juridiquês.",
+      background: "naval",
+    },
   },
   {
     key: "lgpd_o_que_e",
@@ -595,26 +601,18 @@ USING (user_id = auth.uid());`,
       ],
     },
   },
-  {
-    key: "buracos_comuns",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "os buracos mais comuns",
-      items: [
-        { label: "edge sem validar JWT", sub: "função privilegiada aberta pra qualquer um chamar" },
-        { label: "logs com PII", sub: "dado sensível em texto puro no console e em ferramentas externas" },
-        { label: "secrets no Git", sub: "chave commitada uma vez = chave vazada pra sempre" },
-        { label: "anon key tratada como segredo", sub: "ela é pública, sua proteção é a RLS por baixo" },
-      ],
-    },
-  },
 
-  // ─── FERRAMENTAS · IA a favor da defesa ───
+  // ─── DIVISOR · FERRAMENTAS & DICAS ───
   {
     key: "ferramentas_intro",
     kind: "static",
-    staticProps: { variant: "transition", title: "a mesma IA que ataca, defende." },
+    staticProps: {
+      variant: "act",
+      eyebrow: "ferramentas & dicas",
+      title: "o arsenal",
+      subtitle: "a mesma IA que ataca, defende.",
+      background: "naval",
+    },
   },
   {
     key: "ferramentas_principais",
