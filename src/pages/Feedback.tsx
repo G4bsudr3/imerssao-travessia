@@ -69,8 +69,10 @@ export default function Feedback() {
 
   const contactPlaceholder = contactType === "whatsapp" ? "(11) 99999-9999" : "@seu_usuario";
 
+  const kicker = "font-mono-caps text-sm text-preto/80";
+
   return (
-    <div className="min-h-screen bg-bege px-6 py-10 md:px-10">
+    <div className="min-h-screen bg-bege px-6 py-10 text-preto md:px-10">
       <div className="mx-auto flex max-w-xl flex-col gap-8">
         <header className="flex items-center gap-3">
           <LagrimaGradient size={36} />
