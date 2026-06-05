@@ -70,6 +70,26 @@ export default function Feedback() {
               </div>
               <h2 className="font-display text-3xl">recebi.</h2>
               <p className="mt-2 text-lg opacity-70">vou ler todas. obrigado de verdade.</p>
+
+              {/* Piada de callback: o próprio form tratou os dados sem consentimento — e tá certo. */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+                className="mt-6 rounded-xl border-2 border-dashed border-preto/25 bg-bege/70 p-4 text-left"
+              >
+                <div className="eyebrow mb-1">ah, e antes que você pergunte…</div>
+                <p className="text-sm leading-snug text-preto/80">
+                  reparou que eu coletei sua dúvida e <strong>não pedi seu consentimento</strong>? tá tudo dentro da lei. 😏
+                </p>
+                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-laranja">
+                  base legal: legítimo interesse
+                </p>
+                <p className="mt-1 text-xs leading-snug text-preto/55">
+                  coletei só o necessário pra melhorar a talk — e nem seu nome eu peguei. 😉
+                </p>
+              </motion.div>
+
               <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— travessia</p>
             </motion.div>
           ) : (
