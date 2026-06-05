@@ -77,8 +77,8 @@ export default function Feedback() {
         <header className="flex items-center gap-3">
           <LagrimaGradient size={36} />
           <div>
-            <div className="eyebrow">travessia · feedback</div>
-            <h1 className="font-display text-3xl leading-tight">o que ficou pulsando aí?</h1>
+            <div className={kicker}>travessia · feedback</div>
+            <h1 className="font-display text-3xl leading-tight text-preto">o que ficou pulsando aí?</h1>
           </div>
         </header>
 
