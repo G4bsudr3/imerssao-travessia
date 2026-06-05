@@ -110,11 +110,6 @@
   .eyebrow {
     @apply font-mono-caps text-base;
     color: hsl(var(--laranja));
-    text-shadow: 0 1px 2px hsl(0 0% 0% / 0.40), 0 0 1px hsl(0 0% 0% / 0.55);
-  }
-  /* Verde neon legível sobre fundo claro (telão): leve halo/sombra escura. */
-  .neon-legivel {
-    text-shadow: 0 1px 3px hsl(0 0% 0% / 0.30), 0 0 2px hsl(0 0% 0% / 0.45);
   }
   .gradient-tear {
     background: var(--gradient-tear);
