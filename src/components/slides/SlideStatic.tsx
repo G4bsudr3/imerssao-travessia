@@ -117,7 +117,7 @@ function renderBody(p: StaticProps) {
             <Kinetic text={p.title ?? ""} />
           </h1>
           {p.subtitle && (
-            <p className="font-display text-[clamp(2.5rem,7vw,4.2rem)] leading-[0.95] text-laranja neon-legivel">
+            <p className="font-display text-[clamp(2.5rem,7vw,4.2rem)] leading-[0.95] text-laranja">
               <Kinetic text={p.subtitle} baseDelay={(p.title?.split(" ").length ?? 0) * 0.09 + 0.1} />
             </p>
           )}
@@ -175,7 +175,7 @@ function renderBody(p: StaticProps) {
               animate="show"
               variants={fade}
               custom={i + 1}
-              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja neon-legivel" : ""}`}
+              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
             >
               {it.label}
               {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
