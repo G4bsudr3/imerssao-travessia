@@ -12,31 +12,52 @@ const TOPICS = [
 ] as const;
 
 type TopicId = typeof TOPICS[number]["id"];
+type ContactType = "whatsapp" | "instagram";
 
 export default function Feedback() {
+  const [name, setName] = useState("");
   const [topic, setTopic] = useState<TopicId | null>(null);
   const [question, setQuestion] = useState("");
+  const [contactType, setContactType] = useState<ContactType | null>(null);
+  const [contact, setContact] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!topic) return;
+    if (!name.trim()) {
+      setError("me diz teu nome ali em cima");
+      return;
+    }
+    if (!topic) {
+      setError("escolhe um tema");
+      return;
+    }
     const trimmed = question.trim();
     if (!trimmed) {
-      setError("escreve sua dúvida ali em cima");
+      setError("escreve sua dúvida");
       return;
     }
     if (trimmed.length > 1000) {
-      setError("máximo 1000 caracteres");
+      setError("máximo 1000 caracteres na dúvida");
       return;
     }
+    if (!contactType || !contact.trim()) {
+      setError("me diz onde te respondo (WhatsApp ou Instagram)");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
+
+    // A tabela tem topic + question. Empacotamos nome e contato no início da dúvida.
+    const contactLabel = contactType === "whatsapp" ? "WhatsApp" : "Instagram";
+    const payload = `[${name.trim()} · ${contactLabel}: ${contact.trim()}]\n\n${trimmed}`;
+
     const { error: dbError } = await supabase.from("feedback_responses").insert({
       topic,
-      question: trimmed,
+      question: payload,
     });
     setSubmitting(false);
     if (dbError) {
@@ -45,6 +66,8 @@ export default function Feedback() {
     }
     setDone(true);
   };
+
+  const contactPlaceholder = contactType === "whatsapp" ? "(11) 99999-9999" : "@seu_usuario";
 
   return (
     <div className="min-h-screen bg-bege px-6 py-10 md:px-10">
@@ -68,10 +91,10 @@ export default function Feedback() {
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-laranja">
                 <Check className="h-7 w-7 text-preto" strokeWidth={3} />
               </div>
-              <h2 className="font-display text-4xl">recebi.</h2>
-              <p className="mt-3 text-xl text-preto/75">vou ler todas. obrigado de verdade.</p>
+              <h2 className="font-display text-4xl">recebi, {name.trim() || "você"}.</h2>
+              <p className="mt-3 text-xl text-preto/75">vou ler e te responder. obrigado de verdade.</p>
 
-              {/* Piada de callback: o próprio form tratou os dados sem consentimento — e tá certo. */}
+              {/* Piada de callback: agora coletou nome + contato → base legal é consentimento. */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -80,13 +103,14 @@ export default function Feedback() {
               >
                 <div className="eyebrow mb-2">ah, e antes que você pergunte…</div>
                 <p className="text-lg leading-snug text-preto/90">
-                  reparou que eu coletei sua dúvida e <strong>não pedi seu consentimento</strong>? tá tudo dentro da lei. 😏
+                  reparou que agora eu pedi seu <strong>nome</strong> e seu <strong>contato</strong>? como não é
+                  necessário pro evento e você <strong>topou me dar</strong>, a base aqui muda. 😏
                 </p>
                 <p className="mt-4 font-mono text-sm font-bold uppercase tracking-wider text-preto">
-                  base legal: <span className="text-azul">legítimo interesse</span>
+                  base legal: <span className="text-azul">consentimento</span>
                 </p>
                 <p className="mt-2 text-base leading-snug text-preto/70">
-                  coletei só o necessário pra melhorar a talk — e nem seu nome eu peguei. 😉
+                  uso só pra te responder essa dúvida. sem spam, sem repassar pra ninguém. (viu? transparência. 😉)
                 </p>
               </motion.div>
 
@@ -100,6 +124,17 @@ export default function Feedback() {
               animate={{ opacity: 1 }}
               className="flex flex-col gap-7"
             >
+              <fieldset className="flex flex-col gap-3">
+                <legend className="eyebrow mb-2">como te chamo?</legend>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  maxLength={60}
+                  placeholder="teu nome"
+                  className="w-full rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg outline-none transition-colors placeholder:opacity-40 focus:border-preto"
+                />
+              </fieldset>
+
               <fieldset className="flex flex-col gap-3">
                 <legend className="eyebrow mb-2">tua principal preocupação</legend>
                 <div className="grid grid-cols-2 gap-3">
@@ -139,6 +174,45 @@ export default function Feedback() {
                 </div>
               </fieldset>
 
+              <fieldset className="flex flex-col gap-3">
+                <legend className="eyebrow mb-2">onde te respondo?</legend>
+                <div className="grid grid-cols-2 gap-3">
+                  {([
+                    { id: "whatsapp", label: "WhatsApp" },
+                    { id: "instagram", label: "Instagram" },
+                  ] as const).map((c) => {
+                    const active = contactType === c.id;
+                    return (
+                      <button
+                        key={c.id}
+                        type="button"
+                        onClick={() => { setContactType(c.id); setContact(""); }}
+                        className={`rounded-xl border-2 p-4 text-center font-display text-2xl transition-all ${
+                          active
+                            ? "border-preto bg-laranja shadow-[0_4px_0_0_hsl(var(--preto))]"
+                            : "border-preto/15 bg-white/70 hover:border-preto/40"
+                        }`}
+                      >
+                        {c.label}
+                      </button>
+                    );
+                  })}
+                </div>
+                {contactType && (
+                  <motion.input
+                    key={contactType}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    value={contact}
+                    onChange={(e) => setContact(e.target.value)}
+                    maxLength={80}
+                    inputMode={contactType === "whatsapp" ? "tel" : "text"}
+                    placeholder={contactPlaceholder}
+                    className="w-full rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg outline-none transition-colors placeholder:opacity-40 focus:border-preto"
+                  />
+                )}
+              </fieldset>
+
               {error && (
                 <div className="rounded-lg border-2 border-vermelho/40 bg-vermelho/10 p-3 text-sm text-vermelho">
                   {error}
@@ -147,7 +221,7 @@ export default function Feedback() {
 
               <button
                 type="submit"
-                disabled={!topic || submitting}
+                disabled={submitting}
                 className="rounded-xl border-2 border-preto bg-preto px-6 py-4 font-display text-2xl text-bege transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-laranja enabled:hover:text-preto enabled:active:translate-y-[2px]"
               >
                 {submitting ? "enviando…" : "mandar pro Breda"}
