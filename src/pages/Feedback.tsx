@@ -68,29 +68,29 @@ export default function Feedback() {
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-laranja">
                 <Check className="h-7 w-7 text-preto" strokeWidth={3} />
               </div>
-              <h2 className="font-display text-3xl">recebi.</h2>
-              <p className="mt-2 text-lg opacity-70">vou ler todas. obrigado de verdade.</p>
+              <h2 className="font-display text-4xl">recebi.</h2>
+              <p className="mt-3 text-xl text-preto/75">vou ler todas. obrigado de verdade.</p>
 
               {/* Piada de callback: o próprio form tratou os dados sem consentimento — e tá certo. */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
-                className="mt-6 rounded-xl border-2 border-dashed border-preto/25 bg-bege/70 p-4 text-left"
+                className="mt-7 rounded-2xl border-2 border-dashed border-preto/30 bg-bege p-5 text-left"
               >
-                <div className="eyebrow mb-1">ah, e antes que você pergunte…</div>
-                <p className="text-sm leading-snug text-preto/80">
+                <div className="eyebrow mb-2">ah, e antes que você pergunte…</div>
+                <p className="text-lg leading-snug text-preto/90">
                   reparou que eu coletei sua dúvida e <strong>não pedi seu consentimento</strong>? tá tudo dentro da lei. 😏
                 </p>
-                <p className="mt-3 font-mono text-xs uppercase tracking-wider text-laranja">
-                  base legal: legítimo interesse
+                <p className="mt-4 font-mono text-sm font-bold uppercase tracking-wider text-preto">
+                  base legal: <span className="text-azul">legítimo interesse</span>
                 </p>
-                <p className="mt-1 text-xs leading-snug text-preto/55">
+                <p className="mt-2 text-base leading-snug text-preto/70">
                   coletei só o necessário pra melhorar a talk — e nem seu nome eu peguei. 😉
                 </p>
               </motion.div>
 
-              <p className="mt-6 font-mono text-xs uppercase tracking-widest opacity-50">— travessia</p>
+              <p className="mt-7 font-mono text-xs uppercase tracking-widest text-preto/50">— travessia</p>
             </motion.div>
           ) : (
             <motion.form
@@ -116,8 +116,8 @@ export default function Feedback() {
                             : "border-preto/15 bg-white/70 hover:border-preto/40"
                         }`}
                       >
-                        <div className="font-display text-xl leading-tight">{t.label}</div>
-                        <div className="mt-1 text-xs opacity-70">{t.sub}</div>
+                        <div className="font-display text-2xl leading-tight">{t.label}</div>
+                        <div className="mt-1 text-sm text-preto/70">{t.sub}</div>
                       </button>
                     );
                   })}
@@ -131,7 +131,7 @@ export default function Feedback() {
                   onChange={(e) => setQuestion(e.target.value)}
                   maxLength={1000}
                   rows={5}
-                  placeholder="escreve do teu jeito. pode ser bruta."
+                  placeholder="escreve do teu jeito."
                   className="w-full resize-none rounded-xl border-2 border-preto/15 bg-white/80 p-4 text-lg leading-snug outline-none transition-colors placeholder:opacity-40 focus:border-preto"
                 />
                 <div className="flex justify-end font-mono text-xs opacity-50">
@@ -150,7 +150,7 @@ export default function Feedback() {
                 disabled={!topic || submitting}
                 className="rounded-xl border-2 border-preto bg-preto px-6 py-4 font-display text-2xl text-bege transition-all disabled:cursor-not-allowed disabled:opacity-40 enabled:hover:bg-laranja enabled:hover:text-preto enabled:active:translate-y-[2px]"
               >
-                {submitting ? "enviando…" : "mandar pra travessia"}
+                {submitting ? "enviando…" : "mandar pro Breda"}
               </button>
             </motion.form>
           )}
