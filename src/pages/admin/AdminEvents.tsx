@@ -32,10 +32,8 @@ type FormState = {
   name: string;
   description: string;
   themeClass: string;
-  instagramUrl: string;
-  instagramLabel: string;
-  whatsappUrl: string;
-  whatsappLabel: string;
+  instagramHandle: string;
+  whatsappNumber: string;
   is_published: boolean;
 };
 
@@ -44,12 +42,32 @@ const EMPTY: FormState = {
   name: "",
   description: "",
   themeClass: "",
-  instagramUrl: "",
-  instagramLabel: "",
-  whatsappUrl: "",
-  whatsappLabel: "",
+  instagramHandle: "",
+  whatsappNumber: "",
   is_published: true,
 };
+
+// Extracts "@handle" or url -> bare handle
+function extractInstagramHandle(value: string): string {
+  const v = value.trim();
+  if (!v) return "";
+  const m = v.match(/instagram\.com\/([^/?#]+)/i);
+  const raw = m ? m[1] : v;
+  return raw.replace(/^@+/, "").replace(/\/+$/, "").trim();
+}
+
+// Keep only digits from a phone input
+function extractWhatsappDigits(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+function formatBrPhone(digits: string): string {
+  // expects 13 digits (55 + DDD + 9 + 8 digits) or 12 digits, fallback raw
+  const d = digits.startsWith("55") ? digits.slice(2) : digits;
+  if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return digits;
+}
 
 function rowToForm(r: EventRow): FormState {
   const theme = (r.theme as { themeClass?: string } | null) ?? {};
@@ -62,10 +80,8 @@ function rowToForm(r: EventRow): FormState {
     name: r.name,
     description: r.description ?? "",
     themeClass: theme.themeClass ?? "",
-    instagramUrl: contacts.instagram?.url ?? "",
-    instagramLabel: contacts.instagram?.label ?? "",
-    whatsappUrl: contacts.whatsapp?.url ?? "",
-    whatsappLabel: contacts.whatsapp?.label ?? "",
+    instagramHandle: extractInstagramHandle(contacts.instagram?.label || contacts.instagram?.url || ""),
+    whatsappNumber: extractWhatsappDigits(contacts.whatsapp?.url || contacts.whatsapp?.label || ""),
     is_published: r.is_published,
   };
 }
