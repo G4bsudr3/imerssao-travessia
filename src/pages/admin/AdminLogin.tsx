@@ -43,8 +43,9 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="bg-lagrima-blur flex min-h-screen items-center justify-center bg-background p-6">
-      <div className="w-full max-w-sm space-y-6 rounded-3xl border border-preto/10 bg-white/80 p-8 shadow-[0_20px_60px_-30px_hsl(var(--preto)/0.3)]">
+    <div className="admin-shell flex min-h-screen items-center justify-center p-6">
+      <div className="w-full max-w-sm space-y-6 rounded-2xl border border-border bg-card p-8 shadow-sm">
+
         <div className="space-y-1">
           <p className="eyebrow">admin</p>
           <h1 className="font-display text-3xl">acessa pelo e-mail</h1>
