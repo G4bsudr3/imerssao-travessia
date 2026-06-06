@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
-import { TOTAL_SLIDES } from "@/slides/slideManifest";
-import { actForSlide, ACTS } from "@/lib/acts";
+import { useEvent } from "@/contexts/EventContext";
 
 type Props = {
   current: number;
@@ -9,12 +8,13 @@ type Props = {
 
 // Barra de progresso fina no topo. Mostra progresso global + marcações dos atos.
 export function StageProgress({ current, visible }: Props) {
-  const pct = ((current + 1) / TOTAL_SLIDES) * 100;
-  const act = actForSlide(current);
-  const meta = ACTS[act];
+  const { event, actForSlide } = useEvent();
+  const total = event.totalSlides;
+  const pct = ((current + 1) / total) * 100;
+  const meta = actForSlide(current);
 
-  // posições dos atos (em %)
-  const markers = [1, 8, 26, 52].map((i) => (i / TOTAL_SLIDES) * 100);
+  // posições dos atos (em %) — usa o opener de cada ato como marcador
+  const markers = event.acts.openerIndices.map((i) => (i / total) * 100);
 
   return (
     <div
@@ -43,7 +43,7 @@ export function StageProgress({ current, visible }: Props) {
           ato {meta.number} · {meta.name}
         </span>
         <span>
-          {String(current + 1).padStart(2, "0")} / {TOTAL_SLIDES}
+          {String(current + 1).padStart(2, "0")} / {total}
         </span>
       </div>
     </div>
