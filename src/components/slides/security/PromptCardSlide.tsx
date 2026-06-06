@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { SlideShell } from "../SlideShell";
 
 type Prompt = {
@@ -91,7 +92,9 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
                 </button>
               </div>
               <div className="mb-3 font-display text-2xl leading-tight">{p.label}</div>
-              <p className="font-mono text-base md:text-lg leading-relaxed text-preto/80 whitespace-pre-wrap">{p.body}</p>
+              <div className="max-h-[55vh] overflow-y-auto pr-2 font-mono text-sm leading-relaxed text-preto/80 prose prose-sm max-w-none prose-headings:font-display prose-headings:text-preto prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-strong:text-preto prose-code:text-laranja prose-code:bg-bege/40 prose-code:px-1 prose-code:rounded prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5">
+                <ReactMarkdown>{p.body}</ReactMarkdown>
+              </div>
             </motion.div>
           ))}
         </div>
