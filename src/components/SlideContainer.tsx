@@ -67,6 +67,9 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
 export function SlideContainer() {
   const { currentSlide, setSlide, isPresenter } = useRoom();
   const { visible } = useChromeVisibility();
+  const { event, resolveUrl } = useEvent();
+  const manifest = event.manifest;
+  const totalSlides = event.totalSlides;
   const currentSlideRef = useRef(currentSlide);
 
   useEffect(() => {
@@ -78,10 +81,10 @@ export function SlideContainer() {
 
   const go = useCallback((delta: 1 | -1) => {
     if (!isPresenter) return;
-    const target = Math.min(Math.max(currentSlideRef.current + delta, 0), TOTAL_SLIDES - 1);
+    const target = Math.min(Math.max(currentSlideRef.current + delta, 0), totalSlides - 1);
     currentSlideRef.current = target;
     setSlide(target);
-  }, [isPresenter, setSlide]);
+  }, [isPresenter, setSlide, totalSlides]);
 
   const next = useCallback(() => go(1), [go]);
   const prev = useCallback(() => go(-1), [go]);
@@ -103,7 +106,7 @@ export function SlideContainer() {
   }, [isPresenter, next, prev]);
 
   const swipe = useSwipeable({ onSwipeLeft: next, onSwipeRight: prev });
-  const entry = slideManifest[currentSlide];
+  const entry = manifest[currentSlide];
 
   return (
     <div {...swipe} className="relative h-screen w-screen overflow-hidden bg-background">
@@ -117,13 +120,15 @@ export function SlideContainer() {
           className="absolute inset-0"
         >
           <SlideErrorBoundary slideKey={entry?.key ?? String(currentSlide)}>
-            {renderSlide(currentSlide)}
+            {renderSlide(manifest, currentSlide)}
           </SlideErrorBoundary>
         </motion.div>
       </AnimatePresence>
 
 
-      {entry?.key === "vai_la_proteja" && <FinalFeedbackQR />}
+      {entry?.key === "vai_la_proteja" && (
+        <FinalFeedbackQR contacts={event.contacts} resolveUrl={resolveUrl} />
+      )}
 
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
