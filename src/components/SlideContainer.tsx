@@ -5,8 +5,9 @@ import { X } from "lucide-react";
 import { useSwipeable } from "@/hooks/useSwipeable";
 import { useRoom } from "@/contexts/RoomContext";
 import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
+import { useEvent } from "@/contexts/EventContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
-import { slideManifest, TOTAL_SLIDES } from "@/slides/slideManifest";
+import type { SlideEntry } from "@/events/travessia/manifest";
 import { StageProgress } from "./stage/StageProgress";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
@@ -22,17 +23,18 @@ import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
+import type { EventContacts } from "@/events/types";
 
 /** Slide é "escuro" (fundo naval/preto)? Nesses casos não exibimos o watermark. */
-function isDarkSlide(idx: number): boolean {
-  const e = slideManifest[idx];
+function isDarkSlide(manifest: SlideEntry[], idx: number): boolean {
+  const e = manifest[idx];
   if (!e) return false;
   if (e.kind === "static") return e.staticProps.background === "naval";
   return false;
 }
 
-function renderSlide(idx: number) {
-  const e = slideManifest[idx];
+function renderSlide(manifest: SlideEntry[], idx: number) {
+  const e = manifest[idx];
   if (!e) return null;
   if (e.kind === "static") return <SlideStatic {...e.staticProps} />;
 
