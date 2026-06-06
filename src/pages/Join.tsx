@@ -6,7 +6,7 @@ import { useRoom } from "@/contexts/RoomContext";
 import { supabase } from "@/integrations/supabase/client";
 import { avatarUrl, randomSeed } from "@/lib/avatar";
 import { Button } from "@/components/ui/button";
-import { slideManifest, isLivePhaseSlide, isIterationSlide } from "@/slides/slideManifest";
+import { useEvent } from "@/contexts/EventContext";
 import { MobileShell } from "@/components/mobile/MobileShell";
 import { showToast, microConfetti, bigConfetti } from "@/components/mobile/ActionFeedback";
 import { useFeedback } from "@/hooks/useFeedback";
@@ -105,15 +105,16 @@ const Join = () => {
 };
 
 function MobileScreen({ slideIndex, nickname, seed }: { slideIndex: number; nickname: string; seed: string }) {
-  const entry = slideManifest[slideIndex];
+  const { event } = useEvent();
+  const entry = event.manifest[slideIndex];
   const key = entry?.key ?? "";
 
   // alt-tab live → tela de força (sem MobileShell, é tela cheia)
-  const livePhase = isLivePhaseSlide(key);
+  const livePhase = event.isLivePhaseSlide(key);
   if (livePhase) return <LivePhaseScreen phaseLabel={livePhase} nickname={nickname} seed={seed} />;
 
   const inner = (() => {
-    if (isIterationSlide(key)) return <IterationInput nickname={nickname} />;
+    if (event.isIterationSlide(key)) return <IterationInput nickname={nickname} />;
     if (key === "pulse") return <PulseInput nickname={nickname} />;
     if (key === "sentiment_pergunta" || key === "sentiment_collecting") return <SentimentInput nickname={nickname} />;
     if (key === "pergunta_problema" || key === "brainstorm_active") return <BrainstormInput slideKey="brainstorm" nickname={nickname} />;

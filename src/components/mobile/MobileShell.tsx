@@ -47,7 +47,7 @@ export function MobileShell({ children, nickname, seed }: Props) {
         <div className="flex items-center gap-2">
           <MobileTimerPill />
           <div className="rounded-full bg-white/70 px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-preto/70">
-            ato {ato.num} · {ato.label}
+            ato {meta.number} · {meta.name}
           </div>
           <button
             onClick={() => setMuted(!muted)}
