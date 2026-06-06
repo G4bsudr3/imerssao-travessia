@@ -4,6 +4,7 @@ import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
 import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
+import { AUDIT_PROMPT } from "@/lib/audit-prompt";
 
 type CodeBlockProps = {
   eyebrow?: string;
@@ -682,7 +683,7 @@ USING (user_id = auth.uid());`,
       prompts: [
         {
           label: "prompt de auditoria",
-          body: "Aja como um pentester. Aqui estão meu schema e minhas policies de RLS do Supabase. Aponte: tabelas sem RLS ativo, policies com USING (true), INSERT sem WITH CHECK, UPDATE/DELETE sem checagem de dono e funções SECURITY DEFINER perigosas. Priorize por risco e me dê o SQL corrigido.",
+          body: AUDIT_PROMPT,
         },
       ],
     },
