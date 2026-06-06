@@ -31,6 +31,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Switch } from "@/components/ui/switch";
 import { toast } from "@/hooks/use-toast";
 type EventOption = { slug: string; name: string };
 
@@ -43,11 +44,19 @@ type Edition = {
   location: string | null;
   audience: string | null;
   room_code: string | null;
+  state: string | null;
+  city: string | null;
+  ends_at: string | null;
   status: string;
   notes: string | null;
 };
 
 const STATUSES = ["scheduled", "live", "done", "canceled"] as const;
+
+const UFS = [
+  "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG",
+  "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO",
+] as const;
 
 export default function AdminAgenda() {
   const [editions, setEditions] = useState<Edition[]>([]);
@@ -149,8 +158,14 @@ export default function AdminAgenda() {
                   </div>
                   <p className="mt-1 font-display text-xl leading-tight">{e.title}</p>
                   <p className="text-xs opacity-60">
-                    {new Date(e.scheduled_at).toLocaleString("pt-BR")} · {e.duration_minutes}min
-                    {e.location ? ` · ${e.location}` : ""}
+                    {e.ends_at
+                      ? `${new Date(e.scheduled_at).toLocaleDateString("pt-BR")} → ${new Date(e.ends_at).toLocaleDateString("pt-BR")}`
+                      : `${new Date(e.scheduled_at).toLocaleString("pt-BR")} · ${e.duration_minutes}min`}
+                    {e.city || e.state
+                      ? ` · ${[e.city, e.state].filter(Boolean).join(" - ")}`
+                      : e.location
+                        ? ` · ${e.location}`
+                        : ""}
                     {e.room_code ? ` · sala ${e.room_code}` : ""}
                   </p>
                 </div>
@@ -203,8 +218,12 @@ function EditionDialog({
     scheduled_at: edition?.scheduled_at
       ? toLocalInput(new Date(edition.scheduled_at))
       : toLocalInput(new Date()),
+    multiDay: !!edition?.ends_at,
+    ends_at: edition?.ends_at ? toLocalInput(new Date(edition.ends_at)) : "",
     duration_minutes: edition?.duration_minutes ?? 120,
     location: edition?.location ?? "",
+    state: edition?.state ?? "",
+    city: edition?.city ?? "",
     audience: edition?.audience ?? "",
     room_code: edition?.room_code ?? "",
     status: edition?.status ?? "scheduled",
@@ -214,13 +233,20 @@ function EditionDialog({
 
   const save = async () => {
     if (!form.title.trim() || !form.event_slug || !form.scheduled_at) return;
+    if (form.multiDay && form.ends_at && new Date(form.ends_at) < new Date(form.scheduled_at)) {
+      toast({ title: "a data de término é antes do início", variant: "destructive" });
+      return;
+    }
     setSaving(true);
     const payload = {
       event_slug: form.event_slug,
       title: form.title.trim(),
       scheduled_at: new Date(form.scheduled_at).toISOString(),
+      ends_at: form.multiDay && form.ends_at ? new Date(form.ends_at).toISOString() : null,
       duration_minutes: Number(form.duration_minutes) || 120,
       location: form.location.trim() || null,
+      state: form.state || null,
+      city: form.city.trim() || null,
       audience: form.audience.trim() || null,
       room_code: form.room_code.trim() || null,
       status: form.status,
@@ -244,9 +270,9 @@ function EditionDialog({
         <DialogTitle>{edition ? "editar edição" : "nova edição"}</DialogTitle>
       </DialogHeader>
       <div className="grid gap-4">
-        <Field label="template">
+        <Field label="apresentação">
           <Select value={form.event_slug} onValueChange={(v) => setForm({ ...form, event_slug: v })}>
-            <SelectTrigger><SelectValue /></SelectTrigger>
+            <SelectTrigger><SelectValue placeholder="escolha a apresentação" /></SelectTrigger>
             <SelectContent>
               {events.map((ev) => (
                 <SelectItem key={ev.slug} value={ev.slug}>{ev.name}</SelectItem>
@@ -259,24 +285,56 @@ function EditionDialog({
             placeholder="ex: Travessia Alphaville · turma 2" />
         </Field>
         <div className="grid grid-cols-2 gap-3">
-          <Field label="quando">
+          <Field label="início">
             <Input
               type="datetime-local"
               value={form.scheduled_at}
               onChange={(e) => setForm({ ...form, scheduled_at: e.target.value })}
             />
           </Field>
-          <Field label="duração (min)">
-            <Input type="number" value={form.duration_minutes}
-              onChange={(e) => setForm({ ...form, duration_minutes: Number(e.target.value) })} />
-          </Field>
+          {form.multiDay ? (
+            <Field label="término">
+              <Input
+                type="datetime-local"
+                value={form.ends_at}
+                onChange={(e) => setForm({ ...form, ends_at: e.target.value })}
+              />
+            </Field>
+          ) : (
+            <Field label="duração (min)">
+              <Input type="number" value={form.duration_minutes}
+                onChange={(e) => setForm({ ...form, duration_minutes: Number(e.target.value) })} />
+            </Field>
+          )}
         </div>
+        <label className="flex cursor-pointer items-center justify-between rounded-xl border border-preto/10 p-3">
+          <div>
+            <p className="text-sm font-medium">evento de vários dias</p>
+            <p className="text-xs opacity-60">define uma data/hora de término</p>
+          </div>
+          <Switch checked={form.multiDay} onCheckedChange={(v) => setForm({ ...form, multiDay: v })} />
+        </label>
         <div className="grid grid-cols-2 gap-3">
           <Field label="local">
             <Input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} placeholder="Alphaville" />
           </Field>
           <Field label="público">
             <Input value={form.audience} onChange={(e) => setForm({ ...form, audience: e.target.value })} placeholder="empresários" />
+          </Field>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <Field label="estado (UF)">
+            <Select value={form.state} onValueChange={(v) => setForm({ ...form, state: v })}>
+              <SelectTrigger><SelectValue placeholder="UF" /></SelectTrigger>
+              <SelectContent>
+                {UFS.map((uf) => (
+                  <SelectItem key={uf} value={uf}>{uf}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </Field>
+          <Field label="cidade">
+            <Input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder="ex: São Paulo" />
           </Field>
         </div>
         <div className="grid grid-cols-2 gap-3">
