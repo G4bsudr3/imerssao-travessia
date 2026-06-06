@@ -37,10 +37,11 @@ export function LobbySlide() {
   const { room, participants } = useRoom();
   
   
+  const { resolveUrl } = useEvent();
   const joinUrl = useMemo(() => {
     if (!room) return "";
-    return `${window.location.origin}/join/${room.code}`;
-  }, [room]);
+    return resolveUrl(`join/${room.code}`);
+  }, [room, resolveUrl]);
 
   // ordem estável por chegada (assume joined_at asc; reforça aqui pra coroas)
   const ordered = useMemo(
