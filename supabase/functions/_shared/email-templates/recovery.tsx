@@ -16,28 +16,30 @@ import {
 interface RecoveryEmailProps {
   siteName: string
   confirmationUrl: string
+  token?: string
 }
 
 export const RecoveryEmail = ({
   siteName,
   confirmationUrl,
+  token,
 }: RecoveryEmailProps) => (
-  <Html lang="en" dir="ltr">
+  <Html lang="pt-BR" dir="ltr">
     <Head />
-    <Preview>Reset your password for {siteName}</Preview>
+    <Preview>Código de acesso para {siteName}</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Reset your password</Heading>
+        <Heading style={h1}>Seu código de acesso</Heading>
         <Text style={text}>
-          We received a request to reset your password for {siteName}. Click
-          the button below to choose a new password.
+          Use o código abaixo para entrar no painel de <strong>{siteName}</strong>. Ele expira em alguns minutos.
         </Text>
+        {token && <Text style={codeStyle}>{token}</Text>}
+        <Text style={text}>Ou clique no botão para entrar direto:</Text>
         <Button style={button} href={confirmationUrl}>
-          Reset Password
+          Entrar
         </Button>
         <Text style={footer}>
-          If you didn't request a password reset, you can safely ignore this
-          email. Your password will not be changed.
+          Se você não solicitou este acesso, pode ignorar este e-mail.
         </Text>
       </Container>
     </Body>
@@ -46,26 +48,40 @@ export const RecoveryEmail = ({
 
 export default RecoveryEmail
 
-const main = { backgroundColor: '#ffffff', fontFamily: 'Arial, sans-serif' }
-const container = { padding: '20px 25px' }
+const main = { backgroundColor: '#ffffff', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }
+const container = { padding: '32px 28px', maxWidth: '480px' }
 const h1 = {
   fontSize: '22px',
-  fontWeight: 'bold' as const,
-  color: '#000000',
-  margin: '0 0 20px',
+  fontWeight: '600' as const,
+  color: '#0f172a',
+  margin: '0 0 16px',
+  letterSpacing: '-0.01em',
 }
 const text = {
-  fontSize: '14px',
-  color: '#55575d',
-  lineHeight: '1.5',
-  margin: '0 0 25px',
+  fontSize: '15px',
+  color: '#475569',
+  lineHeight: '1.55',
+  margin: '0 0 20px',
+}
+const codeStyle = {
+  fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+  fontSize: '34px',
+  fontWeight: '700' as const,
+  letterSpacing: '0.4em',
+  color: '#0f172a',
+  textAlign: 'center' as const,
+  padding: '20px 16px',
+  backgroundColor: '#f1f5f9',
+  borderRadius: '12px',
+  margin: '0 0 28px',
 }
 const button = {
-  backgroundColor: '#000000',
+  backgroundColor: '#0f172a',
   color: '#ffffff',
   fontSize: '14px',
-  borderRadius: '8px',
-  padding: '12px 20px',
+  fontWeight: '500' as const,
+  borderRadius: '10px',
+  padding: '12px 22px',
   textDecoration: 'none',
 }
-const footer = { fontSize: '12px', color: '#999999', margin: '30px 0 0' }
+const footer = { fontSize: '12px', color: '#94a3b8', margin: '32px 0 0' }
