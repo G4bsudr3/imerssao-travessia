@@ -1,13 +1,14 @@
-// Registry de eventos — agora 100% data-driven.
-// Cada evento publicado em `public.events` (DB) usa o manifesto da Travessia
-// como template padrão. Customizações específicas de slides ainda vivem em código
-// (em src/events/<slug>/), mas isso é opcional — você cria o evento no /admin
-// e ele já roda com o template default.
+// Registry de eventos — 100% data-driven.
+// Cada evento publicado em `public.events` (DB) clona o TEMPLATE DE EXEMPLO (_default)
+// como base. A Travessia é a única exceção: tem override de código com o deck real.
+// Customizações de slides por evento vivem em código (src/events/<slug>/) — opcional:
+// crie um módulo com manifesto próprio e registre em CODE_OVERRIDES.
 
 import type { EventModule, EventContacts } from "./types";
 import { travessiaEvent } from "./travessia";
+import { defaultEvent } from "./_default";
 
-/** Eventos com código-side overrides (manifesto, atos, etc). */
+/** Eventos com override de código (manifesto próprio, atos, etc). */
 const CODE_OVERRIDES: Record<string, EventModule> = {
   [travessiaEvent.slug]: travessiaEvent,
 };
@@ -21,11 +22,15 @@ export type EventRow = {
   is_published: boolean;
 };
 
-/** Constrói um EventModule a partir de um registro do banco. Usa o template default da Travessia. */
+/**
+ * Constrói um EventModule a partir de um registro do banco.
+ * - Se houver override de código (ex: Travessia), usa o deck real e só mescla metadados.
+ * - Caso contrário, clona o TEMPLATE DE EXEMPLO (_default) — slides placeholder, NÃO a Travessia.
+ */
 export function buildEventModuleFromRow(row: EventRow): EventModule {
   const override = CODE_OVERRIDES[row.slug];
   if (override) {
-    // mescla metadata do DB com manifesto do código
+    // mescla metadata do DB com o manifesto do código (não altera o deck real)
     return {
       ...override,
       name: row.name || override.name,
@@ -33,13 +38,14 @@ export function buildEventModuleFromRow(row: EventRow): EventModule {
       contacts: { ...override.contacts, ...(row.contacts ?? {}) },
     };
   }
-  // Novo evento: usa manifesto/atos da Travessia como base, só troca nome/tema/contatos.
+  // Novo evento: clona o template de exemplo (placeholder). Os slides vêm do _default.
+  // Contatos do DB sobrescrevem os placeholders quando preenchidos no /admin.
   return {
-    ...travessiaEvent,
+    ...defaultEvent,
     slug: row.slug,
     name: row.name,
-    themeClass: row.theme?.themeClass ?? travessiaEvent.themeClass,
-    contacts: row.contacts ?? {},
+    themeClass: row.theme?.themeClass ?? defaultEvent.themeClass,
+    contacts: { ...defaultEvent.contacts, ...(row.contacts ?? {}) },
   };
 }
 
