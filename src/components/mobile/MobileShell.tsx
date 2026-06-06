@@ -1,9 +1,8 @@
 import { Volume2, VolumeX } from "lucide-react";
 import { useMuted } from "@/hooks/useFeedback";
 import { useRoom } from "@/contexts/RoomContext";
+import { useEvent } from "@/contexts/EventContext";
 import { avatarUrl } from "@/lib/avatar";
-import { slideManifest } from "@/slides/slideManifest";
-import { actForSlide as actForSlideIdx, ACTS } from "@/lib/acts";
 import { MobileTimerPill } from "./MobileTimerPill";
 
 type Props = {
@@ -12,17 +11,12 @@ type Props = {
   seed?: string;
 };
 
-// Mapeamento slide → ato. Reusa fonte da verdade de `lib/acts` pra evitar drift.
-function actForSlide(idx: number): { num: number; label: string } {
-  const a = actForSlideIdx(idx);
-  return { num: a, label: ACTS[a].name };
-}
-
 export function MobileShell({ children, nickname, seed }: Props) {
   const [muted, setMuted] = useMuted();
   const { currentSlide } = useRoom();
-  const ato = actForSlide(currentSlide);
-  const total = slideManifest.length;
+  const { event, actForSlide } = useEvent();
+  const meta = actForSlide(currentSlide);
+  const total = event.totalSlides;
   const pct = ((currentSlide + 1) / total) * 100;
 
   return (
