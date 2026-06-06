@@ -134,10 +134,11 @@ function FinalFeedbackQR() {
   const feedbackUrl =
     typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
   const qrs = [
-    { label: "instagram", sublabel: "@gabreda", url: "https://instagram.com/gabreda" },
-    { label: "whatsapp", sublabel: "11 94585-3553", url: "https://wa.me/5511945853553" },
-    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl },
+    { label: "instagram", sublabel: "@gabreda", url: "https://instagram.com/gabreda", logo: INSTAGRAM_LOGO },
+    { label: "whatsapp", sublabel: "11 94585-3553", url: "https://wa.me/5511945853553", logo: WHATSAPP_LOGO },
+    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl, logo: null as string | null },
   ];
+
 
   return (
     <>
