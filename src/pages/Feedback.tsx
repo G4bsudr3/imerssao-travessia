@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useEvent } from "@/contexts/EventContext";
 import { LagrimaGradient } from "@/components/brand/LagrimaGradient";
 
 const TOPICS = [
@@ -15,6 +16,7 @@ type TopicId = typeof TOPICS[number]["id"];
 type ContactType = "whatsapp" | "instagram";
 
 export default function Feedback() {
+  const { event } = useEvent();
   const [name, setName] = useState("");
   const [topic, setTopic] = useState<TopicId | null>(null);
   const [question, setQuestion] = useState("");
@@ -63,6 +65,7 @@ export default function Feedback() {
     const { error: dbError } = await supabase.from("feedback_responses").insert({
       topic,
       question: payload,
+      event_slug: event.slug,
     });
     setSubmitting(false);
     if (dbError) {

@@ -6,22 +6,34 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { RoomProvider } from "@/contexts/RoomContext";
 import { ChromeVisibilityProvider } from "@/contexts/ChromeVisibilityContext";
 import { EventProvider } from "@/contexts/EventContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 import { getEvent } from "@/events/registry";
 import { ToastHost } from "@/components/mobile/ActionFeedback";
+import { RequireAdmin } from "@/components/admin/RequireAdmin";
 import Index from "./pages/Index.tsx";
 import Join from "./pages/Join.tsx";
 import Feedback from "./pages/Feedback.tsx";
 import Respostas from "./pages/Respostas.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import AdminLogin from "./pages/admin/AdminLogin.tsx";
+import AdminLayout from "./pages/admin/AdminLayout.tsx";
+import AdminDashboard from "./pages/admin/AdminDashboard.tsx";
+import AdminAgenda from "./pages/admin/AdminAgenda.tsx";
+import AdminFeedback from "./pages/admin/AdminFeedback.tsx";
+import AdminTemplates from "./pages/admin/AdminTemplates.tsx";
 
 const queryClient = new QueryClient();
 
-/** Resolve o evento pela URL e injeta no contexto. Se não existe, 404. */
 function EventRoute({ children }: { children: React.ReactNode }) {
   const { eventSlug } = useParams<{ eventSlug: string }>();
   const event = getEvent(eventSlug);
   if (!event) return <NotFound />;
   return <EventProvider event={event}>{children}</EventProvider>;
+}
+
+function LegacyJoinRedirect() {
+  const { code } = useParams<{ code: string }>();
+  return <Navigate to={`/travessia/join/${code ?? ""}`} replace />;
 }
 
 const App = () => (
@@ -31,35 +43,40 @@ const App = () => (
       <Sonner />
       <ToastHost />
       <BrowserRouter>
-        <RoomProvider>
-          <ChromeVisibilityProvider>
-            <Routes>
-              {/* raiz sem evento → 404 (sem evento padrão) */}
-              <Route path="/" element={<NotFound />} />
+        <AuthProvider>
+          <RoomProvider>
+            <ChromeVisibilityProvider>
+              <Routes>
+                <Route path="/" element={<NotFound />} />
 
-              {/* rotas por evento */}
-              <Route path="/:eventSlug" element={<EventRoute><Index /></EventRoute>} />
-              <Route path="/:eventSlug/join/:code" element={<EventRoute><Join /></EventRoute>} />
-              <Route path="/:eventSlug/feedback" element={<EventRoute><Feedback /></EventRoute>} />
-              <Route path="/:eventSlug/respostas" element={<EventRoute><Respostas /></EventRoute>} />
+                {/* admin */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route path="/admin" element={<RequireAdmin><AdminLayout /></RequireAdmin>}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="agenda" element={<AdminAgenda />} />
+                  <Route path="feedback" element={<AdminFeedback />} />
+                  <Route path="templates" element={<AdminTemplates />} />
+                </Route>
 
-              {/* compat: rotas antigas sem evento → redirecionam pra Travessia */}
-              <Route path="/join/:code" element={<LegacyJoinRedirect />} />
-              <Route path="/feedback" element={<Navigate to="/travessia/feedback" replace />} />
-              <Route path="/respostas" element={<Navigate to="/travessia/respostas" replace />} />
+                {/* rotas por evento */}
+                <Route path="/:eventSlug" element={<EventRoute><Index /></EventRoute>} />
+                <Route path="/:eventSlug/join/:code" element={<EventRoute><Join /></EventRoute>} />
+                <Route path="/:eventSlug/feedback" element={<EventRoute><Feedback /></EventRoute>} />
+                <Route path="/:eventSlug/respostas" element={<EventRoute><Respostas /></EventRoute>} />
 
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </ChromeVisibilityProvider>
-        </RoomProvider>
+                {/* compat */}
+                <Route path="/join/:code" element={<LegacyJoinRedirect />} />
+                <Route path="/feedback" element={<Navigate to="/travessia/feedback" replace />} />
+                <Route path="/respostas" element={<Navigate to="/travessia/respostas" replace />} />
+
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </ChromeVisibilityProvider>
+          </RoomProvider>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
-
-function LegacyJoinRedirect() {
-  const { code } = useParams<{ code: string }>();
-  return <Navigate to={`/travessia/join/${code ?? ""}`} replace />;
-}
 
 export default App;

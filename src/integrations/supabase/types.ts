@@ -14,9 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
+      allowed_emails: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          note: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          note?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          note?: string | null
+        }
+        Relationships: []
+      }
+      event_editions: {
+        Row: {
+          audience: string | null
+          created_at: string
+          created_by: string | null
+          duration_minutes: number
+          event_slug: string
+          id: string
+          location: string | null
+          notes: string | null
+          room_code: string | null
+          scheduled_at: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          audience?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_minutes?: number
+          event_slug: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          room_code?: string | null
+          scheduled_at: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          audience?: string | null
+          created_at?: string
+          created_by?: string | null
+          duration_minutes?: number
+          event_slug?: string
+          id?: string
+          location?: string | null
+          notes?: string | null
+          room_code?: string | null
+          scheduled_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feedback_responses: {
         Row: {
           created_at: string
+          edition_id: string | null
+          event_slug: string | null
           id: string
           question: string
           room_code: string | null
@@ -24,6 +95,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          edition_id?: string | null
+          event_slug?: string | null
           id?: string
           question: string
           room_code?: string | null
@@ -31,12 +104,22 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          edition_id?: string | null
+          event_slug?: string | null
           id?: string
           question?: string
           room_code?: string | null
           topic?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "feedback_responses_edition_id_fkey"
+            columns: ["edition_id"]
+            isOneToOne: false
+            referencedRelation: "event_editions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       ideas: {
         Row: {
@@ -115,6 +198,8 @@ export type Database = {
           current_iteration: number
           current_phase: string
           current_slide: number
+          edition_id: string | null
+          event_slug: string | null
           force_count: number
           id: string
           phase_started_at: string
@@ -126,6 +211,8 @@ export type Database = {
           current_iteration?: number
           current_phase?: string
           current_slide?: number
+          edition_id?: string | null
+          event_slug?: string | null
           force_count?: number
           id?: string
           phase_started_at?: string
@@ -137,12 +224,22 @@ export type Database = {
           current_iteration?: number
           current_phase?: string
           current_slide?: number
+          edition_id?: string | null
+          event_slug?: string | null
           force_count?: number
           id?: string
           phase_started_at?: string
           start_time?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "rooms_edition_id_fkey"
+            columns: ["edition_id"]
+            isOneToOne: false
+            referencedRelation: "event_editions"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       text_responses: {
         Row: {
@@ -185,16 +282,45 @@ export type Database = {
           },
         ]
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
       increment_force: { Args: { p_room_id: string }; Returns: undefined }
       increment_vote: { Args: { p_idea_id: string }; Returns: undefined }
+      is_email_allowed: { Args: { _email: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -321,6 +447,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
