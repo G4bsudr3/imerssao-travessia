@@ -296,36 +296,23 @@ export default function AdminEvents() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label>instagram URL</Label>
+                <Label>instagram</Label>
                 <Input
-                  value={form.instagramUrl}
-                  onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })}
-                  placeholder="https://instagram.com/…"
-                />
-              </div>
-              <div>
-                <Label>instagram label</Label>
-                <Input
-                  value={form.instagramLabel}
-                  onChange={(e) => setForm({ ...form, instagramLabel: e.target.value })}
+                  value={form.instagramHandle}
+                  onChange={(e) => setForm({ ...form, instagramHandle: e.target.value })}
                   placeholder="@handle"
                 />
+                <p className="mt-1 text-xs opacity-60">só o @ — a url é gerada automaticamente.</p>
               </div>
               <div>
-                <Label>whatsapp URL</Label>
+                <Label>whatsapp</Label>
                 <Input
-                  value={form.whatsappUrl}
-                  onChange={(e) => setForm({ ...form, whatsappUrl: e.target.value })}
-                  placeholder="https://wa.me/55…"
+                  value={form.whatsappNumber}
+                  onChange={(e) => setForm({ ...form, whatsappNumber: e.target.value })}
+                  placeholder="11 9XXXX-XXXX"
+                  inputMode="tel"
                 />
-              </div>
-              <div>
-                <Label>whatsapp label</Label>
-                <Input
-                  value={form.whatsappLabel}
-                  onChange={(e) => setForm({ ...form, whatsappLabel: e.target.value })}
-                  placeholder="11 9…"
-                />
+                <p className="mt-1 text-xs opacity-60">só DDD + número — adicionamos +55 e geramos o link.</p>
               </div>
             </div>
 
