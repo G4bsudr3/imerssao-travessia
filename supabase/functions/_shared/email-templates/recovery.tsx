@@ -26,12 +26,12 @@ export const RecoveryEmail = ({
 }: RecoveryEmailProps) => (
   <Html lang="pt-BR" dir="ltr">
     <Head />
-    <Preview>Código de acesso para {siteName}</Preview>
+    <Preview>Bem-vindo, Breda — seu código de acesso</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Seu código de acesso</Heading>
+        <Heading style={h1}>Bem-vindo, Breda 👋</Heading>
         <Text style={text}>
-          Use o código abaixo para entrar no painel de <strong>{siteName}</strong>. Ele expira em alguns minutos.
+          Use o código abaixo para entrar no painel. Ele expira em alguns minutos.
         </Text>
         {token && <Text style={codeStyle}>{token}</Text>}
         <Text style={footer}>
