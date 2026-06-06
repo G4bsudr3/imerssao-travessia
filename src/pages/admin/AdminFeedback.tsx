@@ -88,7 +88,7 @@ export default function AdminFeedback() {
             <SelectTrigger className="w-72"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">todos os eventos</SelectItem>
-              {Object.values(EVENTS).map((e) => (
+              {events.map((e) => (
                 <SelectItem key={e.slug} value={e.slug}>{e.name} (todas edições)</SelectItem>
               ))}
               {editions.length > 0 && (
@@ -119,7 +119,7 @@ export default function AdminFeedback() {
                 <span className="rounded-full bg-laranja/15 px-2 py-0.5 font-mono uppercase">{f.topic}</span>
                 {f.event_slug && (
                   <span className="rounded-full bg-preto/5 px-2 py-0.5 font-mono uppercase">
-                    {EVENTS[f.event_slug]?.name ?? f.event_slug}
+                    {eventName(f.event_slug)}
                   </span>
                 )}
                 
