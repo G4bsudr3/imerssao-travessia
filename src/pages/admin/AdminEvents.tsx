@@ -32,10 +32,8 @@ type FormState = {
   name: string;
   description: string;
   themeClass: string;
-  instagramUrl: string;
-  instagramLabel: string;
-  whatsappUrl: string;
-  whatsappLabel: string;
+  instagramHandle: string;
+  whatsappNumber: string;
   is_published: boolean;
 };
 
@@ -44,12 +42,32 @@ const EMPTY: FormState = {
   name: "",
   description: "",
   themeClass: "",
-  instagramUrl: "",
-  instagramLabel: "",
-  whatsappUrl: "",
-  whatsappLabel: "",
+  instagramHandle: "",
+  whatsappNumber: "",
   is_published: true,
 };
+
+// Extracts "@handle" or url -> bare handle
+function extractInstagramHandle(value: string): string {
+  const v = value.trim();
+  if (!v) return "";
+  const m = v.match(/instagram\.com\/([^/?#]+)/i);
+  const raw = m ? m[1] : v;
+  return raw.replace(/^@+/, "").replace(/\/+$/, "").trim();
+}
+
+// Keep only digits from a phone input
+function extractWhatsappDigits(value: string): string {
+  return value.replace(/\D/g, "");
+}
+
+function formatBrPhone(digits: string): string {
+  // expects 13 digits (55 + DDD + 9 + 8 digits) or 12 digits, fallback raw
+  const d = digits.startsWith("55") ? digits.slice(2) : digits;
+  if (d.length === 11) return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  if (d.length === 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+  return digits;
+}
 
 function rowToForm(r: EventRow): FormState {
   const theme = (r.theme as { themeClass?: string } | null) ?? {};
@@ -62,10 +80,8 @@ function rowToForm(r: EventRow): FormState {
     name: r.name,
     description: r.description ?? "",
     themeClass: theme.themeClass ?? "",
-    instagramUrl: contacts.instagram?.url ?? "",
-    instagramLabel: contacts.instagram?.label ?? "",
-    whatsappUrl: contacts.whatsapp?.url ?? "",
-    whatsappLabel: contacts.whatsapp?.label ?? "",
+    instagramHandle: extractInstagramHandle(contacts.instagram?.label || contacts.instagram?.url || ""),
+    whatsappNumber: extractWhatsappDigits(contacts.whatsapp?.url || contacts.whatsapp?.label || ""),
     is_published: r.is_published,
   };
 }
@@ -113,11 +129,20 @@ export default function AdminEvents() {
       if (form.themeClass.trim()) theme.themeClass = form.themeClass.trim();
 
       const contacts: Record<string, { url: string; label: string }> = {};
-      if (form.instagramUrl.trim()) {
-        contacts.instagram = { url: form.instagramUrl.trim(), label: form.instagramLabel.trim() || form.instagramUrl };
+      const igHandle = extractInstagramHandle(form.instagramHandle);
+      if (igHandle) {
+        contacts.instagram = {
+          url: `https://instagram.com/${igHandle}`,
+          label: `@${igHandle}`,
+        };
       }
-      if (form.whatsappUrl.trim()) {
-        contacts.whatsapp = { url: form.whatsappUrl.trim(), label: form.whatsappLabel.trim() || form.whatsappUrl };
+      const waDigits = extractWhatsappDigits(form.whatsappNumber);
+      if (waDigits) {
+        const full = waDigits.startsWith("55") ? waDigits : `55${waDigits}`;
+        contacts.whatsapp = {
+          url: `https://wa.me/${full}`,
+          label: formatBrPhone(full),
+        };
       }
 
       const payload = {
@@ -271,36 +296,23 @@ export default function AdminEvents() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label>instagram URL</Label>
+                <Label>instagram</Label>
                 <Input
-                  value={form.instagramUrl}
-                  onChange={(e) => setForm({ ...form, instagramUrl: e.target.value })}
-                  placeholder="https://instagram.com/…"
-                />
-              </div>
-              <div>
-                <Label>instagram label</Label>
-                <Input
-                  value={form.instagramLabel}
-                  onChange={(e) => setForm({ ...form, instagramLabel: e.target.value })}
+                  value={form.instagramHandle}
+                  onChange={(e) => setForm({ ...form, instagramHandle: e.target.value })}
                   placeholder="@handle"
                 />
+                <p className="mt-1 text-xs opacity-60">só o @ — a url é gerada automaticamente.</p>
               </div>
               <div>
-                <Label>whatsapp URL</Label>
+                <Label>whatsapp</Label>
                 <Input
-                  value={form.whatsappUrl}
-                  onChange={(e) => setForm({ ...form, whatsappUrl: e.target.value })}
-                  placeholder="https://wa.me/55…"
+                  value={form.whatsappNumber}
+                  onChange={(e) => setForm({ ...form, whatsappNumber: e.target.value })}
+                  placeholder="11 9XXXX-XXXX"
+                  inputMode="tel"
                 />
-              </div>
-              <div>
-                <Label>whatsapp label</Label>
-                <Input
-                  value={form.whatsappLabel}
-                  onChange={(e) => setForm({ ...form, whatsappLabel: e.target.value })}
-                  placeholder="11 9…"
-                />
+                <p className="mt-1 text-xs opacity-60">só DDD + número — adicionamos +55 e geramos o link.</p>
               </div>
             </div>
 
