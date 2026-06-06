@@ -197,12 +197,7 @@ function FinalFeedbackQR() {
                         size={220}
                         bgColor="#ffffff"
                         fgColor="#090909"
-                        level="H"
-                        imageSettings={
-                          q.logo
-                            ? { src: q.logo, height: 44, width: 44, excavate: true }
-                            : undefined
-                        }
+                        level="M"
                       />
                     </div>
                     <a
