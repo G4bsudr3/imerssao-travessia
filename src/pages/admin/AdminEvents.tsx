@@ -14,6 +14,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Switch } from "@/components/ui/switch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { toast } from "@/hooks/use-toast";
 
 type EventRow = {
@@ -92,6 +102,7 @@ export default function AdminEvents() {
   const [editing, setEditing] = useState<EventRow | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY);
   const [saving, setSaving] = useState(false);
+  const [toDelete, setToDelete] = useState<EventRow | null>(null);
 
   const load = async () => {
     const { data } = await supabase
@@ -170,14 +181,15 @@ export default function AdminEvents() {
     }
   };
 
-  const remove = async (r: EventRow) => {
-    if (!confirm(`excluir evento "${r.name}"? feedbacks ligados a ele permanecem no banco.`)) return;
-    const { error } = await supabase.from("events").delete().eq("id", r.id);
+  const doRemove = async () => {
+    if (!toDelete) return;
+    const { error } = await supabase.from("events").delete().eq("id", toDelete.id);
     if (error) {
       toast({ title: error.message, variant: "destructive" });
       return;
     }
     toast({ title: "evento excluído" });
+    setToDelete(null);
     load();
   };
 
@@ -235,7 +247,7 @@ export default function AdminEvents() {
               <Button variant="outline" size="sm" onClick={() => openEdit(e)}>
                 editar
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => remove(e)}>
+              <Button variant="ghost" size="sm" onClick={() => setToDelete(e)}>
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
@@ -335,6 +347,21 @@ export default function AdminEvents() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>excluir "{toDelete?.name}"?</AlertDialogTitle>
+            <AlertDialogDescription>
+              a rota /{toDelete?.slug} para de funcionar. os feedbacks já enviados continuam no banco. essa ação não tem volta.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={doRemove}>excluir</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
