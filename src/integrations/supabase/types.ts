@@ -83,6 +83,45 @@ export type Database = {
         }
         Relationships: []
       }
+      events: {
+        Row: {
+          contacts: Json
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          is_published: boolean
+          name: string
+          slug: string
+          theme: Json
+          updated_at: string
+        }
+        Insert: {
+          contacts?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          name: string
+          slug: string
+          theme?: Json
+          updated_at?: string
+        }
+        Update: {
+          contacts?: Json
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          is_published?: boolean
+          name?: string
+          slug?: string
+          theme?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       feedback_responses: {
         Row: {
           created_at: string
@@ -90,7 +129,6 @@ export type Database = {
           event_slug: string | null
           id: string
           question: string
-          room_code: string | null
           topic: string
         }
         Insert: {
@@ -99,7 +137,6 @@ export type Database = {
           event_slug?: string | null
           id?: string
           question: string
-          room_code?: string | null
           topic: string
         }
         Update: {
@@ -108,7 +145,6 @@ export type Database = {
           event_slug?: string | null
           id?: string
           question?: string
-          room_code?: string | null
           topic?: string
         }
         Relationships: [
@@ -117,167 +153,6 @@ export type Database = {
             columns: ["edition_id"]
             isOneToOne: false
             referencedRelation: "event_editions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      ideas: {
-        Row: {
-          content: string
-          created_at: string
-          id: string
-          nickname: string | null
-          room_id: string
-          slide_key: string
-          votes_count: number
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: string
-          nickname?: string | null
-          room_id: string
-          slide_key: string
-          votes_count?: number
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: string
-          nickname?: string | null
-          room_id?: string
-          slide_key?: string
-          votes_count?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ideas_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      participants: {
-        Row: {
-          avatar_seed: string
-          id: string
-          joined_at: string
-          nickname: string
-          room_id: string
-        }
-        Insert: {
-          avatar_seed: string
-          id?: string
-          joined_at?: string
-          nickname: string
-          room_id: string
-        }
-        Update: {
-          avatar_seed?: string
-          id?: string
-          joined_at?: string
-          nickname?: string
-          room_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "participants_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      rooms: {
-        Row: {
-          code: string
-          created_at: string
-          current_iteration: number
-          current_phase: string
-          current_slide: number
-          edition_id: string | null
-          event_slug: string | null
-          force_count: number
-          id: string
-          phase_started_at: string
-          start_time: string | null
-        }
-        Insert: {
-          code: string
-          created_at?: string
-          current_iteration?: number
-          current_phase?: string
-          current_slide?: number
-          edition_id?: string | null
-          event_slug?: string | null
-          force_count?: number
-          id?: string
-          phase_started_at?: string
-          start_time?: string | null
-        }
-        Update: {
-          code?: string
-          created_at?: string
-          current_iteration?: number
-          current_phase?: string
-          current_slide?: number
-          edition_id?: string | null
-          event_slug?: string | null
-          force_count?: number
-          id?: string
-          phase_started_at?: string
-          start_time?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "rooms_edition_id_fkey"
-            columns: ["edition_id"]
-            isOneToOne: false
-            referencedRelation: "event_editions"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      text_responses: {
-        Row: {
-          content: string
-          created_at: string
-          id: string
-          iteration: number
-          nickname: string | null
-          response_type: string
-          room_id: string
-          slide_key: string
-        }
-        Insert: {
-          content: string
-          created_at?: string
-          id?: string
-          iteration?: number
-          nickname?: string | null
-          response_type?: string
-          room_id: string
-          slide_key: string
-        }
-        Update: {
-          content?: string
-          created_at?: string
-          id?: string
-          iteration?: number
-          nickname?: string | null
-          response_type?: string
-          room_id?: string
-          slide_key?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "text_responses_room_id_fkey"
-            columns: ["room_id"]
-            isOneToOne: false
-            referencedRelation: "rooms"
             referencedColumns: ["id"]
           },
         ]
@@ -315,8 +190,6 @@ export type Database = {
         }
         Returns: boolean
       }
-      increment_force: { Args: { p_room_id: string }; Returns: undefined }
-      increment_vote: { Args: { p_idea_id: string }; Returns: undefined }
       is_email_allowed: { Args: { _email: string }; Returns: boolean }
     }
     Enums: {
