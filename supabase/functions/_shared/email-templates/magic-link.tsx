@@ -26,12 +26,12 @@ export const MagicLinkEmail = ({
 }: MagicLinkEmailProps) => (
   <Html lang="pt-BR" dir="ltr">
     <Head />
-    <Preview>Seu código de acesso para {siteName}</Preview>
+    <Preview>Bem-vindo, Breda — seu código de acesso</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Seu código de acesso</Heading>
+        <Heading style={h1}>Bem-vindo, Breda 👋</Heading>
         <Text style={text}>
-          Use o código abaixo para entrar em <strong>{siteName}</strong>. Ele expira em alguns minutos.
+          Use o código abaixo para entrar no painel. Ele expira em alguns minutos.
         </Text>
         {token && <Text style={codeStyle}>{token}</Text>}
         <Text style={footer}>
@@ -40,6 +40,7 @@ export const MagicLinkEmail = ({
       </Container>
     </Body>
   </Html>
+
 )
 
 export default MagicLinkEmail
