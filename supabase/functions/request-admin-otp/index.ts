@@ -80,10 +80,9 @@ Deno.serve(async (req) => {
     Deno.env.get("SUPABASE_ANON_KEY")!,
     { auth: { autoRefreshToken: false, persistSession: false } },
   );
-  const redirectTo = payload.redirectTo ?? undefined;
   const { error: otpErr } = await anon.auth.signInWithOtp({
     email: rawEmail,
-    options: { shouldCreateUser: false, emailRedirectTo: redirectTo },
+    options: { shouldCreateUser: false },
   });
   if (otpErr) {
     console.error("signInWithOtp error", otpErr);

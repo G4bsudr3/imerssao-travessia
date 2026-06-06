@@ -34,12 +34,6 @@ export const MagicLinkEmail = ({
           Use o código abaixo para entrar em <strong>{siteName}</strong>. Ele expira em alguns minutos.
         </Text>
         {token && <Text style={codeStyle}>{token}</Text>}
-        <Text style={text}>
-          Ou clique no botão para entrar direto:
-        </Text>
-        <Button style={button} href={confirmationUrl}>
-          Entrar
-        </Button>
         <Text style={footer}>
           Se você não solicitou este acesso, pode ignorar este e-mail.
         </Text>
