@@ -52,16 +52,26 @@ Deno.serve(async (req) => {
 
   // 2. cria usuário se ainda não existe (signup público tá off)
   const { data: existing } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
-  const found = existing?.users?.find((u) => u.email?.toLowerCase() === rawEmail);
-  if (!found) {
-    const { error: createErr } = await admin.auth.admin.createUser({
+  let user = existing?.users?.find((u) => u.email?.toLowerCase() === rawEmail);
+  if (!user) {
+    const { data: created, error: createErr } = await admin.auth.admin.createUser({
       email: rawEmail,
       email_confirm: true,
     });
-    if (createErr) {
+    if (createErr || !created.user) {
       console.error("createUser error", createErr);
       return json({ error: "server_error" }, 500);
     }
+    user = created.user;
+  }
+
+  // 2b. garante role admin (allow-list = admin por design)
+  const { error: roleErr } = await admin
+    .from("user_roles")
+    .upsert({ user_id: user.id, role: "admin" }, { onConflict: "user_id,role" });
+  if (roleErr) {
+    console.error("upsert role error", roleErr);
+    // não bloqueia: o login segue, admin pode ser concedido depois
   }
 
   // 3. dispara OTP/magic-link (usuário já existe, então shouldCreateUser=false)
