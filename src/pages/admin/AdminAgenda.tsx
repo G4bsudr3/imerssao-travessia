@@ -19,8 +19,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
 type EventOption = { slug: string; name: string };
 
 type Edition = {
@@ -45,6 +56,7 @@ export default function AdminAgenda() {
   const [month, setMonth] = useState<Date>(new Date());
   const [editing, setEditing] = useState<Edition | null>(null);
   const [open, setOpen] = useState(false);
+  const [toDelete, setToDelete] = useState<Edition | null>(null);
 
   const load = async () => {
     setLoading(true);
@@ -72,9 +84,15 @@ export default function AdminAgenda() {
     await load();
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("apagar essa edição?")) return;
-    await supabase.from("event_editions").delete().eq("id", id);
+  const doDelete = async () => {
+    if (!toDelete) return;
+    const { error } = await supabase.from("event_editions").delete().eq("id", toDelete.id);
+    if (error) {
+      toast({ title: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: "edição apagada" });
+    setToDelete(null);
     await load();
   };
 
@@ -140,7 +158,7 @@ export default function AdminAgenda() {
                   <Button variant="ghost" size="icon" onClick={() => { setEditing(e); setOpen(true); }}>
                     <Pencil className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" onClick={() => handleDelete(e.id)}>
+                  <Button variant="ghost" size="icon" onClick={() => setToDelete(e)}>
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
@@ -149,6 +167,21 @@ export default function AdminAgenda() {
           )}
         </div>
       </div>
+
+      <AlertDialog open={!!toDelete} onOpenChange={(o) => !o && setToDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>apagar essa edição?</AlertDialogTitle>
+            <AlertDialogDescription>
+              "{toDelete?.title}" será removida da agenda. essa ação não tem volta.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={doDelete}>apagar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
@@ -193,12 +226,15 @@ function EditionDialog({
       status: form.status,
       notes: form.notes.trim() || null,
     };
-    if (edition) {
-      await supabase.from("event_editions").update(payload).eq("id", edition.id);
-    } else {
-      await supabase.from("event_editions").insert(payload);
-    }
+    const { error } = edition
+      ? await supabase.from("event_editions").update(payload).eq("id", edition.id)
+      : await supabase.from("event_editions").insert(payload);
     setSaving(false);
+    if (error) {
+      toast({ title: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: edition ? "edição atualizada" : "edição criada" });
     onSaved();
   };
 
