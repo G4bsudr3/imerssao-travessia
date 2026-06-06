@@ -71,13 +71,13 @@ export default function AdminLogin() {
             <p className="text-sm opacity-60">código enviado pra <strong>{email}</strong></p>
             <Input
               inputMode="numeric"
-              maxLength={6}
-              placeholder="000000"
+              maxLength={10}
+              placeholder="código"
               value={code}
               onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
               onKeyDown={(e) => e.key === "Enter" && handleVerify()}
               autoFocus
-              className="text-center font-mono text-2xl tracking-[0.5em]"
+              className="text-center font-mono text-2xl tracking-[0.4em]"
             />
             <Button onClick={handleVerify} disabled={loading || code.length < 6} className="btn-laranja w-full">
               {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : "entrar"}
