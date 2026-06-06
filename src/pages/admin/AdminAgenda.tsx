@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Plus, Trash2, Pencil } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { EVENT_SLUGS, EVENTS } from "@/events/registry";
+type EventOption = { slug: string; name: string };
 
 type Edition = {
   id: string;
@@ -40,6 +40,7 @@ const STATUSES = ["scheduled", "live", "done", "canceled"] as const;
 
 export default function AdminAgenda() {
   const [editions, setEditions] = useState<Edition[]>([]);
+  const [events, setEvents] = useState<EventOption[]>([]);
   const [loading, setLoading] = useState(true);
   const [month, setMonth] = useState<Date>(new Date());
   const [editing, setEditing] = useState<Edition | null>(null);
@@ -47,15 +48,18 @@ export default function AdminAgenda() {
 
   const load = async () => {
     setLoading(true);
-    const { data } = await supabase
-      .from("event_editions")
-      .select("*")
-      .order("scheduled_at", { ascending: true });
-    setEditions((data ?? []) as Edition[]);
+    const [ed, ev] = await Promise.all([
+      supabase.from("event_editions").select("*").order("scheduled_at", { ascending: true }),
+      supabase.from("events").select("slug,name").order("name"),
+    ]);
+    setEditions((ed.data ?? []) as Edition[]);
+    setEvents((ev.data ?? []) as EventOption[]);
     setLoading(false);
   };
 
   useEffect(() => { load(); }, []);
+
+  const eventName = (slug: string) => events.find((e) => e.slug === slug)?.name ?? slug;
 
   const datesWithEvent = useMemo(
     () => editions.map((e) => new Date(e.scheduled_at)),
