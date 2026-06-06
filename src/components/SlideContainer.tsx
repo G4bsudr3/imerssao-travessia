@@ -136,15 +136,30 @@ export function SlideContainer() {
   );
 }
 
-function FinalFeedbackQR() {
+function FinalFeedbackQR({
+  contacts,
+  resolveUrl,
+}: {
+  contacts: EventContacts;
+  resolveUrl: (path: string) => string;
+}) {
   const [expanded, setExpanded] = useState(false);
-  const feedbackUrl =
-    typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+  const feedbackUrl = contacts.feedback
+    ? resolveUrl(contacts.feedback.path)
+    : resolveUrl("feedback");
   const qrs = [
-    { label: "instagram", sublabel: "@gabreda", url: "https://instagram.com/gabreda" },
-    { label: "whatsapp", sublabel: "11 94585-3553", url: "https://wa.me/5511945853553" },
-    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl },
-  ];
+    contacts.instagram && {
+      label: "instagram",
+      sublabel: contacts.instagram.label,
+      url: contacts.instagram.url,
+    },
+    contacts.whatsapp && {
+      label: "whatsapp",
+      sublabel: contacts.whatsapp.label,
+      url: contacts.whatsapp.url,
+    },
+    { label: "feedback", sublabel: contacts.feedback?.label ?? "me conta o que ficou", url: feedbackUrl },
+  ].filter(Boolean) as Array<{ label: string; sublabel: string; url: string }>;
 
 
   return (
