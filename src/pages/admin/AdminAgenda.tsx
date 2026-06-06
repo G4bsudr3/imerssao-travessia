@@ -91,7 +91,7 @@ export default function AdminAgenda() {
               <Plus className="mr-1 h-4 w-4" /> nova edição
             </Button>
           </DialogTrigger>
-          <EditionDialog edition={editing} onSaved={handleSaved} onCancel={() => { setOpen(false); setEditing(null); }} />
+          <EditionDialog edition={editing} events={events} onSaved={handleSaved} onCancel={() => { setOpen(false); setEditing(null); }} />
         </Dialog>
       </header>
 
@@ -123,7 +123,7 @@ export default function AdminAgenda() {
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
                     <span className="rounded-full bg-preto/5 px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest">
-                      {EVENTS[e.event_slug]?.name ?? e.event_slug}
+                      {eventName(e.event_slug)}
                     </span>
                     <span className="rounded-full bg-laranja/15 px-2 py-0.5 font-mono text-[10px] uppercase">
                       {e.status}
@@ -155,15 +155,17 @@ export default function AdminAgenda() {
 
 function EditionDialog({
   edition,
+  events,
   onSaved,
   onCancel,
 }: {
   edition: Edition | null;
+  events: EventOption[];
   onSaved: () => void;
   onCancel: () => void;
 }) {
   const [form, setForm] = useState({
-    event_slug: edition?.event_slug ?? EVENT_SLUGS[0] ?? "",
+    event_slug: edition?.event_slug ?? events[0]?.slug ?? "",
     title: edition?.title ?? "",
     scheduled_at: edition?.scheduled_at
       ? toLocalInput(new Date(edition.scheduled_at))
@@ -210,8 +212,8 @@ function EditionDialog({
           <Select value={form.event_slug} onValueChange={(v) => setForm({ ...form, event_slug: v })}>
             <SelectTrigger><SelectValue /></SelectTrigger>
             <SelectContent>
-              {EVENT_SLUGS.map((s) => (
-                <SelectItem key={s} value={s}>{EVENTS[s].name}</SelectItem>
+              {events.map((ev) => (
+                <SelectItem key={ev.slug} value={ev.slug}>{ev.name}</SelectItem>
               ))}
             </SelectContent>
           </Select>
