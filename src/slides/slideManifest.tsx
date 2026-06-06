@@ -1,5 +1,5 @@
 // Manifest dos slides — Imersão TRAVESSIA
-// "Do vibe coder ao empresário de software" · 4 atos · ~90 min
+// "Do vibe coder ao empresário de software" · 4 atos
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
@@ -74,7 +74,7 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "AGENDA · 90 MIN",
+      eyebrow: "AGENDA",
       items: [
         { label: "1. por quê", sub: "o risco que você não vê" },
         { label: "2. supabase", sub: "RLS, edge, RPC" },
