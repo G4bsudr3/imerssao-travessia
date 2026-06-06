@@ -78,11 +78,12 @@ export const slideManifest: SlideEntry[] = [
       items: [
         { label: "1. por quê", sub: "o risco que você não vê" },
         { label: "2. supabase", sub: "RLS, edge, RPC" },
-        { label: "3. código + LGPD", sub: "conformidade + ferramentas" },
+        { label: "3. código + governança", sub: "LGPD + ferramentas" },
         { label: "4. arquitetura", sub: "escalar sem dor" },
       ],
     },
   },
+
   {
     key: "realidade",
     kind: "static",
@@ -107,6 +108,11 @@ export const slideManifest: SlideEntry[] = [
     },
   },
   {
+    key: "policy_faltando",
+    kind: "static",
+    staticProps: { variant: "transition", title: "isso é uma policy faltando." },
+  },
+  {
     key: "tres_camadas",
     kind: "static",
     staticProps: {
@@ -124,6 +130,7 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: { variant: "transition", title: "começamos pelo banco." },
   },
+
 
   // ─── ATO 2 · SUPABASE (8-22) ───
   {
@@ -393,11 +400,12 @@ USING (user_id = auth.uid());`,
         { label: "CPF na nota fiscal", sub: "execução de contrato" },
         { label: "endereço de entrega", sub: "execução de contrato" },
         { label: "logs · IP · antifraude", sub: "legítimo interesse" },
-        { label: "newsletter / marketing", sub: "consentimento", accent: true },
+        { label: "newsletter / marketing", sub: "consentimento" },
         { label: "compartilhar com parceiro", sub: "consentimento", accent: true },
       ],
     },
   },
+
   {
     key: "lgpd_aws_q",
     kind: "static",
@@ -487,15 +495,16 @@ USING (user_id = auth.uid());`,
       rightTag: "o que acontece se ignorar",
       left: {
         label: "base legal + transparência",
-        bullets: ["escolher a base legal certa", "informar o que coleta e por quê", "guardar só o necessário", "responder pedidos do titular"],
+        bullets: ["escolher a base legal certa", "informar o que coleta e por quê", "responder pedidos do titular"],
       },
       right: {
         label: "consequência prática",
         sub: "multa da ANPD pode chegar a 2% do faturamento (teto R$ 50mi por infração).",
-        bullets: ["bloqueio de tratamento por ordem da ANPD", "danos morais coletivos via MP", "perda de confiança do usuário", "exposição em vazamento vira capa de jornal"],
+        bullets: ["bloqueio de tratamento pela ANPD", "dano moral coletivo via MP", "vira capa de jornal num print"],
       },
     },
   },
+
   // ─── LGPD · casos reais de quem se ferrou ───
   {
     key: "lgpd_quanto_custa",
@@ -521,10 +530,11 @@ USING (user_id = auth.uid());`,
         { label: "Meta — € 1,2 bilhão", sub: "transferiu dados de europeus sem base legal (2023)" },
         { label: "Amazon — € 746 milhões", sub: "publicidade sem consentimento válido" },
         { label: "TikTok — € 345 milhões", sub: "dados de crianças mal protegidos" },
-        { label: "Telekall (BR) — R$ 14,4 mil", sub: "vendeu lista de WhatsApp · 1ª multa da ANPD", accent: true },
+        { label: "Telekall (BR) — R$ 14.400", sub: "vendeu lista de WhatsApp · 1ª multa da ANPD (2023)", accent: true },
       ],
     },
   },
+
   {
     key: "lgpd_brasil_hoje",
     kind: "special",
@@ -537,15 +547,16 @@ USING (user_id = auth.uid());`,
       rightAccent: true,
       left: {
         label: "ANPD ainda amadurecendo",
-        bullets: ["1ª multa só em 2023 (R$ 14 mil)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024"],
+        bullets: ["1ª multa só em 2023 (R$ 14.400)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024"],
       },
       right: {
         label: "o que dói de verdade",
         sub: "vazamento não espera a ANPD pra te machucar.",
-        bullets: ["Serasa: +200 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
+        bullets: ["Serasa: +220 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
       },
     },
   },
+
   {
     key: "lgpd_cyber",
     kind: "static",
@@ -560,7 +571,7 @@ USING (user_id = auth.uid());`,
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "os direitos do titular (art. 18)",
+      eyebrow: "art. 18 · 6 direitos que viram código",
       items: [
         { label: "acessar", sub: "ver tudo que você tem dele" },
         { label: "corrigir", sub: "atualizar dado errado" },
@@ -571,6 +582,7 @@ USING (user_id = auth.uid());`,
       ],
     },
   },
+
   {
     key: "lgpd_vira_codigo",
     kind: "static",
@@ -653,12 +665,12 @@ USING (user_id = auth.uid());`,
       items: [
         { label: "Security Advisor", sub: "Supabase · acha RLS aberto em 2 min" },
         { label: "GitGuardian / gitleaks", sub: "caça secret vazado no Git" },
-        { label: "Semgrep / Snyk", sub: "SAST: analisa o código por falhas" },
-        { label: "Dependabot", sub: "alerta dependência vulnerável" },
+        { label: "Semgrep + Dependabot", sub: "SAST no código + alerta de dependência vulnerável" },
         { label: "Claude / GPT", sub: "audita seu RLS e schema com um prompt" },
       ],
     },
   },
+
   {
     key: "prompt_auditoria",
     kind: "special",
