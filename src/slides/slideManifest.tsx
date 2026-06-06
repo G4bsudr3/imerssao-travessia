@@ -314,7 +314,7 @@ USING (user_id = auth.uid());`,
       timeline: [
         { year: "2018", label: "sancionada (Lei 13.709)" },
         { year: "2020", label: "entra em vigor" },
-        { year: "2021", label: "ANPD começa a aplicar sanções" },
+        { year: "2021", label: "sanções passam a valer" },
       ],
     },
   },
