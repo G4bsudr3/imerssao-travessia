@@ -3,6 +3,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Crown } from "lucide-react";
 import { useRoom } from "@/contexts/RoomContext";
+import { useEvent } from "@/contexts/EventContext";
 import { avatarUrl } from "@/lib/avatar";
 import { LagrimaGradient } from "@/components/brand/LagrimaGradient";
 
