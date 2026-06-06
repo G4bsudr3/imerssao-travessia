@@ -6,10 +6,8 @@ import { X } from "lucide-react";
 import { LagrimaGradient } from "@/components/brand/LagrimaGradient";
 import { BalaoSerrado } from "@/components/brand/BalaoSerrado";
 import { CONFETTI_PALETTE } from "@/lib/colors";
+import { useEvent } from "@/contexts/EventContext";
 import { SlideShell } from "./SlideShell";
-
-const INSTAGRAM_URL = "https://instagram.com/gabreda";
-const WHATSAPP_URL = "https://wa.me/5511945853553";
 
 export function CelebrationSlide({ message = "deu certo." }: { message?: string }) {
   const fired = useRef(false);
@@ -65,14 +63,15 @@ export function FinalSlide() {
 
 function ContactQRs() {
   const [expanded, setExpanded] = useState(false);
-  const feedbackUrl =
-    typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+  const { event, resolveUrl } = useEvent();
+  const { contacts } = event;
+  const feedbackUrl = contacts.feedback ? resolveUrl(contacts.feedback.path) : resolveUrl("feedback");
 
   const qrs = [
-    { label: "instagram", sublabel: "@gabreda", url: INSTAGRAM_URL },
-    { label: "whatsapp", sublabel: "11 94585-3553", url: WHATSAPP_URL },
-    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl },
-  ];
+    contacts.instagram && { label: "instagram", sublabel: contacts.instagram.label, url: contacts.instagram.url },
+    contacts.whatsapp && { label: "whatsapp", sublabel: contacts.whatsapp.label, url: contacts.whatsapp.url },
+    { label: "feedback", sublabel: contacts.feedback?.label ?? "me conta o que ficou", url: feedbackUrl },
+  ].filter(Boolean) as Array<{ label: string; sublabel: string; url: string }>;
 
   return (
     <>

@@ -5,8 +5,9 @@ import { X } from "lucide-react";
 import { useSwipeable } from "@/hooks/useSwipeable";
 import { useRoom } from "@/contexts/RoomContext";
 import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
+import { useEvent } from "@/contexts/EventContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
-import { slideManifest, TOTAL_SLIDES } from "@/slides/slideManifest";
+import type { SlideEntry } from "@/events/travessia/manifest";
 import { StageProgress } from "./stage/StageProgress";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
@@ -22,17 +23,18 @@ import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
+import type { EventContacts } from "@/events/types";
 
 /** Slide é "escuro" (fundo naval/preto)? Nesses casos não exibimos o watermark. */
-function isDarkSlide(idx: number): boolean {
-  const e = slideManifest[idx];
+function isDarkSlide(manifest: SlideEntry[], idx: number): boolean {
+  const e = manifest[idx];
   if (!e) return false;
   if (e.kind === "static") return e.staticProps.background === "naval";
   return false;
 }
 
-function renderSlide(idx: number) {
-  const e = slideManifest[idx];
+function renderSlide(manifest: SlideEntry[], idx: number) {
+  const e = manifest[idx];
   if (!e) return null;
   if (e.kind === "static") return <SlideStatic {...e.staticProps} />;
 
@@ -65,6 +67,9 @@ function renderSlide(idx: number) {
 export function SlideContainer() {
   const { currentSlide, setSlide, isPresenter } = useRoom();
   const { visible } = useChromeVisibility();
+  const { event, resolveUrl } = useEvent();
+  const manifest = event.manifest;
+  const totalSlides = event.totalSlides;
   const currentSlideRef = useRef(currentSlide);
 
   useEffect(() => {
@@ -76,10 +81,10 @@ export function SlideContainer() {
 
   const go = useCallback((delta: 1 | -1) => {
     if (!isPresenter) return;
-    const target = Math.min(Math.max(currentSlideRef.current + delta, 0), TOTAL_SLIDES - 1);
+    const target = Math.min(Math.max(currentSlideRef.current + delta, 0), totalSlides - 1);
     currentSlideRef.current = target;
     setSlide(target);
-  }, [isPresenter, setSlide]);
+  }, [isPresenter, setSlide, totalSlides]);
 
   const next = useCallback(() => go(1), [go]);
   const prev = useCallback(() => go(-1), [go]);
@@ -101,7 +106,7 @@ export function SlideContainer() {
   }, [isPresenter, next, prev]);
 
   const swipe = useSwipeable({ onSwipeLeft: next, onSwipeRight: prev });
-  const entry = slideManifest[currentSlide];
+  const entry = manifest[currentSlide];
 
   return (
     <div {...swipe} className="relative h-screen w-screen overflow-hidden bg-background">
@@ -115,13 +120,15 @@ export function SlideContainer() {
           className="absolute inset-0"
         >
           <SlideErrorBoundary slideKey={entry?.key ?? String(currentSlide)}>
-            {renderSlide(currentSlide)}
+            {renderSlide(manifest, currentSlide)}
           </SlideErrorBoundary>
         </motion.div>
       </AnimatePresence>
 
 
-      {entry?.key === "vai_la_proteja" && <FinalFeedbackQR />}
+      {entry?.key === "vai_la_proteja" && (
+        <FinalFeedbackQR contacts={event.contacts} resolveUrl={resolveUrl} />
+      )}
 
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
@@ -129,15 +136,30 @@ export function SlideContainer() {
   );
 }
 
-function FinalFeedbackQR() {
+function FinalFeedbackQR({
+  contacts,
+  resolveUrl,
+}: {
+  contacts: EventContacts;
+  resolveUrl: (path: string) => string;
+}) {
   const [expanded, setExpanded] = useState(false);
-  const feedbackUrl =
-    typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+  const feedbackUrl = contacts.feedback
+    ? resolveUrl(contacts.feedback.path)
+    : resolveUrl("feedback");
   const qrs = [
-    { label: "instagram", sublabel: "@gabreda", url: "https://instagram.com/gabreda" },
-    { label: "whatsapp", sublabel: "11 94585-3553", url: "https://wa.me/5511945853553" },
-    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl },
-  ];
+    contacts.instagram && {
+      label: "instagram",
+      sublabel: contacts.instagram.label,
+      url: contacts.instagram.url,
+    },
+    contacts.whatsapp && {
+      label: "whatsapp",
+      sublabel: contacts.whatsapp.label,
+      url: contacts.whatsapp.url,
+    },
+    { label: "feedback", sublabel: contacts.feedback?.label ?? "me conta o que ficou", url: feedbackUrl },
+  ].filter(Boolean) as Array<{ label: string; sublabel: string; url: string }>;
 
 
   return (

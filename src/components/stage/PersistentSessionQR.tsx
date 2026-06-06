@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { QRCodeSVG } from "qrcode.react";
 import { useRoom } from "@/contexts/RoomContext";
+import { useEvent } from "@/contexts/EventContext";
 
 /**
  * QR persistente da sessão no canto inferior direito.
@@ -9,11 +10,12 @@ import { useRoom } from "@/contexts/RoomContext";
  */
 export function PersistentSessionQR({ visible }: { visible: boolean }) {
   const { room } = useRoom();
+  const { resolveUrl } = useEvent();
 
   const joinUrl = useMemo(() => {
     if (!room?.code) return "";
-    return `${window.location.origin}/join/${room.code}`;
-  }, [room?.code]);
+    return resolveUrl(`join/${room.code}`);
+  }, [room?.code, resolveUrl]);
 
   if (!joinUrl) return null;
 
