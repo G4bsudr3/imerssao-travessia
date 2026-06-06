@@ -129,6 +129,18 @@ export function SlideContainer() {
   );
 }
 
+const INSTAGRAM_LOGO =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><linearGradient id="ig" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#f9ce34"/><stop offset="0.5" stop-color="#ee2a7b"/><stop offset="1" stop-color="#6228d7"/></linearGradient></defs><rect width="24" height="24" rx="5" fill="url(#ig)"/><rect x="4" y="4" width="16" height="16" rx="4.5" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="12" cy="12" r="3.6" fill="none" stroke="#fff" stroke-width="1.8"/><circle cx="17" cy="7" r="1.1" fill="#fff"/></svg>`
+  );
+
+const WHATSAPP_LOGO =
+  "data:image/svg+xml;utf8," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="24" height="24" rx="5" fill="#25D366"/><path fill="#fff" d="M17.5 6.5A7.6 7.6 0 0 0 12 4a7.5 7.5 0 0 0-6.4 11.3L4.5 20l4.8-1.1A7.5 7.5 0 0 0 12 19.6h0a7.5 7.5 0 0 0 5.5-13.1Zm-5.5 11.6h0a6.2 6.2 0 0 1-3.2-.9l-.2-.1-2.8.7.7-2.7-.2-.3a6.2 6.2 0 1 1 5.7 3.3Zm3.5-4.6c-.2-.1-1.1-.5-1.3-.6s-.3-.1-.4.1-.5.6-.6.7-.2.1-.4 0a5.1 5.1 0 0 1-2.5-2.2c-.2-.3.2-.3.5-1a.4.4 0 0 0 0-.4l-.6-1.4c-.2-.4-.3-.3-.4-.3h-.4a.7.7 0 0 0-.5.2 2 2 0 0 0-.6 1.5 3.5 3.5 0 0 0 .7 1.9 8 8 0 0 0 3.1 2.7c1.8.7 1.8.5 2.2.4a1.8 1.8 0 0 0 1.2-.8 1.4 1.4 0 0 0 .1-.8c0-.1-.2-.2-.3-.3Z"/></svg>`
+  );
+
 function FinalFeedbackQR() {
   const [expanded, setExpanded] = useState(false);
   const feedbackUrl =
