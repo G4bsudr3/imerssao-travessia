@@ -20,6 +20,7 @@ export default function Feedback() {
   const [question, setQuestion] = useState("");
   const [contactType, setContactType] = useState<ContactType | null>(null);
   const [contact, setContact] = useState("");
+  const [consent, setConsent] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -47,13 +48,17 @@ export default function Feedback() {
       setError("me diz onde te respondo (WhatsApp ou Instagram)");
       return;
     }
+    if (!consent) {
+      setError("marca o consentimento ali embaixo pra eu poder te responder");
+      return;
+    }
 
     setSubmitting(true);
     setError(null);
 
     // A tabela tem topic + question. Empacotamos nome e contato no início da dúvida.
     const contactLabel = contactType === "whatsapp" ? "WhatsApp" : "Instagram";
-    const payload = `[${name.trim()} · ${contactLabel}: ${contact.trim()}]\n\n${trimmed}`;
+    const payload = `[${name.trim()} · ${contactLabel}: ${contact.trim()} · consentiu]\n\n${trimmed}`;
 
     const { error: dbError } = await supabase.from("feedback_responses").insert({
       topic,
@@ -93,7 +98,7 @@ export default function Feedback() {
               <h2 className="font-display text-4xl text-preto">recebi, {name.trim() || "você"}.</h2>
               <p className="mt-3 text-xl text-preto/80">vou ler e te responder. obrigado de verdade.</p>
 
-              {/* Piada de callback: agora coletou nome + contato → base legal é consentimento. */}
+              {/* Piada de callback: agora coletou nome + contato COM checkbox → consentimento de verdade. */}
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -102,14 +107,14 @@ export default function Feedback() {
               >
                 <div className={`${kicker} mb-2`}>ah, e antes que você pergunte…</div>
                 <p className="text-lg leading-snug text-preto">
-                  reparou que agora eu pedi seu <strong>nome</strong> e seu <strong>contato</strong>? como não é
-                  necessário pro evento e você <strong>topou me dar</strong>, a base aqui muda. 😏
+                  reparou que eu pedi seu <strong>nome</strong> e seu <strong>contato</strong> — e ainda botei aquele
+                  <strong> checkbox</strong>? aquilo não é firula: é o seu consentimento. 😏
                 </p>
                 <p className="mt-4 font-mono text-sm font-bold uppercase tracking-wider text-preto">
                   base legal: <span className="text-azul">consentimento</span>
                 </p>
                 <p className="mt-2 text-base leading-snug text-preto/80">
-                  uso só pra te responder essa dúvida. sem spam, sem repassar pra ninguém. (viu? transparência. 😉)
+                  livre, informado e específico — do jeito que a lei pede. uso só pra te responder, e você pode voltar atrás quando quiser. (viu? é assim que se faz. 😉)
                 </p>
               </motion.div>
 
@@ -210,6 +215,26 @@ export default function Feedback() {
                     className="w-full rounded-xl border-2 border-preto/30 bg-white/90 p-4 text-lg text-preto outline-none transition-colors placeholder:text-preto/40 focus:border-preto"
                   />
                 )}
+              </fieldset>
+
+              {/* Consentimento explícito — específico e separado (do jeito que a LGPD pede). */}
+              <fieldset className="flex flex-col gap-3">
+                <legend className={`${kicker} mb-2`}>consentimento</legend>
+                <label
+                  className={`flex cursor-pointer items-start gap-3 rounded-xl border-2 p-4 text-left text-preto transition-colors ${
+                    consent ? "border-preto bg-laranja/20" : "border-preto/30 bg-white/80 hover:border-preto/60"
+                  }`}
+                >
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    className="mt-1 h-6 w-6 shrink-0 accent-laranja"
+                  />
+                  <span className="text-base leading-snug text-preto/90">
+                    topo que o Breda use meu <strong>nome e contato</strong> só pra responder essa dúvida. posso voltar atrás quando quiser.
+                  </span>
+                </label>
               </fieldset>
 
               {error && (
