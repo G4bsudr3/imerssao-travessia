@@ -131,7 +131,13 @@ export function SlideContainer() {
 
 function FinalFeedbackQR() {
   const [expanded, setExpanded] = useState(false);
-  const url = typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+  const feedbackUrl =
+    typeof window !== "undefined" ? `${window.location.origin}/feedback` : "/feedback";
+  const qrs = [
+    { label: "instagram", sublabel: "@gabreda", url: "https://instagram.com/gabreda" },
+    { label: "whatsapp", sublabel: "11 94585-3553", url: "https://wa.me/5511945853553" },
+    { label: "feedback", sublabel: "me conta o que ficou", url: feedbackUrl },
+  ];
 
   return (
     <>
@@ -139,14 +145,14 @@ function FinalFeedbackQR() {
         type="button"
         onClick={() => setExpanded(true)}
         className="absolute bottom-8 right-8 z-40 flex flex-col items-end gap-2 transition-transform hover:scale-105"
-        aria-label="abrir QR de feedback"
+        aria-label="abrir QR codes de contato"
       >
         <div className="hidden flex-col items-end text-right md:flex">
           <span className="font-mono text-[10px] uppercase tracking-widest text-preto/60">ficou alguma dúvida?</span>
           <span className="font-display text-xl leading-tight text-preto">manda pra mim →</span>
         </div>
         <div className="rounded-xl border-2 border-preto/15 bg-white p-2 shadow-[0_6px_24px_-8px_hsl(var(--preto)/0.35)]">
-          <QRCodeSVG value={url} size={88} bgColor="#ffffff" fgColor="#090909" level="M" />
+          <QRCodeSVG value={feedbackUrl} size={88} bgColor="#ffffff" fgColor="#090909" level="M" />
         </div>
       </button>
 
@@ -160,7 +166,7 @@ function FinalFeedbackQR() {
             onClick={() => setExpanded(false)}
           >
             <motion.div
-              className="relative flex flex-col items-center gap-6 rounded-3xl bg-bege p-12"
+              className="relative flex flex-col items-center gap-8 rounded-3xl bg-bege p-12"
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.92, opacity: 0 }}
@@ -175,13 +181,28 @@ function FinalFeedbackQR() {
               >
                 <X className="h-6 w-6" strokeWidth={2.5} />
               </button>
-              <div className="eyebrow">feedback · sem login</div>
-              <div className="font-display text-5xl leading-tight text-preto">me conta o que ficou.</div>
-              <div className="rounded-2xl bg-white p-6 shadow-[0_10px_40px_-12px_hsl(var(--preto)/0.4)]">
-                <QRCodeSVG value={url} size={420} bgColor="#ffffff" fgColor="#090909" level="M" />
-              </div>
-              <div className="font-mono text-sm uppercase tracking-widest text-preto/60">
-                {url.replace(/^https?:\/\//, "")}
+              <div className="eyebrow">vamos seguir conversando</div>
+              <div className="font-display text-4xl leading-tight text-preto md:text-5xl">escolhe seu canal.</div>
+              <div className="flex flex-col items-stretch gap-6 md:flex-row md:gap-8">
+                {qrs.map((q) => (
+                  <div
+                    key={q.label}
+                    className="flex flex-col items-center gap-3 rounded-2xl border border-preto/10 bg-white/60 p-5"
+                  >
+                    <div className="font-display text-2xl leading-none text-preto">{q.label}</div>
+                    <div className="rounded-xl bg-white p-4 shadow-[0_10px_40px_-12px_hsl(var(--preto)/0.4)]">
+                      <QRCodeSVG value={q.url} size={220} bgColor="#ffffff" fgColor="#090909" level="M" />
+                    </div>
+                    <a
+                      href={q.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-mono text-[11px] uppercase tracking-widest text-preto/60 transition-colors hover:text-laranja"
+                    >
+                      {q.sublabel}
+                    </a>
+                  </div>
+                ))}
               </div>
             </motion.div>
           </motion.div>
