@@ -18,7 +18,7 @@ export default function AdminLayout() {
     navigate("/admin/login", { replace: true });
   };
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="admin-shell flex min-h-screen">
       <aside className="flex w-60 shrink-0 flex-col gap-4 border-r border-preto/10 bg-white/60 p-5">
         <div>
           <p className="eyebrow">admin</p>
