@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Route, Routes, useParams, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,7 +7,7 @@ import { RoomProvider } from "@/contexts/RoomContext";
 import { ChromeVisibilityProvider } from "@/contexts/ChromeVisibilityContext";
 import { EventProvider } from "@/contexts/EventContext";
 import { AuthProvider } from "@/contexts/AuthContext";
-import { getEvent } from "@/events/registry";
+import { EventRoute } from "@/components/EventRoute";
 import { ToastHost } from "@/components/mobile/ActionFeedback";
 import { RequireAdmin } from "@/components/admin/RequireAdmin";
 import Index from "./pages/Index.tsx";
@@ -23,12 +23,6 @@ import AdminEvents from "./pages/admin/AdminEvents.tsx";
 
 const queryClient = new QueryClient();
 
-function EventRoute({ children }: { children: React.ReactNode }) {
-  const { eventSlug } = useParams<{ eventSlug: string }>();
-  const event = getEvent(eventSlug);
-  if (!event) return <NotFound />;
-  return <EventProvider event={event}>{children}</EventProvider>;
-}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
