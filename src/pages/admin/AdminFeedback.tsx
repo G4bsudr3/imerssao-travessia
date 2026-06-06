@@ -17,7 +17,6 @@ type Feedback = {
   question: string;
   event_slug: string | null;
   edition_id: string | null;
-  room_code: string | null;
   created_at: string;
 };
 
@@ -49,7 +48,7 @@ export default function AdminFeedback() {
   }, [items, filter]);
 
   const exportCsv = () => {
-    const header = ["created_at", "event_slug", "edition_id", "room_code", "topic", "question"];
+    const header = ["created_at", "event_slug", "edition_id", "topic", "question"];
     const rows = filtered.map((i) =>
       header
         .map((k) => {
@@ -115,7 +114,7 @@ export default function AdminFeedback() {
                     {EVENTS[f.event_slug]?.name ?? f.event_slug}
                   </span>
                 )}
-                {f.room_code && <span className="font-mono">sala {f.room_code}</span>}
+                
               </div>
               <time className="font-mono">{new Date(f.created_at).toLocaleString("pt-BR")}</time>
             </div>
