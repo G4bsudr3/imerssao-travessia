@@ -28,7 +28,8 @@ export default function AdminFeedback() {
   const [items, setItems] = useState<Feedback[]>([]);
   const [editions, setEditions] = useState<Edition[]>([]);
   const [events, setEvents] = useState<EventInfo[]>([]);
-  const [filter, setFilter] = useState<string>("all");
+  const [eventFilter, setEventFilter] = useState<string>("all");
+  const [editionFilter, setEditionFilter] = useState<string>("all");
 
   useEffect(() => {
     (async () => {
@@ -46,14 +47,17 @@ export default function AdminFeedback() {
   const eventName = (slug: string | null) =>
     events.find((e) => e.slug === slug)?.name ?? slug ?? "—";
 
+  const editionsForEvent = useMemo(
+    () => (eventFilter === "all" ? [] : editions.filter((e) => e.event_slug === eventFilter)),
+    [editions, eventFilter],
+  );
+
   const filtered = useMemo(() => {
-    if (filter === "all") return items;
-    if (filter.startsWith("edition:")) {
-      const id = filter.slice("edition:".length);
-      return items.filter((i) => i.edition_id === id);
-    }
-    return items.filter((i) => i.event_slug === filter);
-  }, [items, filter]);
+    let list = items;
+    if (eventFilter !== "all") list = list.filter((i) => i.event_slug === eventFilter);
+    if (editionFilter !== "all") list = list.filter((i) => i.edition_id === editionFilter);
+    return list;
+  }, [items, eventFilter, editionFilter]);
 
   const exportCsv = () => {
     const header = ["created_at", "event_slug", "edition_id", "topic", "question"];
@@ -71,7 +75,7 @@ export default function AdminFeedback() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `feedback-${filter}-${Date.now()}.csv`;
+    a.download = `feedback-${eventFilter}-${editionFilter}-${Date.now()}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -83,26 +87,41 @@ export default function AdminFeedback() {
           <p className="eyebrow">feedback</p>
           <h1 className="font-display text-4xl">respostas</h1>
         </div>
-        <div className="flex items-center gap-3">
-          <Select value={filter} onValueChange={setFilter}>
-            <SelectTrigger className="w-72"><SelectValue /></SelectTrigger>
+        <div className="flex flex-wrap items-center gap-3">
+          <Select
+            value={eventFilter}
+            onValueChange={(v) => {
+              setEventFilter(v);
+              setEditionFilter("all");
+            }}
+          >
+            <SelectTrigger className="w-64"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">todos os eventos</SelectItem>
               {events.map((e) => (
-                <SelectItem key={e.slug} value={e.slug}>{e.name} (todas edições)</SelectItem>
+                <SelectItem key={e.slug} value={e.slug}>{e.name}</SelectItem>
               ))}
-              {editions.length > 0 && (
-                <>
-                  <SelectItem value="__separator" disabled>— edições —</SelectItem>
-                  {editions.map((e) => (
-                    <SelectItem key={e.id} value={`edition:${e.id}`}>
-                      {e.title} · {new Date(e.scheduled_at).toLocaleDateString("pt-BR")}
-                    </SelectItem>
-                  ))}
-                </>
-              )}
             </SelectContent>
           </Select>
+
+          <Select
+            value={editionFilter}
+            onValueChange={setEditionFilter}
+            disabled={eventFilter === "all" || editionsForEvent.length === 0}
+          >
+            <SelectTrigger className="w-64">
+              <SelectValue placeholder="todas as edições" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">todas as edições</SelectItem>
+              {editionsForEvent.map((e) => (
+                <SelectItem key={e.id} value={e.id}>
+                  {e.title} · {new Date(e.scheduled_at).toLocaleDateString("pt-BR")}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           <Button variant="outline" onClick={exportCsv} disabled={filtered.length === 0}>
             <Download className="mr-2 h-4 w-4" /> CSV
           </Button>
@@ -122,7 +141,6 @@ export default function AdminFeedback() {
                     {eventName(f.event_slug)}
                   </span>
                 )}
-                
               </div>
               <time className="font-mono">{new Date(f.created_at).toLocaleString("pt-BR")}</time>
             </div>
