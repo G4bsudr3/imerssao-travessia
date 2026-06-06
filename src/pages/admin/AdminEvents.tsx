@@ -129,11 +129,20 @@ export default function AdminEvents() {
       if (form.themeClass.trim()) theme.themeClass = form.themeClass.trim();
 
       const contacts: Record<string, { url: string; label: string }> = {};
-      if (form.instagramUrl.trim()) {
-        contacts.instagram = { url: form.instagramUrl.trim(), label: form.instagramLabel.trim() || form.instagramUrl };
+      const igHandle = extractInstagramHandle(form.instagramHandle);
+      if (igHandle) {
+        contacts.instagram = {
+          url: `https://instagram.com/${igHandle}`,
+          label: `@${igHandle}`,
+        };
       }
-      if (form.whatsappUrl.trim()) {
-        contacts.whatsapp = { url: form.whatsappUrl.trim(), label: form.whatsappLabel.trim() || form.whatsappUrl };
+      const waDigits = extractWhatsappDigits(form.whatsappNumber);
+      if (waDigits) {
+        const full = waDigits.startsWith("55") ? waDigits : `55${waDigits}`;
+        contacts.whatsapp = {
+          url: `https://wa.me/${full}`,
+          label: formatBrPhone(full),
+        };
       }
 
       const payload = {
