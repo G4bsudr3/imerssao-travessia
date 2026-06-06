@@ -192,7 +192,18 @@ function FinalFeedbackQR() {
                   >
                     <div className="font-display text-2xl leading-none text-preto">{q.label}</div>
                     <div className="rounded-xl bg-white p-4 shadow-[0_10px_40px_-12px_hsl(var(--preto)/0.4)]">
-                      <QRCodeSVG value={q.url} size={220} bgColor="#ffffff" fgColor="#090909" level="M" />
+                      <QRCodeSVG
+                        value={q.url}
+                        size={220}
+                        bgColor="#ffffff"
+                        fgColor="#090909"
+                        level="H"
+                        imageSettings={
+                          q.logo
+                            ? { src: q.logo, height: 44, width: 44, excavate: true }
+                            : undefined
+                        }
+                      />
                     </div>
                     <a
                       href={q.url}
