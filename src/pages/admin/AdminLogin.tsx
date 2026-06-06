@@ -49,9 +49,6 @@ export default function AdminLogin() {
         <div className="space-y-1">
           <p className="eyebrow">admin</p>
           <h1 className="font-display text-3xl">acessa pelo e-mail</h1>
-          <p className="text-sm opacity-60">
-            sem senha. mandamos um código de 6 dígitos.
-          </p>
         </div>
 
         {step === "email" ? (
