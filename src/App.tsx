@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { RoomProvider } from "@/contexts/RoomContext";
 import { ChromeVisibilityProvider } from "@/contexts/ChromeVisibilityContext";
-import { EventProvider } from "@/contexts/EventContext";
+
 import { AuthProvider } from "@/contexts/AuthContext";
 import { EventRoute } from "@/components/EventRoute";
 import { ToastHost } from "@/components/mobile/ActionFeedback";

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { EVENTS } from "@/events/registry";
+
 import { Button } from "@/components/ui/button";
 import {
   Select,
