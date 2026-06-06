@@ -240,16 +240,17 @@ function renderBody(p: StaticProps) {
       );
     case "timeline":
       return (
-        <div className="flex w-full max-w-6xl items-end justify-between gap-4">
+        <div className="flex w-full max-w-6xl items-end justify-between gap-6">
           {p.timeline?.map((t, i) => (
             <motion.div key={i} initial="hidden" animate="show" variants={fade} custom={i + 1} className="flex flex-1 flex-col items-center">
-              <div className="font-display text-5xl md:text-7xl">{t.year}</div>
-              <div className="mt-2 h-1 w-full bg-preto/30" />
-              <div className="mt-3 text-center text-sm opacity-70">{t.label}</div>
+              <div className="font-display text-6xl md:text-8xl">{t.year}</div>
+              <div className="mt-3 h-1 w-full bg-preto/30" />
+              <div className="mt-4 text-center text-2xl md:text-3xl opacity-80 leading-tight">{t.label}</div>
             </motion.div>
           ))}
         </div>
       );
+
     case "naval":
       return (
         <div className="max-w-5xl space-y-6 text-bege">
