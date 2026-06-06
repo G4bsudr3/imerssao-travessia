@@ -1,9 +1,10 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Calendar, MessageSquare, LayoutGrid, BarChart3, LogOut } from "lucide-react";
+import { Calendar, MessageSquare, LayoutGrid, BarChart3, LogOut, FolderPlus } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const NAV = [
   { to: "/admin", label: "visão geral", icon: BarChart3, end: true },
+  { to: "/admin/eventos", label: "eventos", icon: FolderPlus },
   { to: "/admin/agenda", label: "agenda", icon: Calendar },
   { to: "/admin/feedback", label: "feedback", icon: MessageSquare },
   { to: "/admin/templates", label: "templates", icon: LayoutGrid },

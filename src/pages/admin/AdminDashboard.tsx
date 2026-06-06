@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Calendar as CalIcon, MessageSquare, Users, Zap } from "lucide-react";
+import { Calendar as CalIcon, LayoutGrid, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { EVENT_SLUGS, EVENTS } from "@/events/registry";
 
 type Metrics = {
-  rooms: number;
-  participants: number;
-  forces: number;
+  events: number;
+  editions: number;
   feedbacks: number;
   upcoming: Array<{ id: string; title: string; event_slug: string; scheduled_at: string }>;
 };
@@ -17,9 +15,9 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     (async () => {
-      const [rooms, participants, feedbacks, upcoming, roomForces] = await Promise.all([
-        supabase.from("rooms").select("id", { count: "exact", head: true }),
-        supabase.from("participants").select("id", { count: "exact", head: true }),
+      const [events, editions, feedbacks, upcoming] = await Promise.all([
+        supabase.from("events").select("id", { count: "exact", head: true }),
+        supabase.from("event_editions").select("id", { count: "exact", head: true }),
         supabase.from("feedback_responses").select("id", { count: "exact", head: true }),
         supabase
           .from("event_editions")
@@ -27,13 +25,10 @@ export default function AdminDashboard() {
           .gte("scheduled_at", new Date().toISOString())
           .order("scheduled_at", { ascending: true })
           .limit(5),
-        supabase.from("rooms").select("force_count"),
       ]);
-      const forces = (roomForces.data ?? []).reduce((acc, r) => acc + (r.force_count ?? 0), 0);
       setM({
-        rooms: rooms.count ?? 0,
-        participants: participants.count ?? 0,
-        forces,
+        events: events.count ?? 0,
+        editions: editions.count ?? 0,
         feedbacks: feedbacks.count ?? 0,
         upcoming: upcoming.data ?? [],
       });
@@ -47,10 +42,9 @@ export default function AdminDashboard() {
         <h1 className="font-display text-4xl">o palco</h1>
       </header>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-        <Stat label="salas criadas" value={m?.rooms ?? "—"} icon={CalIcon} />
-        <Stat label="participantes" value={m?.participants ?? "—"} icon={Users} />
-        <Stat label="forças totais" value={m?.forces ?? "—"} icon={Zap} />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <Stat label="eventos" value={m?.events ?? "—"} icon={LayoutGrid} />
+        <Stat label="edições" value={m?.editions ?? "—"} icon={CalIcon} />
         <Stat label="feedbacks" value={m?.feedbacks ?? "—"} icon={MessageSquare} />
       </div>
 
@@ -67,28 +61,13 @@ export default function AdminDashboard() {
               <li key={e.id} className="flex items-center justify-between gap-4 p-4">
                 <div>
                   <p className="font-display text-lg">{e.title}</p>
-                  <p className="text-xs opacity-60">{EVENTS[e.event_slug]?.name ?? e.event_slug}</p>
+                  <p className="text-xs opacity-60">/{e.event_slug}</p>
                 </div>
                 <p className="font-mono text-sm">{new Date(e.scheduled_at).toLocaleString("pt-BR")}</p>
               </li>
             ))}
           </ul>
         )}
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="font-display text-2xl">templates ativos</h2>
-        <div className="flex flex-wrap gap-3">
-          {EVENT_SLUGS.map((slug) => (
-            <Link
-              key={slug}
-              to={`/${slug}`}
-              className="rounded-xl border border-preto/10 bg-white/60 px-4 py-3 text-sm transition hover:border-laranja"
-            >
-              /{slug}
-            </Link>
-          ))}
-        </div>
       </section>
     </div>
   );

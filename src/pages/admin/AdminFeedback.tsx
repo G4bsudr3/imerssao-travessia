@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Download } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { EVENTS } from "@/events/registry";
+
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,27 +17,34 @@ type Feedback = {
   question: string;
   event_slug: string | null;
   edition_id: string | null;
-  room_code: string | null;
   created_at: string;
 };
 
 type Edition = { id: string; title: string; event_slug: string; scheduled_at: string };
 
+type EventInfo = { slug: string; name: string };
+
 export default function AdminFeedback() {
   const [items, setItems] = useState<Feedback[]>([]);
   const [editions, setEditions] = useState<Edition[]>([]);
-  const [filter, setFilter] = useState<string>("all"); // all | <event_slug> | edition:<id>
+  const [events, setEvents] = useState<EventInfo[]>([]);
+  const [filter, setFilter] = useState<string>("all");
 
   useEffect(() => {
     (async () => {
-      const [fb, ed] = await Promise.all([
+      const [fb, ed, ev] = await Promise.all([
         supabase.from("feedback_responses").select("*").order("created_at", { ascending: false }).limit(500),
         supabase.from("event_editions").select("id,title,event_slug,scheduled_at").order("scheduled_at", { ascending: false }),
+        supabase.from("events").select("slug,name").order("name"),
       ]);
       setItems((fb.data ?? []) as Feedback[]);
       setEditions((ed.data ?? []) as Edition[]);
+      setEvents((ev.data ?? []) as EventInfo[]);
     })();
   }, []);
+
+  const eventName = (slug: string | null) =>
+    events.find((e) => e.slug === slug)?.name ?? slug ?? "—";
 
   const filtered = useMemo(() => {
     if (filter === "all") return items;
@@ -49,7 +56,7 @@ export default function AdminFeedback() {
   }, [items, filter]);
 
   const exportCsv = () => {
-    const header = ["created_at", "event_slug", "edition_id", "room_code", "topic", "question"];
+    const header = ["created_at", "event_slug", "edition_id", "topic", "question"];
     const rows = filtered.map((i) =>
       header
         .map((k) => {
@@ -81,7 +88,7 @@ export default function AdminFeedback() {
             <SelectTrigger className="w-72"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="all">todos os eventos</SelectItem>
-              {Object.values(EVENTS).map((e) => (
+              {events.map((e) => (
                 <SelectItem key={e.slug} value={e.slug}>{e.name} (todas edições)</SelectItem>
               ))}
               {editions.length > 0 && (
@@ -112,10 +119,10 @@ export default function AdminFeedback() {
                 <span className="rounded-full bg-laranja/15 px-2 py-0.5 font-mono uppercase">{f.topic}</span>
                 {f.event_slug && (
                   <span className="rounded-full bg-preto/5 px-2 py-0.5 font-mono uppercase">
-                    {EVENTS[f.event_slug]?.name ?? f.event_slug}
+                    {eventName(f.event_slug)}
                   </span>
                 )}
-                {f.room_code && <span className="font-mono">sala {f.room_code}</span>}
+                
               </div>
               <time className="font-mono">{new Date(f.created_at).toLocaleString("pt-BR")}</time>
             </div>
