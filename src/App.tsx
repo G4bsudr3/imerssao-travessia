@@ -9,6 +9,7 @@ import { ToastHost } from "@/components/mobile/ActionFeedback";
 import Index from "./pages/Index.tsx";
 import Join from "./pages/Join.tsx";
 import Feedback from "./pages/Feedback.tsx";
+import Respostas from "./pages/Respostas.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/join/:code" element={<Join />} />
               <Route path="/feedback" element={<Feedback />} />
+              <Route path="/respostas" element={<Respostas />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ChromeVisibilityProvider>
