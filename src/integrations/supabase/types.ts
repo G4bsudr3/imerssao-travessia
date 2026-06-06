@@ -125,45 +125,54 @@ export type Database = {
       event_editions: {
         Row: {
           audience: string | null
+          city: string | null
           created_at: string
           created_by: string | null
           duration_minutes: number
+          ends_at: string | null
           event_slug: string
           id: string
           location: string | null
           notes: string | null
           room_code: string | null
           scheduled_at: string
+          state: string | null
           status: string
           title: string
           updated_at: string
         }
         Insert: {
           audience?: string | null
+          city?: string | null
           created_at?: string
           created_by?: string | null
           duration_minutes?: number
+          ends_at?: string | null
           event_slug: string
           id?: string
           location?: string | null
           notes?: string | null
           room_code?: string | null
           scheduled_at: string
+          state?: string | null
           status?: string
           title: string
           updated_at?: string
         }
         Update: {
           audience?: string | null
+          city?: string | null
           created_at?: string
           created_by?: string | null
           duration_minutes?: number
+          ends_at?: string | null
           event_slug?: string
           id?: string
           location?: string | null
           notes?: string | null
           room_code?: string | null
           scheduled_at?: string
+          state?: string | null
           status?: string
           title?: string
           updated_at?: string
