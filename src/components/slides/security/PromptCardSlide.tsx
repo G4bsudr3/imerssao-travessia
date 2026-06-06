@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import { SlideShell } from "../SlideShell";
 
 type Prompt = {
