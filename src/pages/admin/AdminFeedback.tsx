@@ -22,21 +22,29 @@ type Feedback = {
 
 type Edition = { id: string; title: string; event_slug: string; scheduled_at: string };
 
+type EventInfo = { slug: string; name: string };
+
 export default function AdminFeedback() {
   const [items, setItems] = useState<Feedback[]>([]);
   const [editions, setEditions] = useState<Edition[]>([]);
-  const [filter, setFilter] = useState<string>("all"); // all | <event_slug> | edition:<id>
+  const [events, setEvents] = useState<EventInfo[]>([]);
+  const [filter, setFilter] = useState<string>("all");
 
   useEffect(() => {
     (async () => {
-      const [fb, ed] = await Promise.all([
+      const [fb, ed, ev] = await Promise.all([
         supabase.from("feedback_responses").select("*").order("created_at", { ascending: false }).limit(500),
         supabase.from("event_editions").select("id,title,event_slug,scheduled_at").order("scheduled_at", { ascending: false }),
+        supabase.from("events").select("slug,name").order("name"),
       ]);
       setItems((fb.data ?? []) as Feedback[]);
       setEditions((ed.data ?? []) as Edition[]);
+      setEvents((ev.data ?? []) as EventInfo[]);
     })();
   }, []);
+
+  const eventName = (slug: string | null) =>
+    events.find((e) => e.slug === slug)?.name ?? slug ?? "—";
 
   const filtered = useMemo(() => {
     if (filter === "all") return items;
