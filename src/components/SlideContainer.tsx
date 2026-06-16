@@ -9,6 +9,7 @@ import { useEvent } from "@/contexts/EventContext";
 import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import type { SlideEntry } from "@/events/travessia/manifest";
 import { StageProgress } from "./stage/StageProgress";
+import { Teleprompter } from "./stage/Teleprompter";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
@@ -31,6 +32,14 @@ function isDarkSlide(manifest: SlideEntry[], idx: number): boolean {
   if (!e) return false;
   if (e.kind === "static") return e.staticProps.background === "naval";
   return false;
+}
+
+/** Título "amigável" do slide pro cabeçalho do teleprompter. */
+function slideTitle(entry: SlideEntry | undefined): string | undefined {
+  if (!entry) return undefined;
+  if (entry.kind === "static") return entry.staticProps.title ?? entry.staticProps.eyebrow;
+  if ("props" in entry && entry.props && "title" in entry.props) return entry.props.title;
+  return entry.key;
 }
 
 function renderSlide(manifest: SlideEntry[], idx: number) {
@@ -67,10 +76,11 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
 export function SlideContainer() {
   const { currentSlide, setSlide, isPresenter } = useRoom();
   const { visible } = useChromeVisibility();
-  const { event, resolveUrl } = useEvent();
+  const { event, resolveUrl, actForSlide } = useEvent();
   const manifest = event.manifest;
   const totalSlides = event.totalSlides;
   const currentSlideRef = useRef(currentSlide);
+  const [teleOpen, setTeleOpen] = useState(false);
 
   useEffect(() => {
     currentSlideRef.current = currentSlide;
@@ -94,6 +104,7 @@ export function SlideContainer() {
       if (!isPresenter) return;
       if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); next(); }
       else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
+      else if (e.key === "t" || e.key === "T") { e.preventDefault(); setTeleOpen((v) => !v); }
       else if (e.key === "f" || e.key === "F") {
         if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
         else document.exitFullscreen?.();
@@ -132,6 +143,17 @@ export function SlideContainer() {
 
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
+
+      {/* Teleprompter do apresentador (tecla T) */}
+      {isPresenter && (
+        <Teleprompter
+          open={teleOpen}
+          script={event.scripts?.[entry?.key ?? ""]}
+          label={`${event.sectionLabel ?? "ato"} ${actForSlide(currentSlide).number} · ${String(currentSlide + 1).padStart(2, "0")}/${totalSlides}`}
+          title={slideTitle(entry)}
+          onClose={() => setTeleOpen(false)}
+        />
+      )}
     </div>
   );
 }

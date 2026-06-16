@@ -1,5 +1,6 @@
 import type { EventModule } from "../types";
 import { slideManifest, TOTAL_SLIDES } from "./manifest";
+import { scripts } from "./scripts";
 
 // AULAS do curso "Cybersegurança e LGPD no VibeCoding"
 const AULAS = {
@@ -15,11 +16,14 @@ const AULAS = {
   10: { number: 10, name: "arsenal & arquitetura", subtitle: "ferramentas e próximos passos" },
 } as const;
 
-// Último índice (0-based) de cada aula, em ordem.
-// cover(0)+agenda(1) entram na faixa da aula 1.
-const BOUNDARIES = [6, 11, 15, 18, 23, 31, 36, 41, 46, TOTAL_SLIDES - 1];
-// Índices dos divisores "aula N" (slides de abertura de cada aula).
-const OPENERS = [2, 7, 12, 16, 19, 24, 32, 37, 42, 47];
+// Openers = índices dos divisores "aula_N". Boundaries = último índice de cada aula.
+// Computados do manifest pra nunca dessincronizar quando slides são adicionados.
+const OPENERS = slideManifest
+  .map((s, i) => (/^aula_\d+$/.test(s.key) ? i : -1))
+  .filter((i) => i >= 0);
+const BOUNDARIES = OPENERS.slice(1)
+  .map((i) => i - 1)
+  .concat(TOTAL_SLIDES - 1);
 
 // Curso gravado: sem fases ao vivo nem loops de iteração.
 const noLivePhase = () => null;
@@ -41,6 +45,7 @@ export const cybersecLgpdEvent: EventModule = {
     boundaries: BOUNDARIES,
     openerIndices: OPENERS,
   },
+  scripts,
   isLivePhaseSlide: noLivePhase,
   isIterationSlide: noIteration,
 };

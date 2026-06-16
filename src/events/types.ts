@@ -33,6 +33,8 @@ export type EventModule = {
   /** = manifest.length, cacheado pra clareza */
   totalSlides: number;
   acts: EventActs;
+  /** roteiro de teleprompter por slide (key → texto de fala). opcional. */
+  scripts?: Record<string, string>;
   isLivePhaseSlide: (key: string) => Phase | null;
   isIterationSlide: (key: string) => boolean;
 };
