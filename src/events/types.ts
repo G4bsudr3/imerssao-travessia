@@ -24,6 +24,8 @@ export type EventActs = {
 export type EventModule = {
   slug: string;
   name: string;
+  /** rótulo das seções na barra de progresso. default: "ato". ex: "aula" para cursos. */
+  sectionLabel?: string;
   /** className aplicada no <html> para overrides de CSS (tokens, fundo etc). opcional. */
   themeClass?: string;
   contacts: EventContacts;

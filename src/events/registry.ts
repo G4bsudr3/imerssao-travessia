@@ -7,10 +7,12 @@
 import type { EventModule, EventContacts } from "./types";
 import type { SlideEntry } from "./travessia/manifest";
 import { travessiaEvent } from "./travessia";
+import { cybersecLgpdEvent } from "./cybersec-lgpd";
 
 /** Eventos com override de código (deck/atos próprios). */
 const CODE_OVERRIDES: Record<string, EventModule> = {
   [travessiaEvent.slug]: travessiaEvent,
+  [cybersecLgpdEvent.slug]: cybersecLgpdEvent,
 };
 
 export type EventRow = {

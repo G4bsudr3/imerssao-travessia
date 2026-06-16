@@ -12,6 +12,7 @@ export function StageProgress({ current, visible }: Props) {
   const total = event.totalSlides;
   const pct = ((current + 1) / total) * 100;
   const meta = actForSlide(current);
+  const sectionLabel = event.sectionLabel ?? "ato";
 
   // posições dos atos (em %) — usa o opener de cada ato como marcador
   const markers = event.acts.openerIndices.map((i) => (i / total) * 100);
@@ -40,7 +41,7 @@ export function StageProgress({ current, visible }: Props) {
       </div>
       <div className="flex items-center justify-between px-4 py-1 font-mono text-[10px] uppercase tracking-[0.3em] text-preto/60">
         <span>
-          ato {meta.number} · {meta.name}
+          {sectionLabel} {meta.number} · {meta.name}
         </span>
         <span>
           {String(current + 1).padStart(2, "0")} / {total}
