@@ -1,5 +1,5 @@
 // Manifest dos slides — Workshop ACATE/DEATEC POLO OESTE · 24.06.2026 · 8h às 9h
-// "Segurança em IA & Automação" — com embaixador da Lovable.
+// "Segurança em IA & Automação" — IA, automação e LGPD na prática.
 // Deck escuro (identidade DEATEC: preto + verde-limão), mapeado no cronograma de 1h.
 // Slides de PRÁTICA usam fundo accent (verde) pra sinalizar o "mão na massa".
 import type { SlideEntry } from "../travessia/manifest";
@@ -39,7 +39,7 @@ export const slideManifest: SlideEntry[] = [
       variant: "act",
       eyebrow: "DEATEC POLO OESTE · 24.06 · 8H ÀS 9H",
       title: "Segurança em IA & Automação",
-      subtitle: "workshop com embaixador da Lovable.",
+      subtitle: "IA, automação e LGPD na prática.",
       background: "naval",
     },
   },
