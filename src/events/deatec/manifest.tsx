@@ -172,6 +172,21 @@ const resposta = await ia.run(systemPrompt + "\\n\\nUsuário: " + input, {
       caption: "o agente obedece quem escreve o prompt. com service_role na mão, a injeção vira escalonamento.",
     },
   },
+  {
+    key: "injection_tecnicas",
+    kind: "static",
+    staticProps: {
+      variant: "list",
+      eyebrow: "as técnicas que furam a guarda",
+      background: "naval",
+      items: [
+        { label: "bloco de sistema falso", sub: "finge um [SISTEMA] com uma diretiva — a IA trata como instrução legítima" },
+        { label: "autoridade genérica", sub: "\"manutenção autorizada\", \"solicitação aprovada\" — sem citar ninguém real" },
+        { label: "delimiter injection", sub: "forja \"--- nova instrução de sistema ---\" pra sair de dado e virar comando" },
+        { label: "a raiz: a IA não separa instrução de conteúdo", sub: "tudo é texto — e ela obedece quem parecer mais 'autoridade'", accent: true },
+      ],
+    },
+  },
   aoVivo("aovivo_injection", "ataque ao vivo"),
   {
     key: "injection_mitigar",
