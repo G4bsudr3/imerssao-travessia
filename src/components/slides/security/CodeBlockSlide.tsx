@@ -11,6 +11,7 @@ type Props = {
   code: string;
   status: "danger" | "safe";
   caption?: string;
+  background?: "bege" | "naval" | "accent";
 };
 
 const fade = {
@@ -38,7 +39,7 @@ function tokenize(code: string, lang: "sql" | "ts" | "js") {
   return html;
 }
 
-export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", code, status, caption }: Props) {
+export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", code, status, caption, background }: Props) {
   const isDanger = status === "danger";
   const Icon = isDanger ? ShieldAlert : ShieldCheck;
   const accent = isDanger ? "text-vermelho" : "text-emerald-500";
@@ -47,7 +48,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
   const badgeLabel = isDanger ? "❌ inseguro" : "✅ seguro";
 
   return (
-    <SlideShell>
+    <SlideShell background={background}>
       <div className="w-full max-w-[1500px]">
         {eyebrow && (
           <motion.div initial="hidden" animate="show" variants={fade} className="eyebrow mb-3">

@@ -14,6 +14,8 @@ type CodeBlockProps = {
   code: string;
   status: "danger" | "safe";
   caption?: string;
+  /** fundo do slide — default "bege" (claro). use "naval" em decks escuros. */
+  background?: "bege" | "naval" | "accent";
 };
 
 type RiskTableProps = { eyebrow?: string; title: string; rows: RiskRow[] };
