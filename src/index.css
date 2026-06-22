@@ -230,6 +230,16 @@
 }
 
 /* =========================================================
+   Tema DEATEC — workshop ACATE/DEATEC POLO OESTE (24.06).
+   Fundo preto já é o default; aqui só trocamos o accent verde
+   neon da Travessia pelo verde-limão da identidade da DEATEC.
+   ========================================================= */
+.theme-deatec {
+  --laranja: 74 80% 48%;        /* verde-limão DEATEC */
+  --shadow-laranja: 0 12px 40px -12px hsl(74 80% 48% / 0.55);
+}
+
+/* =========================================================
    Admin shell — paleta NEUTRA, independente do tema Travessia.
    Sobrescreve tokens localmente pra usar slate/zinc.
    ========================================================= */
