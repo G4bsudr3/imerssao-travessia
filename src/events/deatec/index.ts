@@ -1,5 +1,6 @@
 import type { EventModule } from "../types";
 import { slideManifest, TOTAL_SLIDES } from "./manifest";
+import { scripts } from "./scripts";
 
 // BLOCOS do workshop DEATEC (cronograma de 1h)
 const BLOCOS = {
@@ -40,6 +41,7 @@ export const deatecEvent: EventModule = {
     boundaries: BOUNDARIES,
     openerIndices: OPENERS,
   },
+  scripts,
   isLivePhaseSlide: noLivePhase,
   isIterationSlide: noIteration,
 };
