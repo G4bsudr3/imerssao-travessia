@@ -93,7 +93,7 @@ export const slideManifest: SlideEntry[] = [
       items: [
         { label: "automação virou agente", sub: "saímos do 'se isso, então aquilo' pra agentes que decidem" },
         { label: "a superfície de ataque explodiu", sub: "cada integração e prompt é uma porta nova" },
-        { label: "o dado roda mais lugares", sub: "treino, inferência, logs, terceiros" },
+        { label: "o dado circula em mais lugares", sub: "treino, inferência, logs, terceiros" },
         { label: "quem constrói com IA é o novo alvo", sub: "e o atacante também usa IA pra te achar primeiro", accent: true },
       ],
     },
@@ -218,16 +218,6 @@ function updateUserRole({ email, role }) {
       ],
     },
   },
-  {
-    key: "ia_e_tratamento",
-    kind: "static",
-    staticProps: {
-      variant: "naval",
-      title: "treinar e inferir com dado pessoal é tratamento.",
-      subtitle: "se a IA toca o dado, a LGPD entra junto — sem exceção.",
-    },
-  },
-
   // ─── BLOCO 3 · 08:30–08:45 · AUTOMAÇÃO INTELIGENTE (PRÁTICA) ───
   // demo: edge function única que gera posts pra mídia social com IA (GET no navegador)
   bloco(3, "08:30 – 08:45", "automação inteligente", "construir seguro — ao vivo."),
