@@ -309,6 +309,19 @@ function updateUserRole({ email, role }) {
       background: "naval",
     },
   },
+  {
+    key: "materiais",
+    kind: "static",
+    staticProps: {
+      variant: "act",
+      eyebrow: "leve com você · materiais do workshop",
+      title: "baixe e replique",
+      subtitle: "edge functions, worker, lab e handbook de estudo",
+      background: "naval",
+      href: "/materiais-deatec.zip",
+      cta: "baixar tudo (.zip)",
+    },
+  },
 ];
 
 export const TOTAL_SLIDES = slideManifest.length;
