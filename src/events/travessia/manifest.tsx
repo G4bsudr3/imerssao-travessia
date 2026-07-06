@@ -54,7 +54,8 @@ type BrainstormProps = { slideKey: string; question: string };
 
 export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
-  | { key: string; kind: "special"; component: "CoverSlide" | "LobbySlide" | "FinalSlide" | "BrainstormActive" | "BrainstormSettled" }
+  | { key: string; kind: "special"; component: "CoverSlide"; props?: { labels?: { eyebrow: string; title: string; sub: string }; showLogo?: boolean } }
+  | { key: string; kind: "special"; component: "LobbySlide" | "FinalSlide" | "BrainstormActive" | "BrainstormSettled" }
   | { key: string; kind: "special"; component: "PulseCheckSlide"; props?: PulseProps }
   | { key: string; kind: "special"; component: "PollSlide"; props?: PollProps }
   | { key: string; kind: "special"; component: "BrainstormQuestion"; props?: BrainstormProps }
@@ -550,7 +551,7 @@ USING (user_id = auth.uid());`,
       rightAccent: true,
       left: {
         label: "ANPD ainda amadurecendo",
-        bullets: ["1ª multa só em 2023 (R$ 14.400)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024"],
+        bullets: ["1ª multa só em 2023 (R$ 14.400)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024", "NT 12/2025 da ANPD: mira IA e decisão automatizada"],
       },
       right: {
         label: "o que dói de verdade",
@@ -637,7 +638,7 @@ USING (user_id = auth.uid());`,
       eyebrow: "a artilharia pesada · 2026",
       title: "pentest e descoberta de vulnerabilidade com IA",
       leftTag: "AWS Security Agent",
-      rightTag: "Anthropic Mythos",
+      rightTag: "Claude Mythos",
       rightAccent: true,
       left: {
         label: "pentest autônomo · já disponível (GA)",
@@ -646,7 +647,7 @@ USING (user_id = auth.uid());`,
       right: {
         label: "descoberta sobre-humana · ainda em preview",
         sub: "da Anthropic (criadora do Claude) — não da AWS.",
-        bullets: ["271 vulnerabilidades no Firefox de uma vez", "bug de 27 anos no OpenBSD", "RCE de 17 anos no FreeBSD", "gated: o teto do que IA já faz por AppSec"],
+        bullets: ["milhares de zero-days em vários sistemas", "bug de 27 anos no OpenBSD", "RCE de 17 anos no FreeBSD (CVE-2026-4747)", "gated/preview: o teto do que a IA já faz por AppSec"],
       },
     },
   },
@@ -666,7 +667,8 @@ USING (user_id = auth.uid());`,
       variant: "grid",
       eyebrow: "seu kit do dia a dia · grátis ou barato",
       items: [
-        { label: "Security Advisor", sub: "Supabase · acha RLS aberto em 2 min" },
+        { label: "Security Advisor", sub: "Supabase · acha RLS aberto e testa policies (RLS testing)" },
+        { label: "Lovable Security Scan", sub: "Lovable 2.0 · varre o app e aponta riscos" },
         { label: "GitGuardian / gitleaks", sub: "caça secret vazado no Git" },
         { label: "Semgrep + Dependabot", sub: "SAST no código + alerta de dependência vulnerável" },
         { label: "Claude / GPT", sub: "audita seu RLS e schema com um prompt" },
@@ -741,7 +743,7 @@ USING (user_id = auth.uid());`,
       items: [
         { label: "PITR", sub: "point-in-time recovery · volta no tempo" },
         { label: "branching", sub: "ambiente de staging por PR" },
-        { label: "MFA + papéis", sub: "todo mundo com 2FA, role mínima" },
+        { label: "MFA + papéis", sub: "todo mundo com 2FA/passkey, role mínima" },
         { label: "observability", sub: "logs + alertas no Sentry/Logflare" },
       ],
     },

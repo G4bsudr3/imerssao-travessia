@@ -49,7 +49,7 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
 
   switch (e.component) {
     case "CoverSlide":
-      return <CoverSlide variant="intro" />;
+      return <CoverSlide variant="intro" {...(e.props ?? {})} />;
     case "LobbySlide": return <LobbySlide />;
     case "FinalSlide": return <FinalSlide />;
     case "PulseCheckSlide": return <PulseCheckSlide {...(e.props ?? {})} />;

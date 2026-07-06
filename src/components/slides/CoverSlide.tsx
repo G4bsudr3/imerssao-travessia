@@ -5,8 +5,20 @@ import { SlideShell } from "./SlideShell";
 
 type Variant = "intro" | "build" | "final";
 
-export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
-  const labels: Record<Variant, { eyebrow: string; title: string; sub: string }> = {
+type Labels = { eyebrow: string; title: string; sub: string };
+
+export function CoverSlide({
+  variant = "intro",
+  labels: labelsProp,
+  showLogo,
+}: {
+  variant?: Variant;
+  /** override do texto — usado por eventos que reaproveitam o deck (ex.: bootcamp) */
+  labels?: Labels;
+  /** exibir o ChoraLogo no lugar do título em texto (default: só no intro) */
+  showLogo?: boolean;
+}) {
+  const defaults: Record<Variant, Labels> = {
     intro: {
       eyebrow: "ALPHAVILE · 06.06.2026 · IMERSÃO TRAVESSIA",
       title: "TRAVESSIA",
@@ -15,7 +27,8 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
     build: { eyebrow: "parte 2 · agora", title: "vamos construir.", sub: "ao vivo. com vocês." },
     final: { eyebrow: "fim · começo", title: "vai lá e cria.", sub: "" },
   };
-  const l = labels[variant];
+  const l = labelsProp ?? defaults[variant];
+  const withLogo = showLogo ?? variant === "intro";
   return (
     <SlideShell background="naval">
       <motion.div
@@ -24,15 +37,15 @@ export function CoverSlide({ variant = "intro" }: { variant?: Variant }) {
         transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col items-center gap-8"
       >
-        
+
         <div className="eyebrow">{l.eyebrow}</div>
-        {variant === "intro" ? (
+        {withLogo ? (
           <ChoraLogo className="text-[clamp(5rem,16vw,11.2rem)] whitespace-nowrap" />
         ) : (
           <h1 className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-none text-bege">{l.title}</h1>
         )}
         {l.sub && <p className="text-3xl opacity-70 text-bege">{l.sub}</p>}
-        {variant === "intro" && (
+        {variant === "intro" && !labelsProp && (
           <p className="font-mono text-sm uppercase tracking-[0.3em] text-bege/60 whitespace-pre-line">
             {"\n"}
           </p>
