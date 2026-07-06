@@ -39,7 +39,7 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "act",
-      eyebrow: "BOOTCAMP · EM PARCERIA COM O INSTITUTO CALDEIRA · POA",
+      eyebrow: "BOOTCAMP PRESENCIAL · INSTITUTO CALDEIRA · PORTO ALEGRE · SEX & SÁB",
       title: "Segurança em IA & Automação",
       subtitle: "IA, automação e LGPD na prática.",
       background: "naval",
@@ -66,8 +66,8 @@ export const slideManifest: SlideEntry[] = [
     kind: "static",
     staticProps: {
       variant: "two-line",
-      title: "é ao vivo e na prática.",
-      subtitle: "manda as dúvidas — eu paro pra responder.",
+      title: "é presencial e na prática.",
+      subtitle: "pode perguntar a qualquer momento — eu paro pra responder.",
       background: "naval",
     },
   },
