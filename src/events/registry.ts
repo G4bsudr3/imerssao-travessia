@@ -9,12 +9,14 @@ import type { SlideEntry } from "./travessia/manifest";
 import { travessiaEvent } from "./travessia";
 import { cybersecLgpdEvent } from "./cybersec-lgpd";
 import { deatecEvent } from "./deatec";
+import { bootcampCaldeiraEvent } from "./bootcamp-caldeira";
 
 /** Eventos com override de código (deck/atos próprios). */
 const CODE_OVERRIDES: Record<string, EventModule> = {
   [travessiaEvent.slug]: travessiaEvent,
   [cybersecLgpdEvent.slug]: cybersecLgpdEvent,
   [deatecEvent.slug]: deatecEvent,
+  [bootcampCaldeiraEvent.slug]: bootcampCaldeiraEvent,
 };
 
 export type EventRow = {

@@ -240,6 +240,28 @@
 }
 
 /* =========================================================
+   Tema Bootcamp Caldeira — parceria com o Instituto Caldeira (POA).
+   Identidade extraída do site deles: verde elétrico #00e846 sobre preto
+   (o fundo preto já é o default). Tipografia Montserrat (fonte da marca).
+   A display deles, Monument Extended, é licenciada e não embutível —
+   usamos Montserrat pesado no lugar, mantendo a pegada.
+   ========================================================= */
+.theme-caldeira {
+  --laranja: 138 100% 46%;      /* verde elétrico Instituto Caldeira · #00e846 */
+  --shadow-laranja: 0 12px 40px -12px hsl(138 100% 46% / 0.55);
+}
+.theme-caldeira body,
+.theme-caldeira .font-body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+}
+.theme-caldeira .font-display {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+
+/* =========================================================
    Admin shell — paleta NEUTRA, independente do tema Travessia.
    Sobrescreve tokens localmente pra usar slate/zinc.
    ========================================================= */
