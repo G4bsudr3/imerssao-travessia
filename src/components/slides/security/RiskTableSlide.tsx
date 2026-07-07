@@ -46,7 +46,7 @@ export function RiskTableSlide({ eyebrow, title, rows, background }: Props) {
         </div>
 
         <div className={`overflow-hidden rounded-2xl border-2 ${shell}`}>
-          <div className={`grid grid-cols-[auto_1fr_1fr_1.2fr] gap-5 border-b-2 px-6 py-3 ${headBorder}`}>
+          <div className={`grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)] gap-5 border-b-2 px-6 py-3 ${headBorder}`}>
             <span className="eyebrow w-3" />
             <span className="eyebrow">risco</span>
             <span className="eyebrow">impacto</span>
@@ -59,7 +59,7 @@ export function RiskTableSlide({ eyebrow, title, rows, background }: Props) {
               animate="show"
               variants={fade}
               custom={i + 2}
-              className={`grid grid-cols-[auto_1fr_1fr_1.2fr] items-start gap-5 border-b px-6 py-[clamp(0.75rem,1.8vh,1.4rem)] last:border-b-0 ${rowBorder}`}
+              className={`grid grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1.2fr)] items-start gap-5 border-b px-6 py-[clamp(0.75rem,1.8vh,1.4rem)] last:border-b-0 ${rowBorder}`}
             >
               <span className={`mt-2 h-3 w-3 shrink-0 rounded-full ${dotColor(r.level)}`} />
               <span className="font-body font-semibold leading-snug break-words text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.risk}</span>

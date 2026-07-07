@@ -199,7 +199,7 @@ function renderBody(p: StaticProps) {
                 animate="show"
                 variants={fade}
                 custom={i + 1}
-                className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left flex flex-col justify-center ${
+                className={`rounded-2xl min-w-0 p-[clamp(1rem,2vw,2.25rem)] text-left flex flex-col justify-center ${
                   it.empty
                     ? dark ? "border-2 border-dashed border-bege/20 bg-transparent" : "border-2 border-dashed border-preto/20 bg-transparent"
                     : it.accent
@@ -214,7 +214,7 @@ function renderBody(p: StaticProps) {
                 ) : (
                   <>
                     {Icon && <Icon className="mb-3 h-9 w-9 text-laranja" strokeWidth={2} />}
-                    <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)] break-words hyphens-auto">{it.label}</div>
+                    <div className="min-w-0 font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)] [overflow-wrap:anywhere] hyphens-auto">{it.label}</div>
                     {it.sub && <div className="mt-2 opacity-80 text-[clamp(1.15rem,1.35vw,1.5rem)] break-words">{it.sub}</div>}
                   </>
                 )}
