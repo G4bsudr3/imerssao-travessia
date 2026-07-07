@@ -46,7 +46,7 @@ export function ComparisonSlide({ eyebrow, title, left, right, leftTag = "lado A
         <div className="grid grid-cols-1 gap-[clamp(0.75rem,1.5vw,1.5rem)] md:grid-cols-2">
           <motion.div initial="hidden" animate="show" variants={fade} custom={2} className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left ${card}`}>
             <div className="eyebrow mb-2">{leftTag}</div>
-            <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)]">{left.label}</div>
+            <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)] break-words">{left.label}</div>
             {left.sub && <p className="mt-2 opacity-70 text-[clamp(1.05rem,1.4vw,1.35rem)]">{left.sub}</p>}
             {left.bullets && (
               <ul className="mt-4 space-y-2">
@@ -67,7 +67,7 @@ export function ComparisonSlide({ eyebrow, title, left, right, leftTag = "lado A
             className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left ${rightAccent ? "bg-laranja text-preto border-2 border-preto/10" : card}`}
           >
             <div className={`eyebrow mb-2 ${rightAccent ? "text-preto/70" : ""}`}>{rightTag}</div>
-            <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)]">{right.label}</div>
+            <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)] break-words">{right.label}</div>
             {right.sub && <p className={`mt-2 text-[clamp(1.05rem,1.4vw,1.35rem)] ${rightAccent ? "text-preto/70" : "opacity-70"}`}>{right.sub}</p>}
             {right.bullets && (
               <ul className="mt-4 space-y-2">

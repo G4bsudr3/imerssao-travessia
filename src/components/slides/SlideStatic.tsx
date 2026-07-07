@@ -176,7 +176,7 @@ function renderBody(p: StaticProps) {
               animate="show"
               variants={fade}
               custom={i + 1}
-              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
+              className={`font-display text-[clamp(2rem,5vw,3.15rem)] leading-tight break-words ${it.strike ? "strike-diagonal" : ""} ${it.accent ? "text-laranja" : ""}`}
             >
               {it.label}
               {it.sub && <div className="font-body text-2xl opacity-70 mt-2">{it.sub}</div>}
@@ -214,8 +214,8 @@ function renderBody(p: StaticProps) {
                 ) : (
                   <>
                     {Icon && <Icon className="mb-3 h-9 w-9 text-laranja" strokeWidth={2} />}
-                    <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)]">{it.label}</div>
-                    {it.sub && <div className="mt-2 opacity-80 text-[clamp(1.15rem,1.35vw,1.5rem)]">{it.sub}</div>}
+                    <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)] break-words hyphens-auto">{it.label}</div>
+                    {it.sub && <div className="mt-2 opacity-80 text-[clamp(1.15rem,1.35vw,1.5rem)] break-words">{it.sub}</div>}
                   </>
                 )}
               </motion.div>

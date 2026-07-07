@@ -62,9 +62,9 @@ export function RiskTableSlide({ eyebrow, title, rows, background }: Props) {
               className={`grid grid-cols-[auto_1fr_1fr_1.2fr] items-start gap-5 border-b px-6 py-[clamp(0.75rem,1.8vh,1.4rem)] last:border-b-0 ${rowBorder}`}
             >
               <span className={`mt-2 h-3 w-3 shrink-0 rounded-full ${dotColor(r.level)}`} />
-              <span className="font-body font-semibold leading-snug text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.risk}</span>
-              <span className="leading-snug opacity-80 text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.impact}</span>
-              <span className="font-display leading-snug text-laranja text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.fix}</span>
+              <span className="font-body font-semibold leading-snug break-words text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.risk}</span>
+              <span className="leading-snug opacity-80 break-words text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.impact}</span>
+              <span className="font-display leading-snug break-words text-laranja text-[clamp(1.05rem,1.55vw,1.35rem)]">{r.fix}</span>
             </motion.div>
           ))}
         </div>
