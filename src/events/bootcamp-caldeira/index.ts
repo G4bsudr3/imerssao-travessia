@@ -17,10 +17,10 @@ const cover: SlideEntry = {
   kind: "special",
   component: "CoverSlide",
   props: {
-    showLogo: true,
+    showLogo: false,
     labels: {
-      eyebrow: "BOOTCAMP · INSTITUTO CALDEIRA · PORTO ALEGRE · SEX & SÁB",
-      title: "",
+      eyebrow: "INSTITUTO CALDEIRA · PORTO ALEGRE · SEX & SÁB",
+      title: "Workshop Caldeira",
       sub: "segurança no vibecoding — construa sem vazar.",
     },
   },
@@ -137,7 +137,7 @@ const boundaries = openerIndices.slice(1).map((i) => i - 1).concat(manifest.leng
 export const bootcampCaldeiraEvent: EventModule = {
   ...travessiaEvent,
   slug: "bootcamp-caldeira",
-  name: "Bootcamp · Instituto Caldeira",
+  name: "Workshop Caldeira",
   themeClass: "theme-caldeira",
   contacts: { ...travessiaEvent.contacts },
   manifest,
