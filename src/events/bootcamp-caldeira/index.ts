@@ -6,12 +6,11 @@ import { scripts } from "./scripts";
 // Bootcamp presencial em parceria com o Instituto Caldeira (Porto Alegre · sex & sáb).
 // Base = deck da Travessia (= conteúdo do /chora-lovable). O bootcamp acrescenta:
 //  - capa animada da Chora com as infos do evento (sem "empresário de software");
-//  - identidade do Caldeira (tema verde neon + preto);
+//  - identidade do Caldeira (tema verde neon + preto) — deck 100% ESCURO (ver toDark);
 //  - roteiro de teleprompter próprio (tecla T);
 //  - slides extras: Storage público (Act 2), segurança de IA/prompt injection (Act 3),
 //    Marco Legal da IA (fim do arco LGPD) e diagrama de fronteiras de confiança (Act 4).
-// O deck da Travessia NÃO é alterado — os extras vivem só aqui, e os índices dos atos
-// são recalculados a partir das CHAVES dos openers (robusto a qualquer inserção).
+// O deck da Travessia NÃO é alterado — os extras, o tema escuro e os índices vivem só aqui.
 
 const cover: SlideEntry = {
   key: "cover",
@@ -107,12 +106,28 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
 ];
 
-const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)];
-const manifest: SlideEntry[] = [];
-for (const s of base) {
-  for (const ex of EXTRAS) if (ex.before === s.key) manifest.push(ex.slide);
-  manifest.push(s);
+// Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
+// Estáticos → background "naval"; especiais que aceitam fundo → props.background "naval".
+// CoverSlide já é escuro por dentro; não mexe.
+const SPECIAL_WITH_BG = new Set(["CodeBlockSlide", "ComparisonSlide", "RiskTableSlide", "PromptCardSlide", "LockVisualSlide"]);
+function toDark(s: SlideEntry): SlideEntry {
+  if (s.kind === "static") {
+    return { ...s, staticProps: { ...s.staticProps, background: "naval" } };
+  }
+  if (s.kind === "special" && SPECIAL_WITH_BG.has(s.component)) {
+    const props = { ...((s as { props?: Record<string, unknown> }).props ?? {}), background: "naval" };
+    return { ...s, props } as SlideEntry;
+  }
+  return s;
 }
+
+const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)];
+const withExtras: SlideEntry[] = [];
+for (const s of base) {
+  for (const ex of EXTRAS) if (ex.before === s.key) withExtras.push(ex.slide);
+  withExtras.push(s);
+}
+const manifest: SlideEntry[] = withExtras.map(toDark);
 
 // Atos recalculados a partir das CHAVES dos openers (não dependem de índice fixo).
 const OPENER_KEYS = ["ato_1_porque", "ato_2_supabase", "ato_3_codigo", "ato_4_arquitetura"];

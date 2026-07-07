@@ -103,6 +103,7 @@ export function SlideStatic(props: StaticProps) {
 }
 
 function renderBody(p: StaticProps) {
+  const dark = (p.background ?? (p.variant === "naval" ? "naval" : "bege")) === "naval";
   switch (p.variant) {
     case "headline":
       return (
@@ -200,10 +201,10 @@ function renderBody(p: StaticProps) {
                 custom={i + 1}
                 className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left flex flex-col justify-center ${
                   it.empty
-                    ? "border-2 border-dashed border-preto/20 bg-transparent"
+                    ? dark ? "border-2 border-dashed border-bege/20 bg-transparent" : "border-2 border-dashed border-preto/20 bg-transparent"
                     : it.accent
                     ? "border-2 border-preto/10 bg-laranja text-preto"
-                    : "border-2 border-preto/10 bg-white/60"
+                    : dark ? "border-2 border-bege/15 bg-bege/[0.05]" : "border-2 border-preto/10 bg-white/60"
                 }`}
               >
                 {it.empty ? (
@@ -214,7 +215,7 @@ function renderBody(p: StaticProps) {
                   <>
                     {Icon && <Icon className="mb-3 h-9 w-9 text-laranja" strokeWidth={2} />}
                     <div className="font-display leading-tight text-[clamp(1.25rem,2.2vw,2rem)]">{it.label}</div>
-                    {it.sub && <div className="mt-2 opacity-80 text-[clamp(1rem,1.3vw,1.4rem)]">{it.sub}</div>}
+                    {it.sub && <div className="mt-2 opacity-80 text-[clamp(1.15rem,1.35vw,1.5rem)]">{it.sub}</div>}
                   </>
                 )}
               </motion.div>
@@ -226,7 +227,7 @@ function renderBody(p: StaticProps) {
     case "comparison":
       return (
         <div className="grid w-full max-w-6xl grid-cols-1 gap-8 md:grid-cols-2">
-          <motion.div initial="hidden" animate="show" variants={fade} custom={1} className="rounded-2xl bg-white/50 p-10 strike-diagonal">
+          <motion.div initial="hidden" animate="show" variants={fade} custom={1} className={`rounded-2xl p-10 strike-diagonal ${dark ? "bg-bege/[0.05]" : "bg-white/50"}`}>
             <div className="eyebrow mb-3">antes</div>
             <div className="font-display text-5xl">{p.comparison?.left.label}</div>
             {p.comparison?.left.sub && <div className="mt-3 opacity-60">{p.comparison.left.sub}</div>}
@@ -244,7 +245,7 @@ function renderBody(p: StaticProps) {
           {p.timeline?.map((t, i) => (
             <motion.div key={i} initial="hidden" animate="show" variants={fade} custom={i + 1} className="flex flex-1 flex-col items-center">
               <div className="font-display text-6xl md:text-8xl">{t.year}</div>
-              <div className="mt-3 h-1 w-full bg-preto/30" />
+              <div className={`mt-3 h-1 w-full ${dark ? "bg-bege/30" : "bg-preto/30"}`} />
               <div className="mt-4 text-center text-2xl md:text-3xl opacity-80 leading-tight">{t.label}</div>
             </motion.div>
           ))}

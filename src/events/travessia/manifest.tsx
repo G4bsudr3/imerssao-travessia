@@ -18,7 +18,7 @@ type CodeBlockProps = {
   background?: "bege" | "naval" | "accent";
 };
 
-type RiskTableProps = { eyebrow?: string; title: string; rows: RiskRow[] };
+type RiskTableProps = { eyebrow?: string; title: string; rows: RiskRow[]; background?: "bege" | "naval" | "accent" };
 
 type ComparisonProps = {
   eyebrow?: string;
@@ -28,6 +28,7 @@ type ComparisonProps = {
   leftTag?: string;
   rightTag?: string;
   rightAccent?: boolean;
+  background?: "bege" | "naval" | "accent";
 };
 
 type PromptCardProps = {
@@ -35,6 +36,7 @@ type PromptCardProps = {
   title: string;
   subtitle?: string;
   prompts: Array<{ label: string; body: string }>;
+  background?: "bege" | "naval" | "accent";
 };
 
 type LockVisualProps = {
@@ -42,6 +44,7 @@ type LockVisualProps = {
   title: string;
   subtitle?: string;
   state: "open" | "closed";
+  background?: "bege" | "naval" | "accent";
 };
 
 type PulseProps = { eyebrow?: string; question?: string; hint?: string };

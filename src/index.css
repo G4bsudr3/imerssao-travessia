@@ -260,6 +260,10 @@
   letter-spacing: -0.01em;
   line-height: 0.98;
 }
+/* eyebrows um pouco maiores — legibilidade do fundão no telão */
+.theme-caldeira .eyebrow {
+  font-size: clamp(1rem, 1.25vw, 1.35rem);
+}
 
 /* =========================================================
    Admin shell — paleta NEUTRA, independente do tema Travessia.

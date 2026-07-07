@@ -14,6 +14,7 @@ type Props = {
   title: string;
   subtitle?: string;
   prompts: Prompt[];
+  background?: "bege" | "naval" | "accent";
 };
 
 const fade = {
@@ -21,8 +22,9 @@ const fade = {
   show: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1, duration: 0.5, ease: [0.22, 1, 0.36, 1] as const } }),
 };
 
-export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
+export function PromptCardSlide({ eyebrow, title, subtitle, prompts, background }: Props) {
   const [copied, setCopied] = useState<number | null>(null);
+  const dark = background === "naval";
 
   const handleCopy = async (text: string, i: number) => {
     try {
@@ -43,8 +45,18 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
         ? "md:grid-cols-2"
         : "md:grid-cols-3";
 
+  const cardCls = dark
+    ? "border-laranja/40 bg-bege/[0.05]"
+    : "border-laranja/30 bg-white";
+  const copyBtn = dark
+    ? "border-bege/20 bg-bege/10 text-bege/80"
+    : "border-preto/10 bg-bege/60 text-preto/70";
+  const bodyCls = dark
+    ? "text-bege/85 prose-invert prose-headings:text-bege prose-strong:text-bege prose-code:bg-bege/10"
+    : "text-preto/80 prose-headings:text-preto prose-strong:text-preto prose-code:bg-bege/40";
+
   return (
-    <SlideShell>
+    <SlideShell background={background}>
       <div className="w-full max-w-6xl">
         {eyebrow && (
           <motion.div initial="hidden" animate="show" variants={fade} className="eyebrow mb-3">
@@ -68,14 +80,14 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
               animate="show"
               variants={fade}
               custom={i + 3}
-              className="relative rounded-2xl border-2 border-laranja/30 bg-white p-6 text-left shadow-[0_8px_32px_-8px_hsl(var(--preto)/0.18)]"
+              className={`relative rounded-2xl border-2 p-6 text-left shadow-[0_8px_32px_-8px_hsl(var(--preto)/0.18)] ${cardCls}`}
             >
               <div className="mb-3 flex items-center justify-between gap-3">
                 <span className="eyebrow text-laranja">prompt {i + 1}</span>
                 <button
                   type="button"
                   onClick={() => handleCopy(p.body, i)}
-                  className="inline-flex items-center gap-1.5 rounded-full border-2 border-preto/10 bg-bege/60 px-3 py-1.5 text-sm font-medium text-preto/70 transition-colors hover:bg-laranja hover:text-preto focus:outline-none focus-visible:ring-2 focus-visible:ring-laranja/50"
+                  className={`inline-flex items-center gap-1.5 rounded-full border-2 px-3 py-1.5 text-sm font-medium transition-colors hover:bg-laranja hover:text-preto focus:outline-none focus-visible:ring-2 focus-visible:ring-laranja/50 ${copyBtn}`}
                   aria-label="copiar prompt"
                 >
                   {copied === i ? (
@@ -92,7 +104,7 @@ export function PromptCardSlide({ eyebrow, title, subtitle, prompts }: Props) {
                 </button>
               </div>
               <div className="mb-3 font-display text-2xl leading-tight">{p.label}</div>
-              <div className="max-h-[55vh] overflow-y-auto pr-2 font-mono text-sm leading-relaxed text-preto/80 prose prose-sm max-w-none prose-headings:font-display prose-headings:text-preto prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-strong:text-preto prose-code:text-laranja prose-code:bg-bege/40 prose-code:px-1 prose-code:rounded prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5">
+              <div className={`max-h-[55vh] overflow-y-auto pr-2 font-mono text-base leading-relaxed prose prose-sm max-w-none prose-headings:font-display prose-h1:text-xl prose-h2:text-lg prose-h3:text-base prose-code:text-laranja prose-code:px-1 prose-code:rounded prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5 ${bodyCls}`}>
                 <ReactMarkdown>{p.body}</ReactMarkdown>
               </div>
             </motion.div>

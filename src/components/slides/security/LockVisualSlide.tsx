@@ -7,6 +7,7 @@ type Props = {
   title: string;
   subtitle?: string;
   state: "open" | "closed";
+  background?: "bege" | "naval" | "accent";
 };
 
 const fade = {
@@ -87,9 +88,9 @@ function PadlockMark({ state, size = 320 }: { state: "open" | "closed"; size?: n
   );
 }
 
-export function LockVisualSlide({ eyebrow, title, subtitle, state }: Props) {
+export function LockVisualSlide({ eyebrow, title, subtitle, state, background }: Props) {
   return (
-    <SlideShell>
+    <SlideShell background={background}>
       <div className="flex w-full max-w-5xl flex-col items-center gap-10 text-center">
         {eyebrow && (
           <motion.div initial="hidden" animate="show" variants={fade} className="eyebrow">
