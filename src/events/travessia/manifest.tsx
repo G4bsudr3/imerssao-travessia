@@ -545,13 +545,13 @@ USING (user_id = auth.uid());`,
     component: "ComparisonSlide",
     props: {
       eyebrow: "e no Brasil?",
-      title: "a multa ainda é tímida. o estrago, não.",
-      leftTag: "fiscalização hoje",
+      title: "a ANPD apertou o cerco — e o estrago não espera.",
+      leftTag: "fiscalização em 2026",
       rightTag: "a conta que chega",
       rightAccent: true,
       left: {
-        label: "ANPD ainda amadurecendo",
-        bullets: ["1ª multa só em 2023 (R$ 14.400)", "já puniu falta de encarregado e de atender direitos", "endureceu a partir de 2024", "NT 12/2025 da ANPD: mira IA e decisão automatizada"],
+        label: "ANPD virou xerife",
+        bullets: ["1ª multa em 2023 — e o patamar subiu", "agência de fato: autônoma e concursada", "Mapa 2026-27: +75 ações de fiscalização", "alvos: IA generativa, biometria e menores"],
       },
       right: {
         label: "o que dói de verdade",
@@ -575,7 +575,7 @@ USING (user_id = auth.uid());`,
     kind: "static",
     staticProps: {
       variant: "grid",
-      eyebrow: "art. 18 · 6 direitos que viram código",
+      eyebrow: "art. 18 e 20 · direitos que viram código",
       items: [
         { label: "acessar", sub: "ver tudo que você tem dele" },
         { label: "corrigir", sub: "atualizar dado errado" },
