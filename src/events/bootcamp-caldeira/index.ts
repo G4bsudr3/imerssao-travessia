@@ -4,12 +4,14 @@ import { travessiaEvent } from "../travessia";
 import { scripts } from "./scripts";
 
 // Bootcamp presencial em parceria com o Instituto Caldeira (Porto Alegre · sex & sáb).
-// MESMO deck da Travessia (= o conteúdo do /chora-lovable). Diferenças do bootcamp:
+// Base = deck da Travessia (= conteúdo do /chora-lovable). O bootcamp acrescenta:
 //  - capa animada da Chora com as infos do evento (sem "empresário de software");
 //  - identidade do Caldeira (tema verde neon + preto);
 //  - roteiro de teleprompter próprio (tecla T);
-//  - 1 slide extra: o Marco Legal da IA (PL 2338), fechando o arco de LGPD/IA.
-// O deck da Travessia em si NÃO é alterado — o slide extra e os índices vivem só aqui.
+//  - slides extras: Storage público (Act 2), segurança de IA/prompt injection (Act 3),
+//    Marco Legal da IA (fim do arco LGPD) e diagrama de fronteiras de confiança (Act 4).
+// O deck da Travessia NÃO é alterado — os extras vivem só aqui, e os índices dos atos
+// são recalculados a partir das CHAVES dos openers (robusto a qualquer inserção).
 
 const cover: SlideEntry = {
   key: "cover",
@@ -25,7 +27,47 @@ const cover: SlideEntry = {
   },
 };
 
-// Slide extra (só no bootcamp): o Marco Legal da IA — amarra com o art. 20 da LGPD.
+// ── slides extras do bootcamp ──
+const storagePublico: SlideEntry = {
+  key: "storage_publico",
+  kind: "static",
+  staticProps: {
+    variant: "list",
+    eyebrow: "o outro cadeado esquecido · Storage",
+    background: "naval",
+    items: [
+      { label: "bucket público = arquivo aberto na URL", sub: "quem tem o link baixa — nota fiscal, RG, contrato" },
+      { label: "o Storage tem RLS PRÓPRIO", sub: "não herda a policy da tabela — configure à parte" },
+      { label: "regra: bucket privado + URL assinada", sub: "acesso temporário, que expira — sem link eterno" },
+      { label: "confere hoje: algum bucket público sem querer?", sub: "é o vazamento mais bobo — e o mais comum", accent: true },
+    ],
+  },
+};
+const iaPromptInjection: SlideEntry = {
+  key: "ia_prompt_injection",
+  kind: "static",
+  staticProps: {
+    variant: "two-line",
+    title: "colocou um agente de IA no app?",
+    subtitle: "prompt injection é a 'SQL injection' da era dos agentes.",
+    background: "naval",
+  },
+};
+const iaBlindagem: SlideEntry = {
+  key: "ia_blindagem",
+  kind: "static",
+  staticProps: {
+    variant: "list",
+    eyebrow: "blindando a IA do seu app · OWASP LLM #1",
+    background: "naval",
+    items: [
+      { label: "autorização no código, não no prompt", sub: "\"não faça X\" no system prompt não é segurança — a ação checa o papel real", accent: true },
+      { label: "menor privilégio pro agente", sub: "não dê a tool que muda role ou apaga dado se ele não precisa" },
+      { label: "input do usuário é dado hostil", sub: "texto nunca vira ação sem validação no servidor" },
+      { label: "RLS é a rede final — até pra IA", sub: "se a injeção furar tudo, o dado alheio ainda não sai" },
+    ],
+  },
+};
 const marcoLegalIA: SlideEntry = {
   key: "marco_legal_ia",
   kind: "static",
@@ -41,16 +83,41 @@ const marcoLegalIA: SlideEntry = {
     ],
   },
 };
+const arquiteturaCamadas: SlideEntry = {
+  key: "arquitetura_camadas",
+  kind: "static",
+  staticProps: {
+    variant: "grid",
+    eyebrow: "defesa em profundidade · 3 fronteiras de confiança",
+    title: "front não confia · edge valida · banco protege",
+    items: [
+      { label: "front (Lovable)", sub: "tudo aqui é público e manipulável — nunca confie" },
+      { label: "edge function", sub: "valida o input e AUTORIZA: checa QUEM chamou" },
+      { label: "banco (Supabase)", sub: "RLS como rede final — nem a IA passa", accent: true },
+    ],
+  },
+};
 
-// deck = capa do evento + resto da Travessia, com o Marco Legal inserido antes de
-// "ferramentas_intro" (fim do arco de LGPD). Índices dos atos recalculados +1 dali pra frente.
+// Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
+const EXTRAS: { before: string; slide: SlideEntry }[] = [
+  { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
+  { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
+  { before: "ato_3_lgpd", slide: iaBlindagem },
+  { before: "ferramentas_intro", slide: marcoLegalIA },      // fim do arco LGPD/IA
+  { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
+];
+
 const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)];
-const insertAt = base.findIndex((s) => s.key === "ferramentas_intro");
-const manifest: SlideEntry[] =
-  insertAt >= 0
-    ? [...base.slice(0, insertAt), marcoLegalIA, ...base.slice(insertAt)]
-    : [...base, marcoLegalIA];
-const bump = (arr: number[]) => arr.map((i) => (insertAt >= 0 && i >= insertAt ? i + 1 : i));
+const manifest: SlideEntry[] = [];
+for (const s of base) {
+  for (const ex of EXTRAS) if (ex.before === s.key) manifest.push(ex.slide);
+  manifest.push(s);
+}
+
+// Atos recalculados a partir das CHAVES dos openers (não dependem de índice fixo).
+const OPENER_KEYS = ["ato_1_porque", "ato_2_supabase", "ato_3_codigo", "ato_4_arquitetura"];
+const openerIndices = OPENER_KEYS.map((k) => manifest.findIndex((s) => s.key === k));
+const boundaries = openerIndices.slice(1).map((i) => i - 1).concat(manifest.length - 1);
 
 export const bootcampCaldeiraEvent: EventModule = {
   ...travessiaEvent,
@@ -62,8 +129,8 @@ export const bootcampCaldeiraEvent: EventModule = {
   totalSlides: manifest.length,
   acts: {
     metas: travessiaEvent.acts.metas,
-    boundaries: bump(travessiaEvent.acts.boundaries),
-    openerIndices: bump(travessiaEvent.acts.openerIndices),
+    boundaries,
+    openerIndices,
   },
   scripts,
 };
