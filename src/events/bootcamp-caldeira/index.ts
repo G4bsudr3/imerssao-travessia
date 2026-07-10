@@ -43,6 +43,21 @@ const storagePublico: SlideEntry = {
     ],
   },
 };
+const authConfig: SlideEntry = {
+  key: "auth_config",
+  kind: "static",
+  staticProps: {
+    variant: "list",
+    eyebrow: "os checkboxes que ficam abertos · Auth",
+    background: "naval",
+    items: [
+      { label: "confirmação de e-mail desligada", sub: "cria conta com e-mail de terceiro e já entra" },
+      { label: "política de senha fraca", sub: "sem mínimo decente, \"123456\" passa liso" },
+      { label: "leaked-password protection", sub: "o Supabase barra senha já vazada — ligue (vem off)", accent: true },
+      { label: "signup aberto sem precisar", sub: "não é self-service? trave o cadastro" },
+    ],
+  },
+};
 const iaPromptInjection: SlideEntry = {
   key: "ia_prompt_injection",
   kind: "static",
@@ -105,6 +120,7 @@ const REPLACE: Record<string, SlideEntry> = { agenda: bootcampAgenda };
 // Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
 const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
+  { before: "ato_3_codigo", slide: authConfig },             // config de Auth (Act 2)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
   { before: "ato_3_lgpd", slide: iaBlindagem },
   { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
