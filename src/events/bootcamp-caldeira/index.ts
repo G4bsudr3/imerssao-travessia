@@ -83,6 +83,25 @@ const arquiteturaCamadas: SlideEntry = {
   },
 };
 
+// Agenda do bootcamp — reflete o conteúdo real (Storage no Act 2, IA no Act 3).
+const bootcampAgenda: SlideEntry = {
+  key: "agenda",
+  kind: "static",
+  staticProps: {
+    variant: "grid",
+    eyebrow: "AGENDA",
+    background: "naval",
+    items: [
+      { label: "1. por quê", sub: "o risco que você não vê" },
+      { label: "2. supabase", sub: "RLS, Storage, edge, RPC" },
+      { label: "3. código + governança", sub: "segurança de IA, LGPD e ferramentas" },
+      { label: "4. arquitetura", sub: "escalar com segurança" },
+    ],
+  },
+};
+// Slides do deck da Travessia trocados por uma versão do bootcamp.
+const REPLACE: Record<string, SlideEntry> = { agenda: bootcampAgenda };
+
 // Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
 const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
@@ -121,7 +140,7 @@ const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)].filter((
 const withExtras: SlideEntry[] = [];
 for (const s of base) {
   for (const ex of EXTRAS) if (ex.before === s.key) withExtras.push(ex.slide);
-  withExtras.push(s);
+  withExtras.push(REPLACE[s.key] ?? s);
 }
 const manifest: SlideEntry[] = withExtras.map(toDark);
 
