@@ -5,12 +5,13 @@ import { scripts } from "./scripts";
 
 // Bootcamp presencial em parceria com o Instituto Caldeira (Porto Alegre · sex & sáb).
 // Base = deck da Travessia (= conteúdo do /chora-lovable). O bootcamp acrescenta:
-//  - capa animada da Chora com as infos do evento (sem "empresário de software");
+//  - capa animada com o nome do evento (título em texto, sem o logo TRAVESSIA);
 //  - identidade do Caldeira (tema verde neon + preto) — deck 100% ESCURO (ver toDark);
 //  - roteiro de teleprompter próprio (tecla T);
 //  - slides extras: Storage público (Act 2), segurança de IA/prompt injection (Act 3),
-//    Marco Legal da IA (fim do arco LGPD) e diagrama de fronteiras de confiança (Act 4).
-// O deck da Travessia NÃO é alterado — os extras, o tema escuro e os índices vivem só aqui.
+//    e diagrama de fronteiras de confiança (Act 4).
+//  - remove do deck (só aqui) o slide "controlador × operador" (granularidade demais).
+// O deck da Travessia NÃO é alterado — extras, remoções, tema e índices vivem só aqui.
 
 const cover: SlideEntry = {
   key: "cover",
@@ -20,7 +21,7 @@ const cover: SlideEntry = {
     showLogo: false,
     labels: {
       eyebrow: "INSTITUTO CALDEIRA · PORTO ALEGRE · SEX & SÁB",
-      title: "Workshop Caldeira",
+      title: "Bootcamp Caldeira",
       sub: "segurança no vibecoding — construa sem vazar.",
     },
   },
@@ -67,21 +68,6 @@ const iaBlindagem: SlideEntry = {
     ],
   },
 };
-const marcoLegalIA: SlideEntry = {
-  key: "marco_legal_ia",
-  kind: "static",
-  staticProps: {
-    variant: "list",
-    eyebrow: "o que vem aí · Marco Legal da IA (PL 2338)",
-    background: "naval",
-    items: [
-      { label: "aprovado no Senado, em votação final na Câmara", sub: "previsão de fechar em 2026" },
-      { label: "segue o modelo do EU AI Act", sub: "classifica a IA por nível de risco" },
-      { label: "direito a explicação e contestação", sub: "reforça o art. 20 da LGPD que a gente viu" },
-      { label: "cria o SIA · multa até R$ 50 mi", sub: "governança nacional de IA — sai do papel já já", accent: true },
-    ],
-  },
-};
 const arquiteturaCamadas: SlideEntry = {
   key: "arquitetura_camadas",
   kind: "static",
@@ -102,9 +88,11 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
   { before: "ato_3_lgpd", slide: iaBlindagem },
-  { before: "ferramentas_intro", slide: marcoLegalIA },      // fim do arco LGPD/IA
   { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
 ];
+
+// Slides do deck da Travessia que NÃO entram no bootcamp (granularidade demais).
+const REMOVE = new Set(["lgpd_controlador_operador"]);
 
 // Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
 // Estáticos → background "naval"; especiais que aceitam fundo → props.background "naval".
@@ -121,7 +109,7 @@ function toDark(s: SlideEntry): SlideEntry {
   return s;
 }
 
-const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)];
+const base: SlideEntry[] = [cover, ...travessiaEvent.manifest.slice(1)].filter((s) => !REMOVE.has(s.key));
 const withExtras: SlideEntry[] = [];
 for (const s of base) {
   for (const ex of EXTRAS) if (ex.before === s.key) withExtras.push(ex.slide);
@@ -137,7 +125,7 @@ const boundaries = openerIndices.slice(1).map((i) => i - 1).concat(manifest.leng
 export const bootcampCaldeiraEvent: EventModule = {
   ...travessiaEvent,
   slug: "bootcamp-caldeira",
-  name: "Workshop Caldeira",
+  name: "Bootcamp Caldeira",
   themeClass: "theme-caldeira",
   contacts: { ...travessiaEvent.contacts },
   manifest,
