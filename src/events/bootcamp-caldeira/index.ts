@@ -82,21 +82,6 @@ const iaPromptInjection: SlideEntry = {
     background: "naval",
   },
 };
-const iaBlindagem: SlideEntry = {
-  key: "ia_blindagem",
-  kind: "static",
-  staticProps: {
-    variant: "list",
-    eyebrow: "blindando a IA do seu app · OWASP LLM #1",
-    background: "naval",
-    items: [
-      { label: "autorização no código, não no prompt", sub: "\"não faça X\" no system prompt não é segurança — a ação checa o papel real", accent: true },
-      { label: "menor privilégio pro agente", sub: "não dê a tool que muda role ou apaga dado se ele não precisa" },
-      { label: "input do usuário é dado hostil", sub: "texto nunca vira ação sem validação no servidor" },
-      { label: "RLS é a rede final — até pra IA", sub: "se a injeção furar tudo, o dado alheio ainda não sai" },
-    ],
-  },
-};
 const arquiteturaCamadas: SlideEntry = {
   key: "arquitetura_camadas",
   kind: "static",
@@ -137,7 +122,6 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
   { before: "ato_3_codigo", slide: authConfig },             // config de Auth (Act 2)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
-  { before: "ato_3_lgpd", slide: iaBlindagem },
   { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
 ];
 
@@ -150,6 +134,7 @@ const REMOVE = new Set([
   "lgpd_aws_q",
   "lgpd_aws_a",
   "lgpd_frase_efeito",
+  "governanca_acessos",
 ]);
 
 // Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
