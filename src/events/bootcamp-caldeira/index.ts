@@ -141,7 +141,7 @@ const lovableCloudVsSupabase: SlideEntry = {
 // Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
 const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_1_porque", slide: aboutSlide },             // "sobre mim" logo após a capa
-  { before: "vitrine_deposito", slide: lovableCloudVsSupabase }, // abre o Act 2 (Supabase)
+  { before: "tres_pilares", slide: lovableCloudVsSupabase }, // Act 2, depois do vitrine vs depósito
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
   { before: "ato_3_codigo", slide: authConfig },             // config de Auth (Act 2)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
