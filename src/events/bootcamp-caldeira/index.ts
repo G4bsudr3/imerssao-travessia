@@ -116,13 +116,36 @@ const bootcampAgenda: SlideEntry = {
 // Slides do deck da Travessia trocados por uma versão do bootcamp.
 const REPLACE: Record<string, SlideEntry> = { agenda: bootcampAgenda };
 
+// Movido pra abrir o bloco Supabase (era do Act 4). Cópia do slide da Travessia.
+const lovableCloudVsSupabase: SlideEntry = {
+  key: "lovable_cloud_vs_supabase",
+  kind: "special",
+  component: "ComparisonSlide",
+  props: {
+    eyebrow: "duas formas de ter backend",
+    title: "Lovable Cloud vs Supabase próprio",
+    leftTag: "Lovable Cloud",
+    rightTag: "Supabase próprio",
+    rightAccent: true,
+    left: {
+      label: "default · zero setup",
+      bullets: ["liga e usa", "auth, db, storage, edge", "ótimo até produção média", "sem acesso ao dashboard cru"],
+    },
+    right: {
+      label: "controle total",
+      bullets: ["dashboard completo", "branching · backups · point-in-time", "config fina (pooling, índices)", "vale quando dados crescem"],
+    },
+  },
+};
+
 // Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
 const EXTRAS: { before: string; slide: SlideEntry }[] = [
   { before: "ato_1_porque", slide: aboutSlide },             // "sobre mim" logo após a capa
+  { before: "vitrine_deposito", slide: lovableCloudVsSupabase }, // abre o Act 2 (Supabase)
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
   { before: "ato_3_codigo", slide: authConfig },             // config de Auth (Act 2)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD
-  { before: "lovable_cloud_vs_supabase", slide: arquiteturaCamadas }, // abre o Act 4
+  { before: "quando_migrar", slide: arquiteturaCamadas },    // abre o Act 4
 ];
 
 // Slides do deck da Travessia que NÃO entram no bootcamp (granularidade demais).
@@ -139,6 +162,7 @@ const REMOVE = new Set([
   "policy_faltando",
   "top_riscos_rls",
   "lgpd_cyber",
+  "lovable_cloud_vs_supabase",
 ]);
 
 // Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
