@@ -92,7 +92,7 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
 ];
 
 // Slides do deck da Travessia que NÃO entram no bootcamp (granularidade demais).
-const REMOVE = new Set(["lgpd_controlador_operador"]);
+const REMOVE = new Set(["lgpd_controlador_operador", "lgpd_mito", "lgpd_multa_recorde", "lgpd_linha_tempo"]);
 
 // Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
 // Estáticos → background "naval"; especiais que aceitam fundo → props.background "naval".
