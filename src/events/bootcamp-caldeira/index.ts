@@ -38,8 +38,8 @@ const aboutSlide: SlideEntry = {
     name: "Gabriel Breda Sudre",
     accent: "Breda",
     tagline:
-      "Ajudo pessoas e times a construir com IA de forma segura e bem estruturada. Meu objetivo não é acabar com o vibecoding — é viabilizá-lo de um jeito realmente seguro.",
-    handles: [{ at: "@gabreda" }, { at: "@sobreai", label: "empresa" }],
+      "Ajudo pessoas e times a construir com IA de forma segura e bem estruturada. Meu objetivo não é acabar com o vibecoding, e sim viabilizá-lo de um jeito realmente seguro.",
+    handles: [{ at: "@gabreda" }, { at: "@sobreai" }],
   },
 };
 const storagePublico: SlideEntry = {
