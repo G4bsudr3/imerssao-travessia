@@ -135,6 +135,10 @@ const REMOVE = new Set([
   "lgpd_aws_a",
   "lgpd_frase_efeito",
   "governanca_acessos",
+  "realidade",
+  "policy_faltando",
+  "top_riscos_rls",
+  "lgpd_cyber",
 ]);
 
 // Força o slide pro modo ESCURO (identidade Caldeira: preto + verde neon).
