@@ -28,6 +28,20 @@ const cover: SlideEntry = {
 };
 
 // ── slides extras do bootcamp ──
+const aboutSlide: SlideEntry = {
+  key: "about",
+  kind: "special",
+  component: "AboutSlide",
+  props: {
+    photo: "/gabriel-breda.jpg",
+    eyebrow: "quem tá no palco",
+    name: "Gabriel Breda Sudre",
+    accent: "Breda",
+    tagline:
+      "Ajudo pessoas e times a construir com IA de forma segura e bem estruturada. Meu objetivo não é acabar com o vibecoding — é viabilizá-lo de um jeito realmente seguro.",
+    handles: [{ at: "@gabreda" }, { at: "@sobreai", label: "empresa" }],
+  },
+};
 const storagePublico: SlideEntry = {
   key: "storage_publico",
   kind: "static",
@@ -119,6 +133,7 @@ const REPLACE: Record<string, SlideEntry> = { agenda: bootcampAgenda };
 
 // Onde cada extra entra (antes da chave-âncora). Ordem do array = ordem de inserção.
 const EXTRAS: { before: string; slide: SlideEntry }[] = [
+  { before: "ato_1_porque", slide: aboutSlide },             // "sobre mim" logo após a capa
   { before: "ato_3_codigo", slide: storagePublico },        // fecha o Act 2 (Supabase)
   { before: "ato_3_codigo", slide: authConfig },             // config de Auth (Act 2)
   { before: "ato_3_lgpd", slide: iaPromptInjection },        // Act 3, antes da LGPD

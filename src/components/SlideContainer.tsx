@@ -13,6 +13,7 @@ import { Teleprompter } from "./stage/Teleprompter";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
+import { AboutSlide } from "./slides/AboutSlide";
 import { LobbySlide } from "./slides/LobbySlide";
 import { PulseCheckSlide } from "./slides/PulseCheckSlide";
 import { BrainstormQuestion, BrainstormActive, BrainstormSettled } from "./slides/BrainstormSlides";
@@ -50,6 +51,8 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
   switch (e.component) {
     case "CoverSlide":
       return <CoverSlide variant="intro" {...(e.props ?? {})} />;
+    case "AboutSlide":
+      return <AboutSlide {...e.props} />;
     case "LobbySlide": return <LobbySlide />;
     case "FinalSlide": return <FinalSlide />;
     case "PulseCheckSlide": return <PulseCheckSlide {...(e.props ?? {})} />;
