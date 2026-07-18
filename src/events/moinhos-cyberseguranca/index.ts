@@ -99,11 +99,21 @@ const praticaAnalise = naval("pratica_analise", {
   ],
 });
 
+const materiaisSlide = naval("materiais", {
+  variant: "act",
+  eyebrow: "leve com você · material do aluno",
+  title: "baixe e replique",
+  subtitle: "guia de estudo, guia do lab e os códigos — tudo em PDF",
+  href: "/materiais-moinhos.zip",
+  cta: "baixar tudo (.zip)",
+});
+
 const PRATICA = [praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, passo3, praticaProva, passo4, praticaAnalise];
 
 const base: SlideEntry[] = [cover, ...bootcampCaldeiraEvent.manifest.slice(1)];
 const at = base.findIndex((s) => s.key === "confianca");
-const manifest: SlideEntry[] = at >= 0 ? [...base.slice(0, at), ...PRATICA, ...base.slice(at)] : [...base, ...PRATICA];
+const withPratica: SlideEntry[] = at >= 0 ? [...base.slice(0, at), ...PRATICA, ...base.slice(at)] : [...base, ...PRATICA];
+const manifest: SlideEntry[] = [...withPratica, materiaisSlide];
 
 const OPENER_KEYS = ["ato_1_porque", "ato_2_supabase", "ato_3_codigo", "ato_4_arquitetura", "pratica_intro"];
 const openerIndices = OPENER_KEYS.map((k) => manifest.findIndex((s) => s.key === k)).filter((i) => i >= 0);
@@ -158,6 +168,7 @@ export const moinhosCyberEvent: EventModule = {
     pratica_prova: `E olha a prova. Primeiro mostro funcionando, pela recepção, certinho. Agora eu tento entrar pela porta dos fundos direto... e o sistema responde 403, acesso negado. Essa tela feia é o app dizendo NÃO. Só passa quem vem pela recepção, com o carimbo certo.`,
     passo4_waf: `Passo 4, a segurança na porta. Ligo o WAF e um limite de tentativas por minuto. Por que importa: barra ataque conhecido e enxurrada de pedidos. Como sei que deu certo: se eu martelar de tentativas, ele me bloqueia.`,
     pratica_analise: `Passo 5, fechando: análise. Rodo o verificador do Supabase, que acha falha em dois minutos — e olha, eu deixei uma falha de propósito pra vocês verem ele pegando. Depois colo tudo no Claude e peço os furos. Isso qualquer um de vocês faz hoje, sem ser especialista. E o que levar pra casa: você não precisa configurar isso — precisa saber perguntar pro seu fornecedor se ele fez.`,
+    materiais: `E pra fechar, tá tudo aqui pra vocês levarem. Esse pacote tem o guia de estudo, o passo a passo do lab e os códigos prontos, tudo em PDF, com a cara da SobreAI. Eu mando o link no chat. Estuda, refaz o lab com as suas chaves, e me chama quando construir o seu. Valeu!`,
   },
 };
 
