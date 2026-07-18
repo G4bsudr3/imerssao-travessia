@@ -268,6 +268,30 @@
 }
 
 /* =========================================================
+   Tema Moinhos de Vento — Faculdade Moinhos de Vento (POA).
+   Identidade: azul-marinho profundo + accent magenta, fonte Raleway.
+   ========================================================= */
+.theme-moinhos {
+  --preto: 213 78% 13%;         /* fundo azul-marinho profundo */
+  --bege: 0 0% 96%;             /* off-white */
+  --laranja: 325 80% 58%;       /* accent magenta Moinhos */
+  --shadow-laranja: 0 0 44px -6px hsl(325 80% 58% / 0.5);
+}
+.theme-moinhos body,
+.theme-moinhos .font-body {
+  font-family: 'Raleway', system-ui, sans-serif;
+}
+.theme-moinhos .font-display {
+  font-family: 'Raleway', system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+.theme-moinhos .eyebrow {
+  font-size: clamp(1rem, 1.25vw, 1.35rem);
+}
+
+/* =========================================================
    Admin shell — paleta NEUTRA, independente do tema Travessia.
    Sobrescreve tokens localmente pra usar slate/zinc.
    ========================================================= */

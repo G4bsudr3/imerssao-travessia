@@ -10,6 +10,8 @@ import { travessiaEvent } from "./travessia";
 import { cybersecLgpdEvent } from "./cybersec-lgpd";
 import { deatecEvent } from "./deatec";
 import { bootcampCaldeiraEvent } from "./bootcamp-caldeira";
+import { moinhosCyberEvent } from "./moinhos-cyberseguranca";
+import { moinhosVibecodingEvent } from "./moinhos-vibecoding";
 
 /** Eventos com override de código (deck/atos próprios). */
 const CODE_OVERRIDES: Record<string, EventModule> = {
@@ -17,6 +19,8 @@ const CODE_OVERRIDES: Record<string, EventModule> = {
   [cybersecLgpdEvent.slug]: cybersecLgpdEvent,
   [deatecEvent.slug]: deatecEvent,
   [bootcampCaldeiraEvent.slug]: bootcampCaldeiraEvent,
+  [moinhosCyberEvent.slug]: moinhosCyberEvent,
+  [moinhosVibecodingEvent.slug]: moinhosVibecodingEvent,
 };
 
 export type EventRow = {
