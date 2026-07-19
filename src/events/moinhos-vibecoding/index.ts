@@ -66,7 +66,7 @@ const manifest: SlideEntry[] = [
     { year: "❓", label: "o salto de agora · ?" },
   ]),
   stat("gutenberg", "história nº 1 · Gutenberg, 1450", "o salto que explica todos os outros", "50 anos", "a Europa imprimiu mais livros do que nos MIL anos anteriores"),
-  head("ford_acesso", "a revolução nunca é a invenção. é o ACESSO."),
+  two("ford_acesso", "a lição que se repete", "a revolução não é a invenção.", "é o acesso."),
   stat("salto_atual", "e os saltos estão cada vez mais perto", "olha o ritmo", "15 anos", "do smartphone à IA que conversa. o próximo vem antes — e você está DENTRO dele."),
   // ── parte 2 · a IA ──
   act("bloco_ia", "parte 2 de 5 · ~20 min", "a máquina que adivinha", "o que é essa tal de IA — sem misticismo e sem medo."),
@@ -74,7 +74,7 @@ const manifest: SlideEntry[] = [
   two("corretor_biblioteca", "a analogia pra levar pra casa", "a IA é o corretor do seu teclado…", "…que leu a biblioteca do mundo inteiro."),
   head("nao_sabe_preve", "ela não SABE. ela PREVÊ."),
   two("prompt_cabeleireiro", "a palavra nova do dia: prompt", "prompt é o pedido no cabeleireiro", "'dá uma ajeitada' é loteria — com foto de referência sai do jeito que você quer."),
-  live("aovivo_ia", "ao vivo · a IA na tela"),
+  live("aovivo_ia", "a IA na tela"),
   // ── parte 3 · o app ──
   act("bloco_app", "parte 3 de 5 · ~45 min", "por dentro de todo app", "o que existe atrás de cada botão que você aperta."),
   two("receita_de_bolo", "primeiro: o que É um app? · me fala o que você mais usa", "software é uma receita de bolo", "que o computador segue ao pé da letra — sem improvisar nunca."),
@@ -83,7 +83,7 @@ const manifest: SlideEntry[] = [
     { label: "o que TRABALHA escondido", sub: "as regras: conferir a senha, calcular o preço, aprovar o pagamento" },
     { label: "o que fica GUARDADO", sub: "seu cadastro, seus pedidos, suas fotos — pra amanhã continuar lá", accent: true },
   ]),
-  head("lingua_da_maquina", "até ontem, escrever essa receita exigia falar a língua da máquina."),
+  two("lingua_da_maquina", "por que era coisa de poucos", "escrever essa receita", "era falar a língua da máquina."),
   grid("salao_cozinha", "a imagem-mãe do dia · todo app é um RESTAURANTE", [
     { label: "o SALÃO — o que o cliente vê e toca", sub: "a fachada, o cardápio, as mesas · no app: as telas, os botões, as cores" },
     { label: "a COZINHA — onde o prato é feito", sub: "pedido conferido, pagamento processado, regras aplicadas — o cliente nunca entra", accent: true },
@@ -110,7 +110,7 @@ const manifest: SlideEntry[] = [
     { year: "📓", label: "o caderno anota · banco" },
     { year: "✅", label: "volta pra sua tela" },
   ]),
-  live("aovivo_app", "ao vivo · abrindo um app de verdade"),
+  live("aovivo_app", "um app de verdade"),
   list("quiz_coro", "prova rápida · em coro — sala e chat · quem é quem?", [
     { label: "o que você VÊ no app é o…", sub: "salão! (frontend)" },
     { label: "quem LEVA e TRAZ o pedido é o…", sub: "drive-thru! (API)" },
@@ -119,9 +119,9 @@ const manifest: SlideEntry[] = [
   ]),
   act("intervalo", "respira · intervalo · 10 min", "intervalo", "quando voltar: criar tudo isso SEM saber programar. e pensa — que problema SEU um app resolveria? eu vou perguntar."),
   // ── parte 4 · vibecoding ──
-  act("bloco_vibecoding", "parte 4 de 5 · ~15 min", "e se você pudesse PEDIR o app?", "em vez de programar."),
+  act("bloco_vibecoding", "parte 4 de 5 · ~15 min", "e se você pudesse pedir?", "em vez de programar."),
   two("vibecoding_def", "a palavra do título do dia, enfim", "vibecoding", "construir um app CONVERSANDO com a IA — em português, sem saber programar."),
-  head("reforma_sem_obra", "é reformar a casa conversando com o arquiteto — e a parede levanta na hora."),
+  two("reforma_sem_obra", "a sensação de vibecodar", "é uma reforma sem obra.", "a parede levanta na hora."),
   cmp("antes_agora", "o que mudou de verdade · antes · agora",
     { label: "anos aprendendo a língua da máquina", sub: "+ equipe e meses de obra — e mudar de ideia custava caro" },
     { label: "descrever, olhar, pedir ajuste", sub: "a parede levanta na hora; errar custa uma frase e um minuto" }),
@@ -145,8 +145,8 @@ const manifest: SlideEntry[] = [
     { year: "📱", label: "internet + celular" },
     { year: "✨", label: "IA: CRIAR SOFTWARE" },
   ]),
-  stat("stat_antes_depois", "o tamanho do salto, em números", "o que custava…", "6 meses + equipe + R$ 100 mil", "hoje: uma pessoa, uma conversa — a 1ª versão no ar numa tarde."),
-  head("tese_headline", "a pergunta deixou de ser 'quem sabe programar' — virou 'quem sabe o que quer'."),
+  two("stat_antes_depois", "o tamanho do salto", "6 meses, uma equipe, R$ 100 mil.", "hoje: uma conversa e uma tarde."),
+  two("tese_headline", "se levar uma frase pra casa", "não é mais quem sabe programar.", "é quem sabe o que quer."),
   two("colheita_ideias", "cobrando o dever de casa · fala aí / manda no chat", "que app VOCÊ criaria?", "guarda essa ideia — daqui a pouco uma delas pode virar realidade na tela."),
   // bloco de PREPARAÇÃO/ESTRATÉGIA antes de abrir a ferramenta (pedido do palestrante)
   grid("preparar_estrategia", "antes de abrir a ferramenta · a preparação é 80% do resultado", [
@@ -169,7 +169,7 @@ const manifest: SlideEntry[] = [
     { label: "3. eu peço em português, na tela", sub: "e a gente vê o salão, a cozinha e o caderno nascerem" },
     { label: "4. o app NO AR antes de você ir embora", sub: "com link pra abrir no seu celular", accent: true },
   ]),
-  live("aovivo_final", "ao vivo · do zero ao app"),
+  live("aovivo_final", "do zero ao app"),
 ];
 
 const OPENER_KEYS = ["timeline_saltos_1", "bloco_ia", "bloco_app", "bloco_vibecoding", "lovable_fabrica"];
