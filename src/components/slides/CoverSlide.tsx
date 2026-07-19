@@ -11,12 +11,17 @@ export function CoverSlide({
   variant = "intro",
   labels: labelsProp,
   showLogo,
+  logoSrc,
+  logoAlt,
 }: {
   variant?: Variant;
   /** override do texto — usado por eventos que reaproveitam o deck (ex.: bootcamp) */
   labels?: Labels;
   /** exibir o ChoraLogo no lugar do título em texto (default: só no intro) */
   showLogo?: boolean;
+  /** logo de terceiro (ex.: Lovable) exibida abaixo do título — usado no dia de vibecoding */
+  logoSrc?: string;
+  logoAlt?: string;
 }) {
   const defaults: Record<Variant, Labels> = {
     intro: {
@@ -43,6 +48,13 @@ export function CoverSlide({
           <ChoraLogo className="text-[clamp(5rem,16vw,11.2rem)] whitespace-nowrap" />
         ) : (
           <h1 className="font-display text-[clamp(4rem,12vw,8.4rem)] leading-none text-bege">{l.title}</h1>
+        )}
+        {logoSrc && (
+          <img
+            src={logoSrc}
+            alt={logoAlt ?? "logo"}
+            className="h-[clamp(3rem,9vw,6.5rem)] w-auto drop-shadow-[0_0_44px_rgba(255,110,60,0.4)]"
+          />
         )}
         {l.sub && <p className="text-3xl opacity-70 text-bege">{l.sub}</p>}
         {variant === "intro" && !labelsProp && (
