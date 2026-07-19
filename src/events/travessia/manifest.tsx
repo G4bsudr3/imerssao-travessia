@@ -57,7 +57,8 @@ type BrainstormProps = { slideKey: string; question: string };
 
 export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
-  | { key: string; kind: "special"; component: "CoverSlide"; props?: { labels?: { eyebrow: string; title: string; sub: string }; showLogo?: boolean } }
+  | { key: string; kind: "special"; component: "CoverSlide"; props?: { labels?: { eyebrow: string; title: string; sub: string }; showLogo?: boolean; logoSrc?: string; logoAlt?: string } }
+  | { key: string; kind: "special"; component: "EraSlide"; props: { eyebrow?: string; image?: string; image2?: string; kicker?: string; kickerAccent?: string; lines?: string[] } }
   | { key: string; kind: "special"; component: "AboutSlide"; props: { photo?: string; eyebrow?: string; name: string; accent?: string; tagline: string; handles?: { at: string; label?: string }[] } }
   | { key: string; kind: "special"; component: "LobbySlide" | "FinalSlide" | "BrainstormActive" | "BrainstormSettled" }
   | { key: string; kind: "special"; component: "PulseCheckSlide"; props?: PulseProps }

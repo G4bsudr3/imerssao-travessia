@@ -2,6 +2,9 @@ import type { EventModule } from "../types";
 import type { SlideEntry } from "../travessia/manifest";
 import { bootcampCaldeiraEvent } from "../bootcamp-caldeira";
 import lovableLogo from "@/assets/lovable-logo-icon.png";
+import eraCharrete from "@/assets/era-charrete.png";
+import eraCarro from "@/assets/era-carro.png";
+import eraAviao from "@/assets/era-aviao.png";
 
 // DIA 1 do MBA da Faculdade Moinhos de Vento — "IA e Vibecoding com [logo Lovable]".
 // Plateia CRUA/leiga: fundamentos (IA, front/back, API, banco, vibecoding) em ~2h, contados
@@ -10,7 +13,7 @@ import lovableLogo from "@/assets/lovable-logo-icon.png";
 // banho de loja + build ao vivo no Lovable (~1h, fora deste deck). Tema escuro (theme-moinhos).
 // Estrutura/roteiro desenhados por multiagentes (fable) + bloco de "estratégia antes do Lovable".
 
-type Item = { label?: string; sub?: string; accent?: boolean };
+type Item = { label?: string; sub?: string; accent?: boolean; strike?: boolean };
 const S = (variant: string, sp: Record<string, unknown>, key: string): SlideEntry =>
   ({ key, kind: "static", staticProps: { variant, background: "naval", ...sp } as never });
 const act = (key: string, eyebrow: string, title: string, subtitle?: string) => S("act", { eyebrow, title, subtitle }, key);
@@ -19,9 +22,9 @@ const head = (key: string, title: string, eyebrow?: string) => S("headline", { t
 const live = (key: string, title: string) => S("headline", { title, background: "accent", eyebrow: "ao vivo · tela compartilhada" }, key);
 const grid = (key: string, eyebrow: string, items: Item[]) => S("grid", { eyebrow, items }, key);
 const list = (key: string, eyebrow: string, items: Item[]) => S("list", { eyebrow, items }, key);
-const stat = (key: string, eyebrow: string, title: string, value: string, sub: string) => S("stat", { eyebrow, title, stat: { value, sub } }, key);
-const tl = (key: string, eyebrow: string, timeline: Array<{ year: string; label: string }>) => S("timeline", { eyebrow, timeline }, key);
-const cmp = (key: string, eyebrow: string, left: { label: string; sub?: string }, right: { label: string; sub?: string }) => S("comparison", { eyebrow, comparison: { left, right } }, key);
+const cmp =(key: string, eyebrow: string, left: { label: string; sub?: string }, right: { label: string; sub?: string }) => S("comparison", { eyebrow, comparison: { left, right } }, key);
+const era = (key: string, p: { eyebrow?: string; image?: string; image2?: string; kicker?: string; kickerAccent?: string; lines?: string[] }): SlideEntry =>
+  ({ key, kind: "special", component: "EraSlide", props: p });
 
 const cover: SlideEntry = {
   key: "cover",
@@ -50,24 +53,20 @@ const manifest: SlideEntry[] = [
     { label: "4. vibecoding", sub: "construir conversando — sem saber programar" },
     { label: "5. ao vivo: um app do zero", sub: "na tela, na frente de vocês", accent: true },
   ]),
-  // ── parte 1 · a história ──
-  tl("timeline_saltos_1", "parte 1 de 5 · a história que se repete", [
-    { year: "🔥", label: "fogo · a luz" },
-    { year: "🛞", label: "roda · a força" },
-    { year: "📖", label: "imprensa · o saber" },
-    { year: "🚂", label: "vapor · a produção" },
-    { year: "🚗", label: "carro · a distância" },
+  // ── parte 1 · a história que se repete (cinematográfico, imagens de gravura) ──
+  act("bloco_historia", "parte 1 de 5 · a história que se repete", "o que muda quando a tecnologia chega", "e por que sempre acontece do mesmo jeito."),
+  era("ponto_partida", { eyebrow: "ponto de partida · Brasil, 1900", image: eraCharrete, kicker: "1900", lines: ["ir de Porto Alegre a São Paulo era a pé, de burro, de charrete.", "mil e cem quilômetros que levavam semanas."] }),
+  era("era_carro", { eyebrow: "1908 · o Ford Modelo T", image: eraCarro, kicker: "vieram os", kickerAccent: "carros.", lines: ["e com eles, uma vida nova: estradas, viagens, cidades inteiras.", "o que era de rico virou de todo mundo."] }),
+  era("era_aviao", { eyebrow: "1906 · o 14-Bis do Santos Dumont", image: eraAviao, kicker: "vieram os", kickerAccent: "aviões.", lines: ["o oceano, que era semanas de navio, virou uma tarde de poltrona.", "de novo a mesma história: de poucos, pra todos."] }),
+  list("profissoes", "o efeito colateral · umas profissões somem, outras nascem", [
+    { label: "cocheiro", strike: true },
+    { label: "ferreiro de carruagem", strike: true },
+    { label: "fabricante de chicote", strike: true },
+    { label: "e nasceram: motorista, mecânico, dono de posto, engenheiro de trânsito", accent: true },
   ]),
-  tl("timeline_saltos_2", "e a história não parou · cada vez mais rápido", [
-    { year: "✈️", label: "avião · o mundo" },
-    { year: "💻", label: "computador · o cálculo" },
-    { year: "🌐", label: "internet · a voz" },
-    { year: "📱", label: "smartphone · tudo no bolso" },
-    { year: "❓", label: "o salto de agora · ?" },
-  ]),
-  stat("gutenberg", "história nº 1 · Gutenberg, 1450", "o salto que explica todos os outros", "50 anos", "a Europa imprimiu mais livros do que nos MIL anos anteriores"),
+  era("coexistencia", { eyebrow: "e a parte que acalma o coração", image: eraCarro, image2: eraAviao, kicker: "o avião não", kickerAccent: "matou o carro.", lines: ["cada um achou o seu lugar. andam juntos até hoje.", "a IA é assim: não vem te substituir, vem andar do teu lado."] }),
   two("ford_acesso", "a lição que se repete", "a revolução não é a invenção.", "é o acesso."),
-  stat("salto_atual", "e os saltos estão cada vez mais perto", "olha o ritmo", "15 anos", "do smartphone à IA que conversa. o próximo vem antes — e você está DENTRO dele."),
+  two("salto_agora", "e o salto de agora?", "criar software", "acabou de virar de todos."),
   // ── parte 2 · a IA ──
   act("bloco_ia", "parte 2 de 5 · ~20 min", "a máquina que adivinha", "o que é essa tal de IA — sem misticismo e sem medo."),
   two("jogo_autocomplete", "vamos jogar · responde em voz alta / no chat", "quem não deve, não ___", "água mole em pedra dura, tanto bate até que ___"),
@@ -103,12 +102,12 @@ const manifest: SlideEntry[] = [
     { label: "o app do tempo não mede o tempo", sub: "pede os 22 graus no drive-thru do serviço de clima" },
     { label: "quando você constrói conversando, plugar um desses é UMA FRASE", sub: "pagamento, mapa, IA — já existem prontos, é só pedir", accent: true },
   ]),
-  tl("jornada_pedido", "agora junta tudo · vocês narram comigo · a jornada de um pedido", [
-    { year: "👆", label: "você toca · salão" },
-    { year: "🛎️", label: "viaja · drive-thru (API)" },
-    { year: "🍳", label: "cozinha confere · backend" },
-    { year: "📓", label: "o caderno anota · banco" },
-    { year: "✅", label: "volta pra sua tela" },
+  list("jornada_pedido", "agora junta tudo · vocês narram comigo · a jornada de um pedido", [
+    { label: "1. você toca no botão", sub: "o salão (frontend)" },
+    { label: "2. o pedido viaja pela janelinha", sub: "o drive-thru (a API)" },
+    { label: "3. a cozinha confere e prepara", sub: "o backend: saldo, regras, aprovação" },
+    { label: "4. o caderno registra tudo", sub: "o banco de dados" },
+    { label: "5. a resposta volta pra sua tela", sub: "'pedido confirmado', e você nem viu a viagem", accent: true },
   ]),
   live("aovivo_app", "um app de verdade"),
   list("quiz_coro", "prova rápida · em coro — sala e chat · quem é quem?", [
@@ -138,13 +137,7 @@ const manifest: SlideEntry[] = [
     { label: "contrata os drive-thrus", sub: "pagamento, mapa, IA — as APIs, numa frase" },
     { label: "e te entrega a CHAVE: um link no ar", sub: "pra mandar pra qualquer pessoa, na hora", accent: true },
   ]),
-  tl("timeline_reprise", "lembra dela? · a linha dos saltos, agora completa · o último item acendeu", [
-    { year: "🔥", label: "fogo · a luz" },
-    { year: "📖", label: "imprensa · o saber" },
-    { year: "🚗", label: "carro · a distância" },
-    { year: "📱", label: "internet + celular" },
-    { year: "✨", label: "IA: CRIAR SOFTWARE" },
-  ]),
+  two("reprise", "lembra da charrete?", "criar software", "é o carro da nossa geração."),
   two("stat_antes_depois", "o tamanho do salto", "6 meses, uma equipe, R$ 100 mil.", "hoje: uma conversa e uma tarde."),
   two("tese_headline", "se levar uma frase pra casa", "não é mais quem sabe programar.", "é quem sabe o que quer."),
   two("colheita_ideias", "cobrando o dever de casa · fala aí / manda no chat", "que app VOCÊ criaria?", "guarda essa ideia — daqui a pouco uma delas pode virar realidade na tela."),
@@ -172,7 +165,7 @@ const manifest: SlideEntry[] = [
   live("aovivo_final", "do zero ao app"),
 ];
 
-const OPENER_KEYS = ["timeline_saltos_1", "bloco_ia", "bloco_app", "bloco_vibecoding", "lovable_fabrica"];
+const OPENER_KEYS = ["bloco_historia", "bloco_ia", "bloco_app", "bloco_vibecoding", "lovable_fabrica"];
 const openerIndices = OPENER_KEYS.map((k) => manifest.findIndex((s) => s.key === k)).filter((i) => i >= 0);
 const boundaries = openerIndices.slice(1).map((i) => i - 1).concat(manifest.length - 1);
 
@@ -180,11 +173,14 @@ const scripts: Record<string, string> = {
   cover: `Deixa a capa no telão enquanto a galera senta e o pessoal do online vai chegando. Quando estiver todo mundo, eu começo — e a primeira coisa não é slide, é uma pergunta pra vocês.`,
   duas_perguntas: `Fala, pessoal! Que bom ter vocês aqui — quem tá na sala e quem tá online. Rapidinho sobre mim: eu sou o Gabriel Breda, da SobreAI, e o meu trabalho é ajudar pessoas que NÃO são técnicas a construir coisas com IA. Antes de qualquer slide, duas perguntas. Primeira: quem aqui já usou o ChatGPT? Levanta a mão — e quem tá online, manda um 'eu' no chat. Olha isso... quase todo mundo. Agora a segunda: quem aqui já CRIOU um software? Um aplicativo, um sistema, qualquer coisa. ... Pois é — nenhuma, ou talvez uma ou duas mãos. E olha que interessante: a distância entre as duas perguntas continua enorme. É exatamente sobre essa distância que é o dia de hoje. Guarda esse momento, porque no fim da manhã eu vou refazer a segunda pergunta — e a resposta vai ser outra.`,
   agenda: `O combinado é esse. Nas próximas duas horas, eu te dou o mapa: de onde vem essa revolução, o que é essa IA que todo mundo fala, e do que um aplicativo é feito por dentro — tudo sem UMA palavra técnica solta; toda vez que aparecer um nome estranho, ele vai chegar depois de uma imagem que você já entendeu. No meio tem um intervalo de dez minutos pra respirar. E aí vem a parte cinco, que não é slide: eu vou compartilhar a tela e montar um aplicativo DO ZERO, ao vivo, na frente de vocês. Você não precisa anotar nada, não precisa saber nada antes. Só precisa de uma coisa: curiosidade. Dúvida no meio do caminho? Quem tá aqui levanta a mão, quem tá online joga no chat — eu paro e respondo. Bora.`,
-  timeline_saltos_1: `Deixa eu começar bem antes de qualquer computador. Imagina a vida antes do fogo: quando o sol se punha, o dia ACABAVA. O escuro não era de ninguém — era contra todos. O fogo é a primeira vez que o ser humano pega uma força da natureza, a luz, o calor, e coloca na própria mão. A noite deixou de ser de ninguém e virou de todos. Guarda essa frase, porque ela vai voltar: o que era de POUCOS virou de TODOS. A roda: a força. Uma pessoa movendo o que antes exigia dez — o que era de poucos virou de todos. A imprensa de Gutenberg: o conhecimento saiu do mosteiro e foi parar na estante de qualquer casa — o que era de poucos... virou de todos. Tão vendo o padrão? A máquina a vapor fez o mesmo com a produção: o que era luxo virou prateleira. E o carro fez isso com a distância. Toda vez, a MESMA história.`,
-  timeline_saltos_2: `E aí acelera. O avião: o oceano, que era uma viagem de mais de uma semana pra quem podia pagar um navio, virou uma tarde — de poucos pra todos. O computador: uma máquina de calcular que ocupava uma sala inteira foi parar na mesa do escritório. A internet deu VOZ: qualquer pessoa publicando pro planeta, sem pedir licença pra jornal nenhum. E o smartphone pegou tudo isso — a foto, o mapa, o banco, a enciclopédia — e colocou no bolso de bilhões de pessoas. Agora repara no último item da linha: o salto de AGORA. Tá com uma interrogação, e vai ficar com ela. Eu prometo que a gente volta nessa linha no fim da manhã — e quando a gente voltar, você mesmo vai completar. Antes disso, eu quero parar em duas histórias dessa linha, porque elas explicam TUDO que vem hoje.`,
-  gutenberg: `Primeira história. Antes de 1450, um livro PODIA custar o preço de uma casa. Cada livro era copiado à mão, durante meses, por monges dentro de um mosteiro — e ler era privilégio de clero e nobreza. Aí vem o Gutenberg com a prensa. E presta atenção no detalhe: o Gutenberg não fez livros MELHORES. Os livros dos monges eram lindos. Ele fez livros ACESSÍVEIS. Resultado: em cinquenta anos, a Europa imprimiu mais livros do que nos mil anos anteriores. MIL anos. E aí guarda essa comigo, porque ela volta no fim: antes de Gutenberg, LER era pra poucos. Até anteontem... PROGRAMAR era pra poucos.`,
-  ford_acesso: `Segunda história. O carro existe desde 1886. Mas ele passou VINTE anos sendo brinquedo de rico — uma curiosidade de milionário excêntrico. A revolução não aconteceu quando inventaram o carro; aconteceu quando o Ford deixou o carro BARATO, e o operário da fábrica passou a poder comprar o carro que ele mesmo montava. Essa é a frase-mestra do dia inteiro, olha ela na tela: a revolução nunca é a invenção — é o acesso. E por que eu conto isso HOJE? Porque a IA existe em laboratório desde os anos 1950. Setenta anos. A revolução é AGORA porque em 2022 ela ganhou uma caixinha de conversa em português — o ChatGPT é o Ford Modelo T da inteligência. E o que eu vou te mostrar hoje... é o Modelo T da criação de software.`,
-  salto_atual: `E repara numa coisa da linha: do fogo até a roda, centenas de milhares de anos. Da imprensa até a máquina a vapor, trezentos anos. Do computador até a internet, umas quatro décadas. Do smartphone até a IA que conversa... quinze. Os saltos estão se amontoando — e isso significa que vocês não estão estudando um salto num livro de história: vocês estão DENTRO de um, agora, nesta sala. Então a pergunta que vale as próximas duas horas: todo salto daquela linha entregou pra todos algo que era de poucos. O que ESSE salto entrega? [pausa] ...a CRIAÇÃO de software. Usar aplicativo, todo mundo usa — você usou uns três antes do café hoje. Mas CRIAR um, até anteontem, exigia falar a língua das máquinas. Hoje exige falar português. E eu não vou pedir pra você acreditar em mim: no fim da manhã eu construo um aplicativo do zero, na sua frente, conversando com a IA. Até lá, meu trabalho é te dar o mapa. Começando pela pergunta óbvia: que raio de IA é essa?`,
+  bloco_historia: `Parte um. Antes de qualquer coisa técnica, eu quero te contar uma história. Uma história que a humanidade já viveu um monte de vezes, sempre do mesmo jeito. Presta atenção no padrão, porque quando ele aparecer de novo, agora, na nossa geração, você vai reconhecer na hora.`,
+  ponto_partida: `Volta comigo pra 1900, aqui no Brasil. Se você quisesse ir de Porto Alegre a São Paulo, ia a pé, no lombo de um burro, numa charrete se tivesse algum dinheiro. Mil e cem quilômetros que levavam semanas, e olha que eu tô sendo otimista. O mundo de uma pessoa comum terminava ali, onde a perna alcançava. Guarda essa imagem, porque em vinte anos ela vira pó.`,
+  era_carro: `Aí, em 1908, o Henry Ford faz uma coisa que ninguém tinha feito: ele deixa o carro barato. O carro já existia, mas era brinquedo de milionário. O Ford botou o operário da fábrica dentro do carro que ele mesmo montava. E não veio só o carro: veio estrada, veio viagem de fim de semana, vieram cidades inteiras desenhadas em volta dele. Repara na frase, porque ela é a chave do dia inteiro: o que era de poucos virou de todo mundo.`,
+  era_aviao: `E quase junto, o avião. O nosso Santos Dumont voa o 14-Bis em 1906. Poucas décadas depois, aquele oceano que era semanas de navio, só pra quem podia pagar, virou uma tarde sentado numa poltrona. De novo a mesma história. Uma coisa que era de pouquíssimos vira de todos.`,
+  profissoes: `Agora, toda revolução tem um lado que ninguém gosta de falar: ela mexe no trabalho das pessoas. Quando o carro chegou, sumiram profissões inteiras, sólidas, respeitadas. O cocheiro, o ferreiro que fazia carruagem, o fabricante de chicote. Acabaram. Mas olha o outro lado: nasceram o motorista, o mecânico, o dono de posto, o engenheiro de trânsito. O trabalho não evaporou. Ele mudou de lugar. Segura esse pensamento, porque daqui a pouco ele vale pra você.`,
+  coexistencia: `E tem uma coisa que quase ninguém repara: o avião não matou o carro. Você não deixou de ter carro porque existe avião. Cada um achou o seu lugar, e os dois andam juntos até hoje. Eu tô contando isso de propósito, porque eu sei o medo que tá no ar: "será que a IA vai me substituir?". Guarda a resposta que a própria história já deu: ela não vem pra te substituir. Vem andar do teu lado, do mesmo jeito que o avião passou a andar junto com o carro.`,
+  ford_acesso: `E se você levar uma ideia dessa história pra casa, que seja essa: a revolução nunca é a invenção em si. É o acesso. O carro virou revolução quando ficou barato. O livro virou revolução lá em 1450, quando a impressora do Gutenberg deixou ele acessível: antes disso, um livro custava o preço de uma casa e só clero e nobreza liam. E a IA existe em laboratório desde os anos cinquenta, setenta anos atrás. Ela virou revolução agora, em 2022, quando ganhou uma caixinha de conversa em português, o ChatGPT, que qualquer um usa. O que muda o mundo não é inventar. É deixar todo mundo usar.`,
+  salto_agora: `Então a pergunta que vale o resto da manhã é essa: todo salto daquela história entregou pra todos uma coisa que antes era de poucos. A força, a distância, o conhecimento. Qual é o salto de agora? O que ficou acessível de repente? A resposta é: criar software. Usar aplicativo todo mundo já usa, você usou uns três antes do café. Mas criar um, até anteontem, exigia falar a língua das máquinas. Isso acabou de mudar. E é disso que a gente vai falar o resto do dia, começando pela pergunta óbvia: que raio de IA é essa?`,
   bloco_ia: `Parte dois. Eu vou te explicar o que é a IA de um jeito que você sai daqui explicando pro seu filho no almoço. Sem misticismo — ela não é um cérebro, não é mágica, não vai dominar o mundo hoje de manhã. E sem medo. E o melhor: eu vou provar que você JÁ sabe como ela funciona, porque você usa a mesma coisa todo dia sem perceber.`,
   jogo_autocomplete: `Vamos jogar um jogo. Eu começo a frase, vocês completam — em voz alta aqui, no chat quem tá online. 'Quem não deve, não...' [TEME!] Isso! 'Água mole em pedra dura, tanto bate até que...' [FURA!] Muito bem. Agora uma mais difícil: 'cheguei em casa e o jantar estava...' — opa, aqui já dividiu, né? Uns falaram 'pronto', outros 'frio', alguém falou 'queimado'. Vocês responderam com base em TUDO que já ouviram na vida — e quanto mais ambígua a frase, mais vocês chutaram a opção mais PROVÁVEL. Segura esse pensamento, porque vocês acabaram de fazer, agora, em coro... exatamente o que a IA faz. Prever a próxima palavra. A diferença é só uma: ela leu muito, muito mais do que a gente.`,
   corretor_biblioteca: `Agora a analogia oficial do dia. Quem aqui já mandou mensagem errada por culpa do corretor do celular? Todo mundo, né. Aquele teclado que sugere a próxima palavra em cima do que você digitou — a IA é EXATAMENTE isso. Um completador de frases. Só que, pra treinar ela, colocaram a máquina pra 'ler' uma fração gigantesca de tudo que a humanidade já publicou: os livros, as enciclopédias, os sites, os fóruns — o equivalente a milhões de livros. É como uma pessoa que leu tanta receita de bolo na vida que, quando você fala 'farinha, ovos, açúcar e...', ela chuta 'leite' antes de você terminar — e acerta. A IA ficou tão absurdamente boa em adivinhar a próxima palavra que a adivinhação começou a PARECER raciocínio. E a funcionar como um. Ela não pensa como você — ela leu tanto que consegue prever o que alguém que pensa diria.`,
@@ -209,7 +205,7 @@ const scripts: Record<string, string> = {
   antes_agora: `Lado a lado, pra ficar sem dúvida. Antes: anos aprendendo a língua da máquina só pra fazer a primeira tela aparecer. Depois disso, uma equipe — a pessoa do salão, a pessoa da cozinha, a pessoa do caderno — e meses de obra. E ai de você se mudasse de ideia no meio. Agora: você descreve, olha o resultado pronto na tela, e pede o ajuste. 'Muda a cor. Tira esse botão. Põe o preço maior.' O ciclo que era de meses virou de minutos. E repara no que isso faz com o SEU papel: você deixa de ser o operário da obra — que você nunca foi — e vira o DONO do restaurante, que descreve o que quer. A IA vira a equipe de obra inteira. E o dono do restaurante, convenhamos, sempre foi quem vocês são: gente que sabe o que o negócio precisa.`,
   seu_trabalho: `Mas atenção, porque isso não é uma história de 'a IA faz tudo e você deita na rede'. Três coisas continuam sendo insubstituivelmente SUAS. Um: saber O QUE pedir — a visão. Qual problema esse app resolve, pra quem, por quê. A IA não tem a menor ideia do que o SEU cliente precisa. Dois: pedir BEM — lembra do cabeleireiro da parte dois? 'Dá uma ajeitada' continua sendo loteria; briefing bem dado continua saindo certo. E três: CONFERIR — o gosto, o critério. Lembra: ela não sabe, ela prevê; quem bate o martelo é você. Pergunta pra sala, e eu quero ouvir duas ou três respostas de verdade: se você não precisa mais saber programar... o que muda no SEU trabalho? [deixar 2-3 responderem, ler 1 do chat] Ótimo. A habilidade deixou de ser saber construir. Virou saber DESCREVER. Falta só uma coisa: ONDE essa conversa acontece.`,
   lovable_fabrica: `Última parte. Lembra da logo lá na capa, a primeira coisa que vocês viram hoje? Então — é essa a ferramenta, chama Lovable, e agora vocês têm o vocabulário inteiro pra entender o que ela é: uma construtora que atende pelo WhatsApp. Você manda uma mensagem descrevendo o que quer, e do outro lado uma equipe invisível — arquiteto, engenheiro, eletricista, decorador — levanta o prédio COMPLETO e te manda a chave em minutos. E completo é completo: ela monta o salão, as telas; liga a cozinha, as regras; abre o caderno, o banco de dados com as gavetas prontas; contrata os drive-thrus que você pedir — pagamento, mapa, IA; e no fim te entrega a chave: um LINK, no ar, na internet de verdade, pra você mandar pra quem quiser abrir no celular. Todos os personagens que a gente conheceu hoje de manhã, montados por uma conversa. É onde a conversa vira um app de verdade — e é nela que eu vou construir com vocês daqui a pouquinho.`,
-  timeline_reprise: `E agora eu pago a promessa da primeira meia hora. Lembra dessa linha? Lembra da interrogação que ficou acesa no fim dela? Vamos ler juntos, em coro, o padrão — vocês já sabem o refrão. O fogo pegou a luz, que era de ninguém, e deu... [pra TODOS] A imprensa pegou o conhecimento, que era de poucos, e deu... [pra TODOS] O carro pegou a distância... [pra TODOS] A internet e o smartphone pegaram a voz e puseram tudo no bolso... [de TODOS] E o salto de agora — olha ele aceso — pegou a CRIAÇÃO DE SOFTWARE, que até anteontem era de quem falava a língua das máquinas... e entregou pra quem sabe DESCREVER. Vocês não estão estudando essa linha num livro de história. Vocês estão no último ponto dela. Agora. Nesta sala.`,
+  reprise: `Lembra da charrete lá do começo? Da história que se repete? Pois é: criar software é o carro da nossa geração. Era de pouquíssimos, quem falava a língua das máquinas. Acabou de virar de todo mundo, de quem sabe descrever o que quer. Vocês não estão lendo essa história num livro. Vocês estão bem no ponto em que ela vira, agora, nesta sala.`,
   stat_antes_depois: `E pra quem gosta de número, o tamanho do salto. Um aplicativo como aquele que eu abri na tela antes do intervalo, no modelo antigo: seis meses de projeto, uma equipe de programadores, e um orçamento que facilmente passava de cem mil reais — pergunta pra qualquer empresário aqui da sala que já orçou um sistema. Hoje: uma pessoa, uma conversa — a primeira versão no ar numa tarde. Não é dez por cento mais barato, não é o dobro mais rápido — é OUTRA categoria de coisa. É a diferença entre o livro do monge copista e o livro da prensa. Entre o carro do milionário e o carro do Ford.`,
   tese_headline: `Se você for embora hoje com UMA frase, que seja essa. A pergunta deixou de ser 'quem sabe programar' — e virou 'quem sabe o que quer'. E olha que coisa: saber o que quer, entender o problema, conhecer o cliente, ter a visão... isso vocês já trouxeram de casa. É o que vocês fazem a vida inteira nos negócios de vocês. A barreira que faltava — a língua da máquina — caiu. Então deixa eu dizer com todas as letras: qualquer pessoa cria software. Inclusive você. Inclusive HOJE, antes do almoço.`,
   colheita_ideias: `E agora eu cobro o dever de casa do intervalo. Que problema SEU um app resolveria? Quero ouvir — fala aí quem tá na sala, manda no chat quem tá online, e eu vou ANOTAR, olha o papel aqui na minha mão. [colher 4-5 ideias em no máximo uns 4 min, pra sobrar tempo de build; ler 1-2 do chat em voz alta; se travar, puxar: 'um controle de escala da clínica? uma lista de espera do restaurante? um agendamento pro consultório?'] Olha isso... [repetir as ideias anotadas em voz alta] Guardem essas ideias — e eu vou guardar este papel — porque daqui a alguns minutos a gente vai escolher UMA delas... e ela vai deixar de ser ideia na frente de vocês. Vocês não vão assistir a uma demonstração. Vocês acabaram de virar coautores do que vem agora.`,
