@@ -168,7 +168,7 @@ Esta é a área mais crítica em aplicações Lovable. A maioria das vulnerabili
 
 ### 2.1 Row Level Security (RLS) — CRITICIDADE MÁXIMA
 
-**Contexto**: CVE-2025-48757 demonstrou que a ausência ou má configuração de RLS em projetos Lovable permitia acesso não-autenticado a dados sensíveis de centenas de aplicações em produção.
+**Contexto**: CVE-2025-48757 demonstrou que a ausência ou má configuração de RLS em projetos Lovable permitia acesso não-autenticado a dados sensíveis de cerca de 170 aplicações em produção.
 
 Para CADA tabela encontrada nas migrações SQL ou referenciada no código:
 

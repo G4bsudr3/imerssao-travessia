@@ -145,6 +145,48 @@ const arqCamadasFix: SlideEntry = naval("arquitetura_camadas", { variant: "grid"
   { label: "o banco (o cofre)", sub: "a regra de acesso é a rede final — nem a IA passa", accent: true },
 ] });
 
+// mais telas herdadas em dev-speak traduzidas pra leigo (a fala já foi; faltava a TELA)
+const tresPilaresFix: SlideEntry = naval("tres_pilares", { variant: "grid", eyebrow: "as 3 peças do banco · e como cada uma fura", items: [
+  { label: "as tabelas", sub: "onde o dado mora — risco: ficarem abertas pra todos" },
+  { label: "funções no servidor", sub: "a lógica dos fundos — risco: não conferir quem chamou" },
+  { label: "funções do banco", sub: "risco: rodarem com poder demais", accent: true },
+] });
+const codigoVsFix: SlideEntry = {
+  key: "codigo_vs_supabase", kind: "special", component: "ComparisonSlide",
+  props: {
+    background: "naval",
+    eyebrow: "onde mora cada coisa", title: "o código vs o banco",
+    leftTag: "no código", rightTag: "no banco",
+    left: { label: "o que o app faz", bullets: ["conferir o que o usuário digita", "guardar as chaves no servidor (nunca na tela)", "limitar tentativas", "não registrar dado sensível nos logs"] },
+    right: { label: "as regras de acesso", bullets: ["quem vê o quê (a regra de acesso)", "quem entra (o login)", "cópia de segurança (backup)", "ambiente de ensaio"] },
+  },
+};
+const naoSoLovableFix: SlideEntry = naval("nao_so_lovable", { variant: "list", eyebrow: "o Lovable ajuda muito · mas não faz tudo", items: [
+  { label: "peça pra própria IA revisar", sub: "o Claude/GPT lê o que foi construído e acha furo" },
+  { label: "guarde o histórico (com desfazer)", sub: "toda mudança registrada, dá pra voltar no tempo" },
+  { label: "a chave-mestra NUNCA na tela", sub: "só a 'chave de visitante' fica no navegador" },
+  { label: "rode o verificador toda semana", sub: "o Security Advisor do Supabase é de graça", accent: true },
+] });
+const lgpdViraCodigoFix: SlideEntry = naval("lgpd_vira_codigo", { variant: "grid", eyebrow: "cada direito vira um botão no app", items: [
+  { label: "apagar a conta", sub: "um botão que apaga tudo" },
+  { label: "portabilidade", sub: "um botão que baixa os dados num arquivo" },
+  { label: "minimização", sub: "não guardar dado onde não precisa" },
+  { label: "consentimento", sub: "registrar o que a pessoa aceitou, com data" },
+  { label: "incidente", sub: "um alarme pra avisar a ANPD no prazo", accent: true },
+] });
+const kitDiaFix: SlideEntry = naval("kit_dia_a_dia", { variant: "grid", eyebrow: "seu kit do dia a dia · grátis ou barato", items: [
+  { label: "verificador do Supabase", sub: "acha regra de acesso aberta em 2 min" },
+  { label: "varredura do Lovable", sub: "o próprio Lovable aponta os riscos do app" },
+  { label: "auditar com IA", sub: "cola a planta do banco no Claude/GPT e pede os furos", accent: true },
+  { label: "ferramentas de dev", sub: "caçam senha esquecida no código — seu fornecedor conhece" },
+] });
+const setupRobustoFix: SlideEntry = naval("setup_robusto", { variant: "grid", eyebrow: "4 'seguros' que valem ouro quando cresce", items: [
+  { label: "voltar no tempo", sub: "desfazer um estrago no banco" },
+  { label: "ambiente de ensaio", sub: "testar antes de ir pro ar" },
+  { label: "2 fatores + acessos", sub: "verificação dupla; cada um só o acesso que precisa" },
+  { label: "alarme", sub: "saber do problema antes do cliente", accent: true },
+] });
+
 const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, passo3, praticaProva, passo4, praticaAnalise, qaSlide];
 const REPLACE: Record<string, SlideEntry> = {
   agenda: agendaMoinhos,
@@ -154,6 +196,12 @@ const REPLACE: Record<string, SlideEntry> = {
   checklist_segunda: checklistFix,
   ia_prompt_injection: iaInjectionFix,
   arquitetura_camadas: arqCamadasFix,
+  tres_pilares: tresPilaresFix,
+  codigo_vs_supabase: codigoVsFix,
+  nao_so_lovable: naoSoLovableFix,
+  lgpd_vira_codigo: lgpdViraCodigoFix,
+  kit_dia_a_dia: kitDiaFix,
+  setup_robusto: setupRobustoFix,
 };
 const EXTRAS: { before: string; slide: SlideEntry }[] = [{ before: "ato_3_lgpd", slide: regraClinica }];
 
@@ -165,7 +213,10 @@ for (const s of base0) {
 }
 const at = base.findIndex((s) => s.key === "confianca");
 const withPratica: SlideEntry[] = at >= 0 ? [...base.slice(0, at), ...PRATICA, ...base.slice(at)] : [...base, ...PRATICA];
-const manifest: SlideEntry[] = [...withPratica, materiaisSlide];
+const viaIdx = withPratica.findIndex((s) => s.key === "vai_la_proteja");
+const manifest: SlideEntry[] = viaIdx >= 0
+  ? [...withPratica.slice(0, viaIdx), materiaisSlide, ...withPratica.slice(viaIdx)]
+  : [...withPratica, materiaisSlide];
 
 const OPENER_KEYS = ["ato_1_porque", "ato_2_supabase", "ato_3_codigo", "ato_4_arquitetura", "pratica_intro"];
 const openerIndices = OPENER_KEYS.map((k) => manifest.findIndex((s) => s.key === k)).filter((i) => i >= 0);
@@ -205,11 +256,11 @@ export const moinhosCyberEvent: EventModule = {
     lgpd_pii_escondida: `E olha a pegadinha: você coleta muito mais dado pessoal do que imagina. O endereço de internet de quem acessa, o modelo do aparelho, a localização daquele popup de "permitir", e o óbvio, nome e e-mail. Tudo isso identifica uma pessoa. Você já é responsável por esses dados e talvez nem tenha percebido.`,
     lgpd_bases_legais: `A lei tem dez justificativas pra tratar um dado. Num serviço online, três importam. Execução de contrato: o dado é necessário pra entregar o serviço. Legítimo interesse: usos esperados, como segurança e antifraude. E consentimento: o extra, o opcional. Repara: consentimento é a ÚLTIMA da fila, não a primeira — e, pra dado sensível, quase sempre precisa dele mesmo.`,
     lgpd_exemplos_base: `Vamos aterrissar. Criar uma conta pra usar o app? Execução de contrato. Processar um pedido? Contrato. Antifraude e segurança? Legítimo interesse. Mandar newsletter e promoção? Aí sim, consentimento. E usar os dados dos clientes pra treinar uma IA? Precisa de base específica ou anonimizar. Percebe? Consentimento é a exceção, não a regra.`,
-    lgpd_casos_reais: `Olha os números reais. A Meta levou uma multa de um bilhão e duzentos milhões de euros, por mandar dado de europeu pros Estados Unidos sem base. Mas não precisa ir longe: aqui no Brasil, em 2021, vazou uma base com dados de mais de 220 milhões de pessoas — praticamente o país inteiro, incluindo gente que já tinha morrido. Não é "no mundo dos outros": é aqui. E não é "vai que pega": já pega.`,
+    lgpd_casos_reais: `Olha os números reais, e é gente grande. A Meta levou uma multa de um bilhão e duzentos milhões de euros, por mandar dado de europeu pros Estados Unidos sem base. A Amazon, setecentos e quarenta e seis milhões, por publicidade sem consentimento. O TikTok, trezentos e quarenta e cinco, por dado de criança mal protegido. E aqui no Brasil, a primeira multa da ANPD foi na Telekall, por vender uma lista de WhatsApp. Multa de todo tamanho — e a régua só sobe.`,
     direitos_titular: `A LGPD dá uma lista de direitos ao titular, e eu destaco os que viram um botão no app: acessar os dados, corrigir, exportar, apagar a conta e revogar o consentimento. E tem mais um, esse é o artigo 20: a pessoa pode pedir a revisão de uma decisão que a IA tomou sobre ela. Cada um vira um botão ou uma tela no seu sistema.`,
     lgpd_vira_codigo: `E na prática, cada direito vira um botão. Apagar a conta = um botão que apaga tudo. Portabilidade = um botão que baixa os dados num arquivo. Minimização = não registrar dado onde não precisa. Consentimento = guardar quando e o que a pessoa aceitou, com data. E incidente = um alarme pra avisar a ANPD e as pessoas no prazo. Quase tudo é simples de fazer.`,
     ferramentas_principais: `Olha o que já existe. Tem uma IA da AWS que funciona como um "ladrão do bem": ela tenta invadir o seu sistema sozinha e te conta por onde entrou — o que antes levava semanas de um especialista. E tem uma da Anthropic, dona do Claude, tão forte que achou falhas de mais de vinte anos em sistemas famosos. A mesma IA que ataca também defende, e ficou barata.`,
-    ferramentas_gancho: `Pra dar dimensão: um teste de invasão profissional — isso tem nome, chama pentest — que custava cinquenta mil reais e um mês, hoje cabe num fim de semana e em algumas centenas de reais. A barreira caiu no chão.`,
+    ferramentas_gancho: `Pra dar dimensão: um teste de invasão profissional — isso tem nome, chama pentest — que custava uns cinquenta mil reais e um mês, hoje cabe num fim de semana e em algumas centenas de dólares. A barreira caiu no chão.`,
     kit_dia_a_dia: `E pro dia a dia, o que dá pra usar de graça: o verificador de segurança do Supabase, a varredura do próprio Lovable, e colar a "planta" do seu banco no Claude ou GPT pedindo os furos. Existem outras ferramentas que caçam senha esquecida no código — mas essas são de dev; o seu fornecedor conhece.`,
     prompt_auditoria: `E é esse o prompt que tá na tela. Não precisa copiar daí — ele vai no material que eu te entrego. A ideia é simples: você entrega pra IA a "planta" do seu banco e pede pra ela achar os furos. Dá pra fazer hoje à noite, de graça.`,
     setup_robusto: `Quando o sistema cresce, quatro "seguros" que valem ouro. Um botão de voltar no tempo, pra desfazer um estrago. Um ambiente de ensaio, pra testar antes de ir pro ar. Uma segunda chave na porta, a verificação em duas etapas. E um alarme que te avisa do problema antes do cliente. Guarda esse slide pra quando tiver um time técnico do lado.`,
@@ -231,7 +282,7 @@ export const moinhosCyberEvent: EventModule = {
     pratica_prova: `E olha a prova. Primeiro mostro funcionando, pela recepção. Agora eu tento entrar pela porta dos fundos direto... e o sistema responde 403, acesso negado. Essa tela feia é o app dizendo NÃO. Só passa quem vem pela recepção, com o carimbo certo.`,
     passo4_waf: `Passo 4, a segurança na porta. Ligo o WAF e um limite de tentativas por minuto. Por que importa: barra ataque conhecido e enxurrada de pedidos. Como sei que deu certo: se eu martelar de tentativas, ele me bloqueia.`,
     pratica_analise: `Passo 5, fechando: análise. Rodo o verificador do Supabase, que acha falha em dois minutos — e olha, eu deixei uma falha de propósito pra vocês verem ele pegando. Depois colo a PLANTA do banco no Claude e peço os furos — nunca o dado real do usuário. Isso qualquer um de vocês faz. E o que levar pra casa: você não precisa configurar isso — precisa saber perguntar pro seu fornecedor se ele fez.`,
-    materiais: `E pra fechar, tá tudo aqui pra vocês levarem: o guia de estudo, o passo a passo do lab, os códigos prontos e NOVE fichas temáticas — uma por assunto (Supabase, Lovable, Cloudflare, proxy, LGPD, auditoria com IA, SLA, segurança de IA e um glossário). Tudo em PDF, com a cara da SobreAI, inclusive o prompt de auditoria pra colar na IA. Eu mando o link no chat. Estuda, refaz com as suas chaves, e me chama quando construir o seu. Valeu!`,
+    materiais: `E tá tudo aqui pra vocês levarem: três guias — o de estudo, o passo a passo do lab e um leia-me com a trilha —, os códigos prontos e NOVE fichas temáticas, uma por assunto (Supabase, Lovable, Cloudflare, proxy, LGPD, auditoria com IA, SLA, segurança de IA e um glossário). Tudo em PDF, com a cara da SobreAI, inclusive o prompt de auditoria pra colar na IA. Eu já mando o link no chat — estuda, refaz com as suas chaves, e me chama quando construir o seu.`,
   },
 };
 
