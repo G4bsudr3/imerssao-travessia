@@ -229,6 +229,28 @@ const lovableCloudFix: SlideEntry = {
   },
 };
 
+const historiaRealFix: SlideEntry = naval("historia_real", { variant: "list", eyebrow: "como vaza na vida real", items: [
+  { label: "sexta: você lança no grupo do zap" },
+  { label: "sábado: 200 cadastros, com CPF e tudo" },
+  { label: "domingo: alguém abre as ferramentas do navegador" },
+  { label: "segunda: a tabela inteira tá num fórum", accent: true },
+] });
+const vitrineFix: SlideEntry = {
+  key: "vitrine_deposito", kind: "special", component: "ComparisonSlide",
+  props: {
+    background: "naval",
+    eyebrow: "a analogia que importa", title: "o Lovable é a vitrine. o Supabase é o depósito.",
+    leftTag: "Lovable", rightTag: "Supabase", rightAccent: true,
+    left: { label: "a vitrine", sub: "o que o usuário vê e clica.", bullets: ["as telas", "os botões", "o visual do app"] },
+    right: { label: "o depósito", sub: "onde o dado mora e as regras vivem.", bullets: ["o banco de dados", "o login", "as funções do servidor", "os arquivos"] },
+  },
+};
+const basesLegaisFix: SlideEntry = naval("lgpd_bases_legais", { variant: "grid", eyebrow: "10 justificativas na lei · 3 que importam num serviço online", title: "qual base legal cobre cada dado?", items: [
+  { label: "execução de contrato", sub: "o dado é necessário pra entregar o serviço", accent: true },
+  { label: "legítimo interesse", sub: "uso esperado: segurança, antifraude" },
+  { label: "consentimento", sub: "o extra e opcional: marketing, cookies" },
+] });
+
 const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, passo3, praticaProva, passo4, praticaAnalise, qaSlide];
 const REPLACE: Record<string, SlideEntry> = {
   agenda: agendaMoinhos,
@@ -250,6 +272,9 @@ const REPLACE: Record<string, SlideEntry> = {
   storage_publico: storagePublicoFix,
   auth_config: authConfigFix,
   lovable_cloud_vs_supabase: lovableCloudFix,
+  historia_real: historiaRealFix,
+  vitrine_deposito: vitrineFix,
+  lgpd_bases_legais: basesLegaisFix,
 };
 const EXTRAS: { before: string; slide: SlideEntry }[] = [{ before: "ato_3_lgpd", slide: regraClinica }];
 
