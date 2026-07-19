@@ -187,6 +187,48 @@ const setupRobustoFix: SlideEntry = naval("setup_robusto", { variant: "grid", ey
   { label: "alarme", sub: "saber do problema antes do cliente", accent: true },
 ] });
 
+// últimas telas herdadas em jargão traduzidas pra leigo (a fala já traduz; faltava a tela)
+const tresCamadasFix: SlideEntry = naval("tres_camadas", { variant: "grid", eyebrow: "três camadas de risco", items: [
+  { label: "o banco", sub: "as regras de quem vê o quê — o maior risco" },
+  { label: "o código", sub: "as chaves e senhas do sistema, que não podem vazar" },
+  { label: "a governança", sub: "LGPD, quem tem acesso, cópia de segurança" },
+] });
+const piiFix: SlideEntry = naval("lgpd_pii_escondida", { variant: "grid", eyebrow: "você coleta mais do que pensa", title: "dado pessoal que passa batido", items: [
+  { label: "endereço de internet (IP)", sub: "todo acesso registra, mesmo sem cadastro" },
+  { label: "localização", sub: "aquele popup de 'permitir localização'" },
+  { label: "o aparelho", sub: "modelo do celular, identificador de anúncio" },
+  { label: "e-mail + nome", sub: "óbvio — mas continua sendo dado pessoal" },
+] });
+const quandoMigrarFix: SlideEntry = naval("quando_migrar", { variant: "list", eyebrow: "sinais de que é hora de profissionalizar", items: [
+  { label: "o sistema fica lento com muito dado" },
+  { label: "você precisa de cópia de segurança séria" },
+  { label: "o time cresce e precisa de papéis/acessos" },
+  { label: "você trata dado regulado ou sensível" },
+  { label: "um cliente grande exige garantia de disponibilidade (SLA)" },
+] });
+const storagePublicoFix: SlideEntry = naval("storage_publico", { variant: "list", eyebrow: "o outro cadeado esquecido · arquivos", items: [
+  { label: "pasta pública = arquivo aberto na URL", sub: "quem tem o link baixa — nota fiscal, documento, foto" },
+  { label: "os arquivos têm regra PRÓPRIA", sub: "não herdam a regra das tabelas — configure à parte" },
+  { label: "regra: pasta privada + link que expira", sub: "acesso temporário, sem link eterno" },
+  { label: "confere hoje: alguma pasta pública sem querer?", sub: "é o vazamento mais bobo — e o mais comum", accent: true },
+] });
+const authConfigFix: SlideEntry = naval("auth_config", { variant: "list", eyebrow: "os cadeados do login que ficam abertos", items: [
+  { label: "confirmação de e-mail desligada", sub: "cria conta com o e-mail de outra pessoa e já entra" },
+  { label: "senha fraca liberada", sub: "sem um mínimo decente, '123456' passa" },
+  { label: "proteção de senha já vazada (vem desligada)", sub: "barra senha que já vazou por aí — é 1 clique", accent: true },
+  { label: "cadastro aberto sem precisar", sub: "não é self-service? feche o cadastro" },
+] });
+const lovableCloudFix: SlideEntry = {
+  key: "lovable_cloud_vs_supabase", kind: "special", component: "ComparisonSlide",
+  props: {
+    background: "naval",
+    eyebrow: "duas formas de ter o 'fundo' do app", title: "o pronto vs. o controle total",
+    leftTag: "o pronto (Lovable Cloud)", rightTag: "o próprio (Supabase)", rightAccent: true,
+    left: { label: "liga e usa · zero config", bullets: ["já vem tudo ligado", "login, banco, arquivos, funções", "ótimo até uma produção média", "sem mexer em nada técnico"] },
+    right: { label: "controle total", bullets: ["painel completo", "cópia de segurança + ambiente de ensaio", "ajuste fino quando cresce", "vale quando o dado aumenta"] },
+  },
+};
+
 const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, passo3, praticaProva, passo4, praticaAnalise, qaSlide];
 const REPLACE: Record<string, SlideEntry> = {
   agenda: agendaMoinhos,
@@ -202,6 +244,12 @@ const REPLACE: Record<string, SlideEntry> = {
   lgpd_vira_codigo: lgpdViraCodigoFix,
   kit_dia_a_dia: kitDiaFix,
   setup_robusto: setupRobustoFix,
+  tres_camadas: tresCamadasFix,
+  lgpd_pii_escondida: piiFix,
+  quando_migrar: quandoMigrarFix,
+  storage_publico: storagePublicoFix,
+  auth_config: authConfigFix,
+  lovable_cloud_vs_supabase: lovableCloudFix,
 };
 const EXTRAS: { before: string; slide: SlideEntry }[] = [{ before: "ato_3_lgpd", slide: regraClinica }];
 
@@ -266,9 +314,9 @@ export const moinhosCyberEvent: EventModule = {
     setup_robusto: `Quando o sistema cresce, quatro "seguros" que valem ouro. Um botão de voltar no tempo, pra desfazer um estrago. Um ambiente de ensaio, pra testar antes de ir pro ar. Uma segunda chave na porta, a verificação em duas etapas. E um alarme que te avisa do problema antes do cliente. Guarda esse slide pra quando tiver um time técnico do lado.`,
     quando_migrar: `E como saber a hora de profissionalizar? Lembra que dá pra começar no plano simples e migrar? Os sinais: o sistema fica lento com muito dado, você precisa de backup sério, o time cresce, ou você trata dado regulado ou sensível.`,
     arquitetura_camadas: `Deixa eu amarrar num desenho mental que você leva pra vida. Três fronteiras: a tela nunca confia — tudo ali é público. A "sala dos fundos", o servidor, confere quem está pedindo antes de fazer. E o banco é a rede final, com a regra de acesso — nem a IA passa. A tela não confia, o servidor confere, o banco protege. Se sair só com essa frase, já valeu.`,
-    checklist_segunda: `Antes do intervalo, duas listas. O que VOCÊ faz amanhã, sem depender de ninguém: liga a verificação em duas etapas nas suas contas, senha forte, e um teto de gasto na conta de IA. E o que você PERGUNTA pro seu fornecedor: a regra de acesso está ligada? rodaram o verificador de segurança? auditaram com IA? Você não precisa fazer — precisa saber cobrar.`,
+    checklist_segunda: `Antes do intervalo, duas listas. O que VOCÊ faz amanhã, sem depender de ninguém: liga a verificação em duas etapas nas suas contas, senha forte, um teto de gasto na conta de IA, e dá uma olhada nos arquivos — nenhuma pasta pública esquecida. E o que você PERGUNTA pro seu fornecedor: a regra de acesso está ligada? rodaram o verificador de segurança? auditaram com IA? Você não precisa fazer — precisa saber cobrar.`,
     ato_4_arquitetura: `Penúltimo bloco: arquitetura. Como sair do "funciona" e chegar no "escala sem dor". Depois desse bloco vem o intervalo e a melhor parte: a prática ao vivo.`,
-    lgpd_brasil_hoje: `E no Brasil, hoje? A multa ainda é tímida, mas o estrago não espera. A ANPD ainda está amadurecendo — primeira multa só em 2023, e vem endurecendo desde então, de olho justamente em IA e decisão automatizada. Só que o que dói de verdade não espera a ANPD: um vazamento grande vira ação civil, dano moral coletivo, e a sua reputação destruída num único print. Aqui no Brasil já teve vazamento de mais de duzentos e vinte milhões de pessoas de uma vez. A conta chega por vários caminhos.`,
+    lgpd_brasil_hoje: `E no Brasil, hoje? A multa ainda é tímida, mas o estrago não espera. A ANPD ainda está amadurecendo — primeira multa só em 2023, e vem endurecendo desde então, de olho justamente em IA e decisão automatizada. Só que o que dói de verdade não espera a ANPD: um vazamento grande vira ação civil, dano moral coletivo, e a sua reputação destruída num único print. Aqui no Brasil já teve vazamento de mais de duzentos e vinte milhões de CPFs de uma vez. A conta chega por vários caminhos.`,
     qa: `Fechamos a parte planejada — agora é com vocês. Manda as perguntas no chat que eu respondo com calma, uma por uma. Temos tempo de sobra, então não segura dúvida: o que ficou solto, o "no meu caso funciona assim?", o "como eu peço isso pro meu fornecedor?". Bora.`,
     confianca: `E eu quero fechar com a ideia mais importante. O cliente contrata pela funcionalidade — pelo que o sistema faz. Mas ele FICA pela confiança. Um vazamento não quebra só um banco de dados; quebra a relação. Segurança não é custo: é o que sustenta tudo que você construiu.`,
     vai_la_proteja: `Então é isso, pessoal. Vocês já sabem o que a tecnologia faz. Agora sabem as perguntas certas pra não deixar a porta aberta. Vai lá e protege — e valeu demais à Faculdade Moinhos de Vento pela parceria. Um abraço!`,
