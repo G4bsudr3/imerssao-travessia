@@ -76,9 +76,9 @@ const manifest: SlideEntry[] = [
   two("ford_acesso", "a lição que se repete", "a revolução não é a invenção.", "é o acesso."),
   two("salto_agora", "e o salto de agora?", "criar software", "acabou de virar de todos."),
   // ── parte 2 · a IA ──
-  act("bloco_ia", "parte 2 de 5", "a máquina que adivinha", "o que é essa tal de IA, sem misticismo e sem medo."),
+  act("bloco_ia", "parte 2 de 5", "afinal, o que é a IA?", "sem misticismo e sem medo: como ela funciona de verdade."),
   two("jogo_autocomplete", "vamos jogar · responde em voz alta / no chat", "quem não deve, não ___", "água mole em pedra dura, tanto bate até que ___"),
-  two("corretor_biblioteca", "então o que é a tal da IA?", "um programa que prevê a próxima palavra", "treinado em uma quantidade absurda de texto. só isso, e é poderosíssimo."),
+  two("corretor_biblioteca", "então o que é a tal da IA?", "ela calcula a palavra mais provável", "treinada em uma quantidade absurda de texto. simples assim, e foi o que destravou tudo."),
   head("nao_sabe_preve", "ela não SABE. ela PREVÊ."),
   two("prompt_cabeleireiro", "a palavra do dia: prompt", "prompt é a instrução que você dá pra IA", "quanto mais claro e específico o pedido, melhor o resultado."),
   live("aovivo_ia", "a IA na tela"),
@@ -247,7 +247,7 @@ export const moinhosVibecodingEvent: EventModule = {
   acts: {
     metas: {
       1: { number: 1, name: "a história", subtitle: "os saltos" },
-      2: { number: 2, name: "a IA", subtitle: "a máquina que adivinha" },
+      2: { number: 2, name: "a IA", subtitle: "o que é, de verdade" },
       3: { number: 3, name: "o app", subtitle: "o restaurante" },
       4: { number: 4, name: "vibecoding", subtitle: "construir conversando" },
       5: { number: 5, name: "ao vivo", subtitle: "do zero ao app" },
