@@ -46,6 +46,14 @@ const manifest: SlideEntry[] = [
   cover,
   // ── abertura ──
   two("duas_perguntas", "pra começar · levanta a mão / manda no chat", "quem aqui já USOU o ChatGPT?", "e quem aqui já CRIOU um software?"),
+  { key: "sobre", kind: "special", component: "AboutSlide", props: {
+    photo: "/gabriel-breda.jpg",
+    eyebrow: "quem tá no palco",
+    name: "Gabriel Breda Sudre",
+    accent: "Breda",
+    tagline: "Ajudo quem não é técnico a construir com IA de verdade, e com segurança. Não vim te transformar em programador. Vim tirar o medo e te botar pra criar.",
+    handles: [{ at: "@gabreda" }, { at: "@sobreai" }],
+  } },
   grid("agenda", "o mapa do dia", [
     { label: "1. a história que se repete", sub: "os grandes saltos da humanidade, e o de agora" },
     { label: "2. o que é essa tal de IA", sub: "e como ela 'pensa', sem misticismo" },
@@ -179,7 +187,8 @@ const boundaries = openerIndices.slice(1).map((i) => i - 1).concat(manifest.leng
 
 const scripts: Record<string, string> = {
   cover: `Deixa a capa no telão enquanto a galera senta e o pessoal do online vai chegando. Quando estiver todo mundo, eu começo, e a primeira coisa não é slide, é uma pergunta pra vocês.`,
-  duas_perguntas: `Fala, pessoal! Que bom ter vocês aqui, quem tá na sala e quem tá online. Rapidinho sobre mim: eu sou o Gabriel Breda, da SobreAI, e o meu trabalho é ajudar pessoas que NÃO são técnicas a construir coisas com IA. Antes de qualquer slide, duas perguntas. Primeira: quem aqui já usou o ChatGPT? Levanta a mão, e quem tá online, manda um 'eu' no chat. Olha isso... quase todo mundo. Agora a segunda: quem aqui já CRIOU um software? Um aplicativo, um sistema, qualquer coisa. ... Pois é, nenhuma, ou talvez uma ou duas mãos. E olha que interessante: a distância entre as duas perguntas continua enorme. É exatamente sobre essa distância que é o dia de hoje. Guarda esse momento, porque no fim da manhã eu vou refazer a segunda pergunta, e a resposta vai ser outra.`,
+  duas_perguntas: `Fala, pessoal! Que bom ter vocês aqui, quem tá na sala e quem tá online. Antes de qualquer slide, e antes até de eu me apresentar, duas perguntas. Primeira: quem aqui já usou o ChatGPT? Levanta a mão, e quem tá online, manda um 'eu' no chat. Olha isso... quase todo mundo. Agora a segunda: quem aqui já CRIOU um software? Um aplicativo, um sistema, qualquer coisa. ... Pois é, nenhuma, ou talvez uma ou duas mãos. E olha que interessante: a distância entre as duas perguntas continua enorme. É exatamente sobre essa distância que é o dia de hoje. Guarda esse momento, porque no fim da manhã eu vou refazer a segunda pergunta, e a resposta vai ser outra.`,
+  sobre: `Agora sim, deixa eu me apresentar rapidinho, porque vocês têm todo o direito de saber quem tá dando esse papo. Eu sou o Gabriel Breda, da SobreAI. O meu trabalho é ajudar gente que NÃO é técnica, que nunca escreveu uma linha de código, a construir com IA de verdade, e sem deixar a porta aberta. Repara no que eu não disse: eu não vim te transformar em programador. Vim tirar o teu medo e te botar pra criar. Me acha no @gabreda, e a empresa é a @sobreai. Dito isso, bora pro mapa do dia.`,
   agenda: `O combinado é esse. Nas próximas duas horas, eu te dou o mapa: de onde vem essa revolução, o que é essa IA que todo mundo fala, e do que um aplicativo é feito por dentro, tudo sem UMA palavra técnica solta; toda vez que aparecer um nome estranho, ele vai chegar depois de uma imagem que você já entendeu. No meio tem um intervalo de dez minutos pra respirar. E aí vem a parte cinco, que não é slide: eu vou compartilhar a tela e montar um aplicativo DO ZERO, ao vivo, na frente de vocês. Você não precisa anotar nada, não precisa saber nada antes. Só precisa de uma coisa: curiosidade. Dúvida no meio do caminho? Quem tá aqui levanta a mão, quem tá online joga no chat, eu paro e respondo. Bora.`,
   bloco_historia: `Parte um. Antes de qualquer coisa técnica, eu quero te contar uma história. Uma história que a humanidade já viveu um monte de vezes, sempre do mesmo jeito. Presta atenção no padrão, porque quando ele aparecer de novo, agora, na nossa geração, você vai reconhecer na hora.`,
   ponto_partida: `Volta comigo pra 1900, aqui no Brasil. Se você quisesse ir de Porto Alegre a São Paulo, ia a pé, no lombo de um burro, numa charrete se tivesse algum dinheiro. Mil e cem quilômetros que levavam semanas, e olha que eu tô sendo otimista. O mundo de uma pessoa comum terminava ali, onde a perna alcançava. Guarda essa imagem, porque em vinte anos ela vira pó.`,
