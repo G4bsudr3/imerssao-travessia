@@ -161,6 +161,17 @@ const manifest: SlideEntry[] = [
     { label: "3. só responda as perguntas", sub: "você dá as respostas, ele organiza a lógica" },
     { label: "4. cole o prompt pronto no Lovable", sub: "sai um briefing redondo, muito melhor que improvisar", accent: true },
   ]),
+  // papo honesto ANTES de ir pro ao vivo · aterrissa expectativa e custo pro executivo
+  grid("ate_onde_vai", "papo honesto · onde ela brilha, e onde chamar reforço", [
+    { label: "BRILHA: protótipo, ferramenta interna, MVP", sub: "tirar a ideia do papel e pôr no ar rápido: nisso é imbatível", accent: true },
+    { label: "CHAME UM DEV: escala, muito dado, integração crítica", sub: "quando vira o coração do negócio e não pode falhar" },
+  ]),
+  grid("quanto_custa", "e quanto custa? · a real, sem susto", [
+    { label: "Lovable", sub: "plano grátis pra começar hoje; planos pagos por uso quando quiser mais" },
+    { label: "Supabase (o banco)", sub: "camada gratuita generosa; só paga quando o app cresce de verdade" },
+    { label: "publicar o link", sub: "pôr no ar pra mostrar pra alguém não custa nada" },
+    { label: "compare com o modelo antigo", sub: "R$ 100 mil e 6 meses viram uma assinatura e uma tarde", accent: true },
+  ]),
   // gancho final (o deck termina aqui; encerramento é depois da prática, fora do deck)
   act("chega_de_slide", "teoria dada", "chega de slide", "vocês já conhecem os personagens. agora eu monto um restaurante inteiro na frente de vocês."),
   list("mapa_pratica", "agora, ao vivo · sem slide · o mapa da prática", [
@@ -193,17 +204,6 @@ const manifest: SlideEntry[] = [
     { label: "pedir tudo de uma vez", sub: "um parágrafo gigante vira um monstro; peça em camadas" },
     { label: "aceitar sem conferir", sub: "a IA prevê, não sabe: erra com a mesma cara de certeza. quem revisa é você" },
     { label: "deixar dado sensível exposto", sub: "sem as regras certas, o cadastro de um cliente fica visível pra qualquer um", accent: true },
-  ]),
-  // ── bloco extra 4 · até onde vai + quanto custa (papo honesto, pra executivo) ──
-  grid("ate_onde_vai", "papo honesto · onde ela brilha, e onde chamar reforço", [
-    { label: "BRILHA: protótipo, ferramenta interna, MVP", sub: "tirar a ideia do papel e pôr no ar rápido: nisso é imbatível", accent: true },
-    { label: "CHAME UM DEV: escala, muito dado, integração crítica", sub: "quando vira o coração do negócio e não pode falhar" },
-  ]),
-  grid("quanto_custa", "e quanto custa? · a real, sem susto", [
-    { label: "Lovable", sub: "plano grátis pra começar hoje; planos pagos por uso quando quiser mais" },
-    { label: "Supabase (o banco)", sub: "camada gratuita generosa; só paga quando o app cresce de verdade" },
-    { label: "publicar o link", sub: "pôr no ar pra mostrar pra alguém não custa nada" },
-    { label: "compare com o modelo antigo", sub: "R$ 100 mil e 6 meses viram uma assinatura e uma tarde", accent: true },
   ]),
   // ── fecho: lição de casa + gancho pros próximos encontros ──
   act("licao_de_casa", "sua vez · lição de casa", "constrói o teu", "essa semana, entra no lovable.dev (é grátis) e monta algo SEU. simples. e traz pro próximo encontro."),
