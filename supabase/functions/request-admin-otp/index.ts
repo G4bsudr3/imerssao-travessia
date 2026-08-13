@@ -4,22 +4,30 @@
 // supabase.auth.signInWithOtp diretamente (a auth tá com signup desabilitado).
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+// CORS restrito: sobreai.com.br (+ subdomínios), domínios publicados e localhost.
+const ALLOWED_ORIGIN = /^https:\/\/([a-z0-9-]+\.)*(sobreai\.com\.br|bredasudre\.com|lovable\.app)$|^http:\/\/localhost(:\d+)?$/i;
 
-function json(body: unknown, status = 200) {
+function cors(req: Request) {
+  const origin = req.headers.get("origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGIN.test(origin) ? origin : "https://slides.sobreai.com.br",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    Vary: "Origin",
+  };
+}
+
+function json(body: unknown, status = 200, req?: Request) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json", ...corsHeaders },
+    headers: { "Content-Type": "application/json", ...(req ? cors(req) : {}) },
   });
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors(req) });
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405, req);
+
 
   let payload: { email?: string; redirectTo?: string };
   try {
