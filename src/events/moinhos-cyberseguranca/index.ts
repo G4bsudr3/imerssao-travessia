@@ -51,18 +51,21 @@ const praticaIntro = naval("pratica_intro", { variant: "act",
   eyebrow: "parte 2 · mão na massa", title: "agora, ao vivo",
   subtitle: "você não precisa fazer isso — precisa saber que existe e o que perguntar.",
 });
-const conceitoStack = naval("conceito_stack", { variant: "grid", eyebrow: "os personagens, sem jargão", title: "pensa numa empresa", items: [
+const conceitoStack = naval("conceito_stack", { variant: "grid", eyebrow: "os 2 personagens principais, sem jargão", title: "pensa numa empresa", items: [
   { label: "Supabase (banco)", sub: "o depósito: onde o dado do cliente mora" },
-  { label: "edge function", sub: "a sala dos fundos: o código roda longe do público, com a chave guardada" },
-  { label: "Cloudflare (proxy)", sub: "a recepção: todo pedido passa por ela antes de entrar" },
-  { label: "WAF + limite", sub: "a segurança na porta: barra quem não devia e controla o fluxo", accent: true },
+  { label: "edge function", sub: "a sala dos fundos: o código roda longe do público, com a chave guardada", accent: true },
 ] });
-const praticaRoteiro = naval("pratica_roteiro", { variant: "list", eyebrow: "o que vou montar ao vivo · ~70 min", items: [
-  { label: "1. banco com regra de acesso", sub: "cada um só vê o que é dele · 15 min" },
+// camadas extras (proxy/WAF) rebaixadas a "só pra saber que existem" — não são build ao vivo (complexo/arriscado p/ leigo)
+const camadasExtras = naval("camadas_extras", { variant: "list", eyebrow: "camadas a mais · bom saber que existem (o fornecedor cuida)", items: [
+  { label: "a recepção na frente", sub: "um porteiro por onde todo pedido passa, barra quem tenta entrar pela porta dos fundos (nome técnico: proxy)" },
+  { label: "a segurança na porta", sub: "trava ataque conhecido e enxurrada de tentativas (nome técnico: WAF + limite)" },
+  { label: "o que você faz com isso", sub: "não precisa montar; só perguntar pro fornecedor: 'isso tá ligado?'", accent: true },
+] });
+const praticaRoteiro = naval("pratica_roteiro", { variant: "list", eyebrow: "o que vou montar ao vivo · ~45 min", items: [
+  { label: "1. banco com regra de acesso", sub: "cada um só vê o que é dele · o mais importante · 20 min" },
   { label: "2. uma função no servidor", sub: "a lógica com a chave escondida · 15 min" },
-  { label: "3. a recepção na frente (Cloudflare)", sub: "carimba cada pedido com um segredo · 15 min" },
-  { label: "4. segurança na porta (WAF + limite)", sub: "trava ataque e enxurrada · 10 min" },
-  { label: "5. análise de segurança", sub: "verificador do Supabase + auditar com IA · 10 min", accent: true },
+  { label: "3. análise de segurança", sub: "verificador do Supabase + auditar com IA · 10 min", accent: true },
+  { label: "+ camadas a mais (só pra conhecer)", sub: "a recepção e a porta: existem, o fornecedor cuida" },
 ] });
 const passo1 = passoSlide("passo1_rls", "ao vivo · passo 1 · o banco",
   "crio uma tabela de PEDIDOS e ligo a regra 'cada um só vê o que é dele'",
@@ -251,7 +254,7 @@ const basesLegaisFix: SlideEntry = naval("lgpd_bases_legais", { variant: "grid",
   { label: "consentimento", sub: "o extra e opcional: marketing, cookies" },
 ] });
 
-const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, passo3, praticaProva, passo4, praticaAnalise, qaSlide];
+const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, praticaAnalise, camadasExtras, qaSlide];
 const REPLACE: Record<string, SlideEntry> = {
   agenda: agendaMoinhos,
   lgpd_brasil_hoje: lgpdBrasilFix,
@@ -354,14 +357,15 @@ export const moinhosCyberEvent: EventModule = {
     vai_la_proteja: `Então é isso, pessoal. Vocês já sabem o que a tecnologia faz. Agora sabem as perguntas certas pra não deixar a porta aberta. Vai lá e protege — e valeu demais à Faculdade Moinhos de Vento pela parceria. Um abraço!`,
     intervalo: `Bora fazer um intervalo de 10 minutos. Estica as pernas, pega uma água. Eu volto no horário combinado e a gente parte pra melhor parte: montar o sistema ao vivo.`,
     pratica_intro: `Teoria dada. Agora a parte que eu mais gosto: mão na massa. Vou compartilhar a tela e montar um sistema seguro do zero, ao vivo. Importante: você NÃO precisa saber fazer isso — precisa saber que existe, que leva uma tarde, e que perguntas fazer pro seu fornecedor. Se aparecer um nome novo, relaxa: o próximo slide apresenta cada peça.`,
-    conceito_stack: `Deixa eu apresentar os personagens, e olha que não é analogia nova: lembra do DEPÓSITO lá da teoria? Agora eu vou construir a segurança dele. O Supabase é o depósito, onde o dado do cliente mora. A função no servidor é a sala dos fundos, onde o trabalho acontece longe do público e a chave fica guardada. O Cloudflare é a recepção: todo pedido passa por ela antes de entrar. E o WAF é a segurança na porta. Guarda essa imagem, que agora vai fazer sentido na tela.`,
-    pratica_roteiro: `Esse é o roteiro, com tempo por passo pra não passarmos do horário — e já aviso que deixei parte pronta, tipo programa de culinária: o bolo já tá quase no forno. Banco, quinze minutos; função, quinze; recepção, quinze; porta, dez; análise, dez. Se um passo estourar o tempo, eu mostro o print do resultado e sigo — a gente não trava. A cada passo eu volto aqui e resumo.`,
+    conceito_stack: `Deixa eu apresentar os dois personagens principais, e olha que não é analogia nova: lembra do DEPÓSITO lá da teoria? Agora eu vou construir a segurança dele. O Supabase é o depósito, onde o dado do cliente mora. E a função no servidor é a sala dos fundos, onde o trabalho acontece longe do público e a chave fica guardada. No fim eu ainda comento umas camadas a mais que ficam na frente de tudo, mas essas duas são o coração. Guarda a imagem, que agora vai fazer sentido na tela.`,
+    camadas_extras: `E pra fechar, duas camadas que ficam na frente de tudo, e aqui eu só quero que você saiba que EXISTEM, não precisa fazer nada com elas hoje. A primeira é a recepção: um porteiro na frente do app por onde todo pedido passa, que barra quem tenta entrar pela porta dos fundos. A segunda é a segurança na porta, que trava ataque conhecido e enxurrada de tentativas. O nome técnico é proxy e WAF, mas o que importa pra você é: são proteções extras, e a pergunta pro seu fornecedor é 'isso tá ligado?'. Se sobrar tempo eu mostro rapidinho na tela.`,
+    pratica_roteiro: `Esse é o roteiro, com tempo por passo pra não passarmos do horário, e já aviso que deixei parte pronta, tipo programa de culinária: o bolo já tá quase no forno. Banco, uns vinte minutos, que é o principal; função, quinze; análise, dez. E no fim eu comento rapidinho as camadas a mais, a recepção e a porta, só pra vocês saberem que existem, sem construir. Se um passo estourar o tempo, eu mostro o print e sigo, a gente não trava. A cada passo eu volto aqui e resumo.`,
     passo1_rls: `Passo 1, o banco. Crio uma tabela de PEDIDOS e ligo a regra "cada um só vê o que é dele". Por que importa: sem isso, qualquer um lê o registro de todo mundo. E como você sabe que deu certo? Eu tento ver o registro de OUTRO usuário e o sistema me barra. Esse é o passo mais importante.`,
     passo2_edge: `Passo 2, a sala dos fundos. Crio uma função que roda no servidor, com a chave guardada lá dentro. Por que importa: a chave nunca aparece pro usuário. Como sei que deu certo: abro o navegador e a chave não está visível em lugar nenhum. Enquanto ela processa, eu explico o fluxo — e já deixei um resultado pronto pra não ter tela parada.`,
     passo3_proxy: `Passo 3, a recepção. Coloco a Cloudflare na frente, e ela carimba cada pedido com um segredo que só ela conhece. Por que importa: só pedido carimbado é atendido. Como sei que deu certo: se eu tentar a porta direta, sem carimbo, tomo "acesso negado".`,
     pratica_prova: `E olha a prova. Primeiro mostro funcionando, pela recepção. Agora eu tento entrar pela porta dos fundos direto... e o sistema responde 403, acesso negado. Essa tela feia é o app dizendo NÃO. Só passa quem vem pela recepção, com o carimbo certo.`,
     passo4_waf: `Passo 4, a segurança na porta. Ligo o WAF e um limite de tentativas por minuto. Por que importa: barra ataque conhecido e enxurrada de pedidos. Como sei que deu certo: se eu martelar de tentativas, ele me bloqueia.`,
-    pratica_analise: `Passo 5, fechando: análise. Rodo o verificador do Supabase, que acha falha em dois minutos — e olha, eu deixei uma falha de propósito pra vocês verem ele pegando. Depois colo a PLANTA do banco no Claude e peço os furos — nunca o dado real do usuário. Isso qualquer um de vocês faz. E o que levar pra casa: você não precisa configurar isso — precisa saber perguntar pro seu fornecedor se ele fez.`,
+    pratica_analise: `E o último passo, fechando: análise. Rodo o verificador do Supabase, que acha falha em dois minutos — e olha, eu deixei uma falha de propósito pra vocês verem ele pegando. Depois colo a PLANTA do banco no Claude e peço os furos — nunca o dado real do usuário. Isso qualquer um de vocês faz. E o que levar pra casa: você não precisa configurar isso — precisa saber perguntar pro seu fornecedor se ele fez.`,
     materiais: `E tá tudo aqui pra vocês levarem: três guias — o de estudo, o passo a passo do lab e um leia-me com a trilha —, os códigos prontos e NOVE fichas temáticas, uma por assunto (Supabase, Lovable, Cloudflare, proxy, LGPD, auditoria com IA, SLA, segurança de IA e um glossário). Tudo em PDF, com a cara da SobreAI, inclusive o prompt de auditoria pra colar na IA. Eu já mando o link no chat — estuda, refaz com as suas chaves, e me chama quando construir o seu.`,
   },
 };
