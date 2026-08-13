@@ -42,6 +42,13 @@ const regraClinica = naval("regra_clinica", { variant: "two-line",
   subtitle: "nunca em IA pública gratuita — anonimize ou use versão com contrato.",
 });
 
+// abertura participativa (callback ao dia 1) — planta a pergunta e o "mostra o teu" do fim
+const aberturaDia1 = naval("abertura_dia1", { variant: "two-line",
+  eyebrow: "de volta · dia 3 · e agora a gente TRANCA",
+  title: "quem construiu um app no dia 1?",
+  subtitle: "levanta a mão / manda no chat, e você sabe dizer se ele tá TRANCADO?",
+});
+
 const intervaloSlide = naval("intervalo", { variant: "act",
   eyebrow: "respira", title: "intervalo · 10 min", subtitle: "já voltamos — a melhor parte vem agora.",
 });
@@ -61,6 +68,18 @@ const camadasExtras = naval("camadas_extras", { variant: "list", eyebrow: "camad
   { label: "a segurança na porta", sub: "trava ataque conhecido e enxurrada de tentativas (nome técnico: WAF + limite)" },
   { label: "o que você faz com isso", sub: "não precisa montar; só perguntar pro fornecedor: 'isso tá ligado?'", accent: true },
 ] });
+// mão na massa da plateia — o pico participativo que enche o tempo e engaja (linha do dia 1)
+const maoNaMassa = naval("mao_na_massa", { variant: "list", eyebrow: "sua vez · todo mundo audita o próprio app · ~15 min", items: [
+  { label: "1. abra o app que você fez no dia 1", sub: "ou o exemplo que está no material, se não tiver um à mão" },
+  { label: "2. cole o prompt de auditoria numa IA", sub: "ChatGPT ou Claude; o prompt está no material do aluno" },
+  { label: "3. mande a PLANTA do banco, nunca o dado real", sub: "a estrutura das tabelas, não o cliente de verdade" },
+  { label: "4. leia no chat o furo que a IA achou", sub: "eu comento os primeiros ao vivo; o furo de um é a aula de todos", accent: true },
+] });
+const mostraOTeu = naval("mostra_o_teu", { variant: "act",
+  eyebrow: "ao vivo · coragem premiada",
+  title: "mostra o teu",
+  subtitle: "quem topa compartilhar a tela? a gente acha a porta aberta juntos, sem julgamento, é assim que se aprende.",
+});
 const praticaRoteiro = naval("pratica_roteiro", { variant: "list", eyebrow: "o que vou montar ao vivo · ~45 min", items: [
   { label: "1. banco com regra de acesso", sub: "cada um só vê o que é dele · o mais importante · 20 min" },
   { label: "2. uma função no servidor", sub: "a lógica com a chave escondida · 15 min" },
@@ -254,7 +273,7 @@ const basesLegaisFix: SlideEntry = naval("lgpd_bases_legais", { variant: "grid",
   { label: "consentimento", sub: "o extra e opcional: marketing, cookies" },
 ] });
 
-const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, praticaAnalise, camadasExtras, qaSlide];
+const PRATICA = [intervaloSlide, praticaIntro, conceitoStack, praticaRoteiro, passo1, passo2, praticaAnalise, camadasExtras, maoNaMassa, mostraOTeu, qaSlide];
 const REPLACE: Record<string, SlideEntry> = {
   agenda: agendaMoinhos,
   lgpd_brasil_hoje: lgpdBrasilFix,
@@ -279,7 +298,10 @@ const REPLACE: Record<string, SlideEntry> = {
   vitrine_deposito: vitrineFix,
   lgpd_bases_legais: basesLegaisFix,
 };
-const EXTRAS: { before: string; slide: SlideEntry }[] = [{ before: "ato_3_lgpd", slide: regraClinica }];
+const EXTRAS: { before: string; slide: SlideEntry }[] = [
+  { before: "ato_1_porque", slide: aberturaDia1 },
+  { before: "ato_3_lgpd", slide: regraClinica },
+];
 
 // cortes p/ enxugar (check fable): resumo/transição que repetem e a lista de direitos duplicada.
 // lgpd_basico + lgpd_quanto_custa: a consequência (multa/print) já é contada em casos_reais→brasil_hoje.
@@ -356,11 +378,14 @@ export const moinhosCyberEvent: EventModule = {
     confianca: `E eu quero fechar com a ideia mais importante. O cliente contrata pela funcionalidade — pelo que o sistema faz. Mas ele FICA pela confiança. Um vazamento não quebra só um banco de dados; quebra a relação. Segurança não é custo: é o que sustenta tudo que você construiu.`,
     vai_la_proteja: `Então é isso, pessoal. Vocês já sabem o que a tecnologia faz. Agora sabem as perguntas certas pra não deixar a porta aberta. Vai lá e protege — e valeu demais à Faculdade Moinhos de Vento pela parceria. Um abraço!`,
     intervalo: `Bora fazer um intervalo de 10 minutos. Estica as pernas, pega uma água. Eu volto no horário combinado e a gente parte pra melhor parte: montar o sistema ao vivo.`,
-    pratica_intro: `Teoria dada. Agora a parte que eu mais gosto: mão na massa. Vou compartilhar a tela e montar um sistema seguro do zero, ao vivo. Importante: você NÃO precisa saber fazer isso — precisa saber que existe, que leva uma tarde, e que perguntas fazer pro seu fornecedor. Se aparecer um nome novo, relaxa: o próximo slide apresenta cada peça.`,
+    pratica_intro: `Teoria dada, e agora a parte que eu mais gosto, em DUAS mãos. Primeiro EU monto um sistema seguro do zero, aqui na tela, pra você ver como é. Depois é a SUA vez: você vai auditar o app que você mesmo construiu no dia 1. Na minha parte, relaxa, você não precisa saber fazer, precisa entender o que tá rolando e que pergunta levar pro seu fornecedor. Se aparecer um nome novo, o próximo slide apresenta cada peça.`,
+    abertura_dia1: `Antes de tudo, uma pergunta, e eu quero mão levantada e um "eu" no chat: quem aqui construiu alguma coisa no dia 1, lá no Lovable? ... Isso, um monte de gente. Agora a pergunta que vale o dia de hoje: você sabe dizer se esse app que você fez tá TRANCADO, ou se tá com a porta dos fundos aberta pra qualquer um? ... Pois é, quase ninguém sabe, e tá tudo bem, é exatamente isso que a gente resolve hoje. No dia 1 vocês aprenderam a CONSTRUIR; hoje vocês aprendem a não deixar vazar. E no fim, quem topar, a gente abre o app de vocês e acha a porta aberta juntos, ao vivo.`,
+    mao_na_massa: `Agora inverte o jogo: quem vai achar a porta aberta é VOCÊ. Todo mundo abre o app que fez no dia 1, e quem não tiver um à mão usa o exemplo que tá no material. Abre o ChatGPT ou o Claude do lado e cola aquele prompt de auditoria, o mesmo que eu acabei de usar. Uma regra de ouro, e eu vou repetir sempre: você manda a PLANTA do banco, a estrutura das tabelas, NUNCA o dado real do seu cliente. A IA te devolve os furos. Vai lendo e jogando no chat o que ela achou, que eu leio os primeiros em voz alta e a gente comenta. Aqui não tem erro feio: o furo de um é a aula de todos.`,
+    mostra_o_teu: `E agora a parte que eu mais gosto, e que pede um pouquinho de coragem: quem topa compartilhar a tela e mostrar o app que construiu? A gente olha juntos, com carinho, e acha onde pode estar a porta aberta. Sem julgamento nenhum, pelo contrário: quem se voluntariar sai daqui com o app mais seguro, e a sala inteira aprende no exemplo real. [pegar 2 ou 3 · pra cada um: abrir, olhar as tabelas, perguntar "a regra de acesso tá ligada?", rodar o verificador se der tempo] Então, quem vai ser o primeiro corajoso?`,
     conceito_stack: `Deixa eu apresentar os dois personagens principais, e olha que não é analogia nova: lembra do DEPÓSITO lá da teoria? Agora eu vou construir a segurança dele. O Supabase é o depósito, onde o dado do cliente mora. E a função no servidor é a sala dos fundos, onde o trabalho acontece longe do público e a chave fica guardada. No fim eu ainda comento umas camadas a mais que ficam na frente de tudo, mas essas duas são o coração. Guarda a imagem, que agora vai fazer sentido na tela.`,
     camadas_extras: `E pra fechar, duas camadas que ficam na frente de tudo, e aqui eu só quero que você saiba que EXISTEM, não precisa fazer nada com elas hoje. A primeira é a recepção: um porteiro na frente do app por onde todo pedido passa, que barra quem tenta entrar pela porta dos fundos. A segunda é a segurança na porta, que trava ataque conhecido e enxurrada de tentativas. O nome técnico é proxy e WAF, mas o que importa pra você é: são proteções extras, e a pergunta pro seu fornecedor é 'isso tá ligado?'. Se sobrar tempo eu mostro rapidinho na tela.`,
     pratica_roteiro: `Esse é o roteiro, com tempo por passo pra não passarmos do horário, e já aviso que deixei parte pronta, tipo programa de culinária: o bolo já tá quase no forno. Banco, uns vinte minutos, que é o principal; função, quinze; análise, dez. E no fim eu comento rapidinho as camadas a mais, a recepção e a porta, só pra vocês saberem que existem, sem construir. Se um passo estourar o tempo, eu mostro o print e sigo, a gente não trava. A cada passo eu volto aqui e resumo.`,
-    passo1_rls: `Passo 1, o banco. Crio uma tabela de PEDIDOS e ligo a regra "cada um só vê o que é dele". Por que importa: sem isso, qualquer um lê o registro de todo mundo. E como você sabe que deu certo? Eu tento ver o registro de OUTRO usuário e o sistema me barra. Esse é o passo mais importante.`,
+    passo1_rls: `Passo 1, o banco, e esse é o coração do dia inteiro, então cola aqui comigo. Primeiro eu deixo a regra de acesso DESLIGADA, que é provavelmente como o app de vocês tá agora. Antes de eu clicar, chuta no chat: assim, desligado, você acha que eu consigo ver o pedido de OUTRA pessoa? Manda S ou N. ... Olha só: consigo, tá tudo aberto, eu leio a tabela inteira. Agora eu colo UMA linha, a regra "cada um só vê o que é dele", e salvo. Mesma tela, tento de novo ver o pedido do outro... e agora o sistema me barra. Essa uma linha é a diferença entre vazar tudo e proteger tudo. Se você levar só isso pra casa, o dia já valeu.`,
     passo2_edge: `Passo 2, a sala dos fundos. Crio uma função que roda no servidor, com a chave guardada lá dentro. Por que importa: a chave nunca aparece pro usuário. Como sei que deu certo: abro o navegador e a chave não está visível em lugar nenhum. Enquanto ela processa, eu explico o fluxo — e já deixei um resultado pronto pra não ter tela parada.`,
     passo3_proxy: `Passo 3, a recepção. Coloco a Cloudflare na frente, e ela carimba cada pedido com um segredo que só ela conhece. Por que importa: só pedido carimbado é atendido. Como sei que deu certo: se eu tentar a porta direta, sem carimbo, tomo "acesso negado".`,
     pratica_prova: `E olha a prova. Primeiro mostro funcionando, pela recepção. Agora eu tento entrar pela porta dos fundos direto... e o sistema responde 403, acesso negado. Essa tela feia é o app dizendo NÃO. Só passa quem vem pela recepção, com o carimbo certo.`,
