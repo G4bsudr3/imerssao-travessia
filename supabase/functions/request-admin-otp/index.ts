@@ -33,12 +33,12 @@ Deno.serve(async (req) => {
   try {
     payload = await req.json();
   } catch {
-    return json({ error: "invalid_json" }, 400);
+    return json({ error: "invalid_json" }, 400, req);
   }
 
   const rawEmail = (payload.email ?? "").trim().toLowerCase();
   if (!rawEmail || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rawEmail)) {
-    return json({ error: "invalid_email" }, 400);
+    return json({ error: "invalid_email" }, 400, req);
   }
 
   const admin = createClient(
@@ -51,11 +51,11 @@ Deno.serve(async (req) => {
   const { data: allowed, error: allowErr } = await admin.rpc("is_email_allowed", { _email: rawEmail });
   if (allowErr) {
     console.error("is_email_allowed error", allowErr);
-    return json({ error: "server_error" }, 500);
+    return json({ error: "server_error" }, 500, req);
   }
   if (!allowed) {
     // resposta genérica pra não vazar quais e-mails existem
-    return json({ ok: true });
+    return json({ ok: true }, 200, req);
   }
 
   // 2. cria usuário se ainda não existe (signup público tá off)
@@ -68,7 +68,7 @@ Deno.serve(async (req) => {
     });
     if (createErr || !created.user) {
       console.error("createUser error", createErr);
-      return json({ error: "server_error" }, 500);
+      return json({ error: "server_error" }, 500, req);
     }
     user = created.user;
   }
@@ -94,8 +94,8 @@ Deno.serve(async (req) => {
   });
   if (otpErr) {
     console.error("signInWithOtp error", otpErr);
-    return json({ error: "server_error" }, 500);
+    return json({ error: "server_error" }, 500, req);
   }
 
-  return json({ ok: true });
+  return json({ ok: true }, 200, req);
 });
