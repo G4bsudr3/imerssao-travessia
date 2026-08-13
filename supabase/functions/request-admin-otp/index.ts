@@ -4,33 +4,41 @@
 // supabase.auth.signInWithOtp diretamente (a auth tá com signup desabilitado).
 import { createClient } from "npm:@supabase/supabase-js@2";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+// CORS restrito: sobreai.com.br (+ subdomínios), domínios publicados e localhost.
+const ALLOWED_ORIGIN = /^https:\/\/([a-z0-9-]+\.)*(sobreai\.com\.br|bredasudre\.com|lovable\.app)$|^http:\/\/localhost(:\d+)?$/i;
 
-function json(body: unknown, status = 200) {
+function cors(req: Request) {
+  const origin = req.headers.get("origin") ?? "";
+  return {
+    "Access-Control-Allow-Origin": ALLOWED_ORIGIN.test(origin) ? origin : "https://slides.sobreai.com.br",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    Vary: "Origin",
+  };
+}
+
+function json(body: unknown, status = 200, req?: Request) {
   return new Response(JSON.stringify(body), {
     status,
-    headers: { "Content-Type": "application/json", ...corsHeaders },
+    headers: { "Content-Type": "application/json", ...(req ? cors(req) : {}) },
   });
 }
 
 Deno.serve(async (req) => {
-  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
-  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
+  if (req.method === "OPTIONS") return new Response(null, { headers: cors(req) });
+  if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405, req);
+
 
   let payload: { email?: string; redirectTo?: string };
   try {
     payload = await req.json();
   } catch {
-    return json({ error: "invalid_json" }, 400);
+    return json({ error: "invalid_json" }, 400, req);
   }
 
   const rawEmail = (payload.email ?? "").trim().toLowerCase();
   if (!rawEmail || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rawEmail)) {
-    return json({ error: "invalid_email" }, 400);
+    return json({ error: "invalid_email" }, 400, req);
   }
 
   const admin = createClient(
@@ -43,11 +51,11 @@ Deno.serve(async (req) => {
   const { data: allowed, error: allowErr } = await admin.rpc("is_email_allowed", { _email: rawEmail });
   if (allowErr) {
     console.error("is_email_allowed error", allowErr);
-    return json({ error: "server_error" }, 500);
+    return json({ error: "server_error" }, 500, req);
   }
   if (!allowed) {
     // resposta genérica pra não vazar quais e-mails existem
-    return json({ ok: true });
+    return json({ ok: true }, 200, req);
   }
 
   // 2. cria usuário se ainda não existe (signup público tá off)
@@ -60,7 +68,7 @@ Deno.serve(async (req) => {
     });
     if (createErr || !created.user) {
       console.error("createUser error", createErr);
-      return json({ error: "server_error" }, 500);
+      return json({ error: "server_error" }, 500, req);
     }
     user = created.user;
   }
@@ -86,8 +94,8 @@ Deno.serve(async (req) => {
   });
   if (otpErr) {
     console.error("signInWithOtp error", otpErr);
-    return json({ error: "server_error" }, 500);
+    return json({ error: "server_error" }, 500, req);
   }
 
-  return json({ ok: true });
+  return json({ ok: true }, 200, req);
 });
