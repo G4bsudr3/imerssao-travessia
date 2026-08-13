@@ -52,7 +52,7 @@ const praticaIntro = naval("pratica_intro", { variant: "act",
   subtitle: "você não precisa fazer isso — precisa saber que existe e o que perguntar.",
 });
 const conceitoStack = naval("conceito_stack", { variant: "grid", eyebrow: "os personagens, sem jargão", title: "pensa numa empresa", items: [
-  { label: "Supabase (banco)", sub: "o arquivo: onde o dado do cliente mora" },
+  { label: "Supabase (banco)", sub: "o depósito: onde o dado do cliente mora" },
   { label: "edge function", sub: "a sala dos fundos: o código roda longe do público, com a chave guardada" },
   { label: "Cloudflare (proxy)", sub: "a recepção: todo pedido passa por ela antes de entrar" },
   { label: "WAF + limite", sub: "a segurança na porta: barra quem não devia e controla o fluxo", accent: true },
@@ -278,9 +278,15 @@ const REPLACE: Record<string, SlideEntry> = {
 };
 const EXTRAS: { before: string; slide: SlideEntry }[] = [{ before: "ato_3_lgpd", slide: regraClinica }];
 
+// cortes p/ enxugar (check fable): resumo/transição que repetem e a lista de direitos duplicada.
+// lgpd_basico + lgpd_quanto_custa: a consequência (multa/print) já é contada em casos_reais→brasil_hoje.
+// lgpd_vira_codigo: direitos_titular já fecha com "cada direito vira um botão" (não re-listar).
+const REMOVE = new Set(["lgpd_basico", "lgpd_quanto_custa", "lgpd_vira_codigo"]);
+
 const base0: SlideEntry[] = [cover, ...bootcampCaldeiraEvent.manifest.slice(1)];
 const base: SlideEntry[] = [];
 for (const s of base0) {
+  if (REMOVE.has(s.key)) continue;
   for (const ex of EXTRAS) if (ex.before === s.key) base.push(ex.slide);
   base.push(REPLACE[s.key] ?? s);
 }
@@ -313,7 +319,8 @@ export const moinhosCyberEvent: EventModule = {
     agenda: `Esse é o mapa. Um: por quê — o risco que você não vê. Dois: onde o dado mora, e como trancar. Três: IA e LGPD, com foco em dado sensível. Quatro: como se proteger. E cinco, depois de um intervalo: eu monto um sistema seguro AO VIVO, na tela. Dúvida, joga no chat que eu respondo nos intervalos e no fim.`,
     historia_real: `Olha como vaza na vida real. Sexta o app entra no ar. Sábado já tem duzentos cadastros. Domingo alguém curioso abre as ferramentas do navegador e percebe que dá pra puxar a base inteira. Segunda de manhã, a lista com nome, telefone e o que cada pessoa comprou ou cadastrou tá circulando por aí. Não precisou de hacker: precisou de uma regra de acesso que faltou — daqui a pouco você vê o nome técnico dela.`,
     tres_camadas: `O risco mora em três lugares. No banco: as regras de quem pode ver o quê. No código: as senhas e chaves do sistema, que não podem vazar. E na governança: a LGPD, quem tem acesso, backup. A maioria só pensa no terceiro quando já virou problema. A gente começa pelo banco, que é onde o estrago é maior.`,
-    ato_2_supabase: `Segundo bloco: onde o dado vive. O Supabase é o "fundo" do app — o lugar onde o dado fica guardado de verdade. Já te dou uma analogia que faz a ficha cair.`,
+    ato_2_supabase: `Segundo bloco: onde o dado vive. O Supabase é o "fundo" do app, o lugar onde o dado fica guardado de verdade.`,
+    ato_3_codigo: `Ainda no "onde o dado mora": a gente sai do banco e sobe pro código. Proteger o banco é essencial, mas não é o fim da história, tem cadeado no código também.`,
     tres_pilares: `No banco tem três peças, e cada uma tem um jeito clássico de furar. As tabelas, onde o dado mora — risco: ficarem abertas pra todo mundo. As funções que rodam no servidor — risco: não conferir quem está pedindo. E funções dentro do próprio banco, que às vezes têm poder demais. Hoje eu foco na primeira, que é a mais comum e a mais perigosa.`,
     lovable_cloud_vs_supabase: `Antes do risco, uma escolha que vocês vão ouvir: tem duas formas de ter o "fundo" do app. Uma é o plano pronto, que já vem tudo ligado e funciona sem configurar nada — ótimo pra começar. A outra é a versão com controle total, pra quando cresce e tem um time técnico. Regra simples: comece no pronto, migre quando precisar.`,
     rls_aberto: `E aqui o perigo do padrão. Quando essa regra de acesso está desligada, é porta aberta. Existe uma "chave de visitante" pendurada na vitrine — no código que qualquer um vê no navegador. Se o depósito não tem regra, essa chave de visitante abre as suas tabelas inteiras. É o vazamento mais comum de app feito com IA.`,
@@ -347,7 +354,7 @@ export const moinhosCyberEvent: EventModule = {
     vai_la_proteja: `Então é isso, pessoal. Vocês já sabem o que a tecnologia faz. Agora sabem as perguntas certas pra não deixar a porta aberta. Vai lá e protege — e valeu demais à Faculdade Moinhos de Vento pela parceria. Um abraço!`,
     intervalo: `Bora fazer um intervalo de 10 minutos. Estica as pernas, pega uma água. Eu volto no horário combinado e a gente parte pra melhor parte: montar o sistema ao vivo.`,
     pratica_intro: `Teoria dada. Agora a parte que eu mais gosto: mão na massa. Vou compartilhar a tela e montar um sistema seguro do zero, ao vivo. Importante: você NÃO precisa saber fazer isso — precisa saber que existe, que leva uma tarde, e que perguntas fazer pro seu fornecedor. Se aparecer um nome novo, relaxa: o próximo slide apresenta cada peça.`,
-    conceito_stack: `Deixa eu apresentar os personagens. Pensa numa empresa: o Supabase é o arquivo, onde o dado do cliente mora. A função no servidor é a sala dos fundos, onde o trabalho acontece longe do público e a chave fica guardada. O Cloudflare é a recepção: todo mundo passa por ela antes de entrar. E o WAF é a segurança na porta. Guarda essa imagem, que agora vai fazer sentido na tela.`,
+    conceito_stack: `Deixa eu apresentar os personagens, e olha que não é analogia nova: lembra do DEPÓSITO lá da teoria? Agora eu vou construir a segurança dele. O Supabase é o depósito, onde o dado do cliente mora. A função no servidor é a sala dos fundos, onde o trabalho acontece longe do público e a chave fica guardada. O Cloudflare é a recepção: todo pedido passa por ela antes de entrar. E o WAF é a segurança na porta. Guarda essa imagem, que agora vai fazer sentido na tela.`,
     pratica_roteiro: `Esse é o roteiro, com tempo por passo pra não passarmos do horário — e já aviso que deixei parte pronta, tipo programa de culinária: o bolo já tá quase no forno. Banco, quinze minutos; função, quinze; recepção, quinze; porta, dez; análise, dez. Se um passo estourar o tempo, eu mostro o print do resultado e sigo — a gente não trava. A cada passo eu volto aqui e resumo.`,
     passo1_rls: `Passo 1, o banco. Crio uma tabela de PEDIDOS e ligo a regra "cada um só vê o que é dele". Por que importa: sem isso, qualquer um lê o registro de todo mundo. E como você sabe que deu certo? Eu tento ver o registro de OUTRO usuário e o sistema me barra. Esse é o passo mais importante.`,
     passo2_edge: `Passo 2, a sala dos fundos. Crio uma função que roda no servidor, com a chave guardada lá dentro. Por que importa: a chave nunca aparece pro usuário. Como sei que deu certo: abro o navegador e a chave não está visível em lugar nenhum. Enquanto ela processa, eu explico o fluxo — e já deixei um resultado pronto pra não ter tela parada.`,
