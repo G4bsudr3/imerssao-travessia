@@ -60,11 +60,11 @@ function PadlockMark({ state, size = 300 }: { state: "open" | "closed"; size?: n
           <motion.span
             key={txt}
             className="pointer-events-none absolute whitespace-nowrap font-mono text-[0.72rem] text-vermelho/70"
-            style={{ left: "50%", top: "42%" }}
+            style={{ left: "18%", top: "38%" }}
             initial={{ opacity: 0, x: -20, y: 0 }}
             animate={{
               opacity: [0, 0.9, 0],
-              x: [(i % 2 === 0 ? 1 : -1) * 40, (i % 2 === 0 ? 1 : -1) * (size * 0.75)],
+              x: [-10, -size * (0.35 + (i % 3) * 0.12)],
               y: [0, -size * (0.25 + i * 0.12)],
             }}
             transition={{ duration: 2.6, delay: 1 + i * 0.45, repeat: Infinity, repeatDelay: 0.6, ease: "easeOut" }}
@@ -123,7 +123,7 @@ function PadlockMark({ state, size = 300 }: { state: "open" | "closed"; size?: n
   );
 }
 
-export function LockVisualSlide({ eyebrow, title, subtitle, state, background }: Props) {
+export function LockVisualSlide({ eyebrow, title, subtitle, state, background = "naval" }: Props) {
   const isOpen = state === "open";
   return (
     <SlideShell background={background}>
