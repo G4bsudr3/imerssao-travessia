@@ -70,7 +70,7 @@ function ContactQRs() {
   const qrs = [
     contacts.instagram && { label: "instagram", sublabel: contacts.instagram.label, url: contacts.instagram.url },
     contacts.whatsapp && { label: "whatsapp", sublabel: contacts.whatsapp.label, url: contacts.whatsapp.url },
-    { label: "feedback", sublabel: contacts.feedback?.label ?? "me conta o que ficou", url: feedbackUrl },
+    { label: "feedback", sublabel: contacts.feedback?.label ?? "/feedback ou dúvidas", url: feedbackUrl },
   ].filter(Boolean) as Array<{ label: string; sublabel: string; url: string }>;
 
   return (
