@@ -41,8 +41,8 @@ function tokenize(code: string, lang: "sql" | "ts" | "js") {
       const comment = m ? line.slice(m.index) : "";
 
       let html = body
-        .replace(/\b(auth\.uid\(\)|auth\.role\(\)|auth\.jwt\(\))/g, '<span class="text-amber-300 font-semibold">$1</span>')
         .replace(/('[^']*'|"[^"]*"|`[^`]*`)/g, '<span class="text-emerald-300">$1</span>')
+        .replace(/\b(auth\.uid\(\)|auth\.role\(\)|auth\.jwt\(\))/g, '<span class="text-amber-300 font-semibold">$1</span>')
         .replace(keywords, '<span class="text-rose-300 font-semibold">$1</span>');
 
       if (comment) html += `<span class="text-zinc-500 italic">${comment}</span>`;
