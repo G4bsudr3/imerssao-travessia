@@ -57,7 +57,7 @@ export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", cod
   const accent = isDanger ? "text-vermelho" : "text-emerald-500";
   const ring = isDanger ? "ring-vermelho/40" : "ring-emerald-500/40";
   const badgeBg = isDanger ? "bg-vermelho text-white" : "bg-emerald-500 text-white";
-  const badgeLabel = isDanger ? "❌ inseguro" : "✅ seguro";
+  const badgeLabel = isDanger ? "inseguro" : "seguro";
 
   return (
     <SlideShell background={background}>
