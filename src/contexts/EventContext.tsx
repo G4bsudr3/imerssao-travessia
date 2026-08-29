@@ -13,7 +13,10 @@ type EventContextValue = {
   resolveUrl: (relativePath: string) => string;
 };
 
-const EventContext = createContext<EventContextValue | null>(null);
+// Singleton preservado entre reloads de HMR: evita que o Fast Refresh crie
+// um novo contexto e o hook deixe de enxergar o Provider já montado.
+const g = globalThis as unknown as { __eventContext?: React.Context<EventContextValue | null> };
+const EventContext = (g.__eventContext ??= createContext<EventContextValue | null>(null));
 
 export function EventProvider({ event, children }: { event: EventModule; children: React.ReactNode }) {
   // Aplica themeClass no <html> enquanto o evento estiver montado
@@ -50,6 +53,11 @@ export function useEvent(): EventContextValue {
   const ctx = useContext(EventContext);
   if (!ctx) throw new Error("useEvent precisa estar dentro de <EventProvider>");
   return ctx;
+}
+
+/** Versão tolerante: devolve null em vez de lançar (útil fora do provider). */
+export function useEventOptional(): EventContextValue | null {
+  return useContext(EventContext);
 }
 
 /** Lê o slug do evento da URL (param :eventSlug) e devolve o módulo. Null se não existir. */
