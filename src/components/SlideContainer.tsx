@@ -132,6 +132,8 @@ export function SlideContainer() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!isPresenter) return;
+      // Ignora teclas digitadas em inputs (ex: filtro do navegador de slides)
+      if (e.target instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
       if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); next(); }
       else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
       else if (e.key === "t" || e.key === "T") { e.preventDefault(); setTeleOpen((v) => !v); }
