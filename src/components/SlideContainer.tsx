@@ -174,6 +174,10 @@ export function SlideContainer() {
         <FinalFeedbackQR contacts={event.contacts} resolveUrl={resolveUrl} />
       )}
 
+      {entry?.key === "vai_la_proteja" && event.slug === "bootcamp-caldeira" && (
+        <KitDownload />
+      )}
+
       {/* Progress bar topo (auto-hide com chrome) */}
       <StageProgress current={currentSlide} visible={visible} />
 
