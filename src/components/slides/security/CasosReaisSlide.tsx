@@ -4,10 +4,30 @@ import { SlideShell } from "../SlideShell";
 import { BrandLogo, type Brand } from "../BrandLogo";
 
 const CASOS: { logo?: Brand; nome: string; valor: string; motivo: string; destaque?: boolean }[] = [
-  { logo: "meta", nome: "Meta", valor: "€ 1,2 bi", motivo: "transferiu dados de europeus pros EUA sem base legal" },
-  { logo: "amazon", nome: "Amazon", valor: "€ 746 mi", motivo: "publicidade direcionada sem consentimento válido" },
-  { logo: "tiktok", nome: "TikTok", valor: "R$ 153,7 mi", motivo: "tratou dados de crianças e adolescentes sem respaldo legal (ANPD, 2026)" },
-  { nome: "Telekall", valor: "R$ 14,4 mil", motivo: "1ª multa LGPD do Brasil · empresa pequena, vazou nome e telefone", destaque: true },
+  {
+    logo: "meta",
+    nome: "Meta",
+    valor: "€ 1,2 bi",
+    motivo: "transferiu dados de europeus pros EUA sem base legal (DPC · GDPR, 2023)",
+  },
+  {
+    logo: "amazon",
+    nome: "Amazon",
+    valor: "€ 746 mi",
+    motivo: "publicidade direcionada sem consentimento válido (CNPD · GDPR, 2021)",
+  },
+  {
+    logo: "tiktok",
+    nome: "TikTok",
+    valor: "€ 530 mi",
+    motivo: "enviou dados de europeus para a China sem garantias (DPC · GDPR, 2025)",
+  },
+  {
+    nome: "Telekall",
+    valor: "R$ 14,4 mil",
+    motivo: "1ª multa LGPD do Brasil · empresa pequena, vazou nome e telefone",
+    destaque: true,
+  },
 ];
 
 export default function CasosReaisSlide() {
