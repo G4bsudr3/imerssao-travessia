@@ -55,6 +55,11 @@ export function useEvent(): EventContextValue {
   return ctx;
 }
 
+/** Versão tolerante: devolve null em vez de lançar (útil fora do provider). */
+export function useEventOptional(): EventContextValue | null {
+  return useContext(EventContext);
+}
+
 /** Lê o slug do evento da URL (param :eventSlug) e devolve o módulo. Null se não existir. */
 export function useEventFromRoute(): EventModule | null {
   const { eventSlug } = useParams<{ eventSlug: string }>();
