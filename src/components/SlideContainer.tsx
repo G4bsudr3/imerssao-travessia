@@ -187,6 +187,16 @@ export function SlideContainer() {
           onClose={() => setTeleOpen(false)}
         />
       )}
+
+      {/* Navegador de slides (tecla G) */}
+      {isPresenter && (
+        <SlideNavigator
+          open={navOpen}
+          current={currentSlide}
+          onSelect={(idx) => setSlide(idx)}
+          onClose={() => setNavOpen(false)}
+        />
+      )}
     </div>
   );
 }
