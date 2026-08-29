@@ -3,6 +3,7 @@
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
+import type { Brand } from "@/components/slides/BrandLogo";
 import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
 import { AUDIT_PROMPT } from "@/lib/audit-prompt";
 
@@ -54,6 +55,11 @@ type PollProps = {
   options?: Array<{ value: string; label: string; sub?: string; accent?: boolean }>;
 };
 type BrainstormProps = { slideKey: string; question: string };
+type LogoBulletsProps = {
+  eyebrow?: string;
+  title?: string;
+  items: { label: string; sub?: string; logo?: Brand; accent?: boolean }[];
+};
 
 export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
@@ -69,7 +75,9 @@ export type SlideEntry =
   | { key: string; kind: "special"; component: "ComparisonSlide"; props: ComparisonProps }
   | { key: string; kind: "special"; component: "PromptCardSlide"; props: PromptCardProps }
   | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps }
-  | { key: string; kind: "special"; component: "TikTokFineSlide" };
+  | { key: string; kind: "special"; component: "TikTokFineSlide" }
+  | { key: string; kind: "special"; component: "HistoriaRealSlide" | "RlsCrudSlide" | "DadoPessoalSlide" | "MultaRecordeSlide" | "CasosReaisSlide" | "FerramentasShowdownSlide" | "KitDiaADiaSlide" }
+  | { key: string; kind: "special"; component: "LogoBulletsSlide"; props: LogoBulletsProps };
 
 export const slideManifest: SlideEntry[] = [
   // ─── ATO 1 · POR QUÊ (0-7) ───
