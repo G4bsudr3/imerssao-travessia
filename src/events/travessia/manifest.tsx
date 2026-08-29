@@ -6,6 +6,7 @@ import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
 import type { Brand } from "@/components/slides/BrandLogo";
 import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
 import { AUDIT_PROMPT } from "@/lib/audit-prompt";
+import { WORKSPACE_KNOWLEDGE_PROMPT, PROJECT_KNOWLEDGE_PROMPT } from "@/lib/governance-prompts";
 
 type CodeBlockProps = {
   eyebrow?: string;
@@ -646,6 +647,27 @@ USING (user_id = auth.uid());`,
         {
           label: "prompt de auditoria",
           body: AUDIT_PROMPT,
+        },
+      ],
+    },
+  },
+  {
+    key: "prompt_governanca",
+    kind: "special",
+    component: "PromptCardSlide",
+    props: {
+      eyebrow: "governança · antes de escrever a primeira linha",
+      title: "ENSINE A IA A FAZER CERTO DESDE O INÍCIO",
+      subtitle: "cole no Knowledge do workspace e do projeto no Lovable — RLS, buckets e secrets certos desde o dia 1",
+      background: "naval" as const,
+      prompts: [
+        {
+          label: "knowledge do workspace",
+          body: WORKSPACE_KNOWLEDGE_PROMPT,
+        },
+        {
+          label: "knowledge do projeto",
+          body: PROJECT_KNOWLEDGE_PROMPT,
         },
       ],
     },
