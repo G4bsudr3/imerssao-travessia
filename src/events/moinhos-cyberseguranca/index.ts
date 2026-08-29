@@ -228,18 +228,38 @@ const quandoMigrarFix: SlideEntry = naval("quando_migrar", { variant: "list", ey
   { label: "você trata dado regulado ou sensível" },
   { label: "um cliente grande exige garantia de disponibilidade (SLA)" },
 ] });
-const storagePublicoFix: SlideEntry = naval("storage_publico", { variant: "list", eyebrow: "o outro cadeado esquecido · arquivos", items: [
-  { label: "pasta pública = arquivo aberto na URL", sub: "quem tem o link baixa — nota fiscal, documento, foto" },
-  { label: "os arquivos têm regra PRÓPRIA", sub: "não herdam a regra das tabelas — configure à parte" },
-  { label: "regra: pasta privada + link que expira", sub: "acesso temporário, sem link eterno" },
-  { label: "confere hoje: alguma pasta pública sem querer?", sub: "é o vazamento mais bobo — e o mais comum", accent: true },
-] });
-const authConfigFix: SlideEntry = naval("auth_config", { variant: "list", eyebrow: "os cadeados do login que ficam abertos", items: [
-  { label: "confirmação de e-mail desligada", sub: "cria conta com o e-mail de outra pessoa e já entra" },
-  { label: "senha fraca liberada", sub: "sem um mínimo decente, '123456' passa" },
-  { label: "proteção de senha já vazada (vem desligada)", sub: "barra senha que já vazou por aí — é 1 clique", accent: true },
-  { label: "cadastro aberto sem precisar", sub: "não é self-service? feche o cadastro" },
-] });
+const storagePublicoFix: SlideEntry = {
+  key: "storage_publico",
+  kind: "special",
+  component: "StorageBucketSlide",
+  props: {
+    eyebrow: "o outro cadeado esquecido · arquivos",
+    title: "trancou as tabelas… e deixou a pasta de arquivos aberta?",
+    bucketLabel: "pasta",
+    background: "naval",
+    items: [
+      { label: "os arquivos têm regra PRÓPRIA", sub: "não herdam a regra das tabelas — configure à parte" },
+      { label: "regra: pasta privada + link que expira", sub: "acesso temporário, sem link eterno" },
+      { label: "confere hoje: alguma pasta pública sem querer?", sub: "é o vazamento mais bobo — e o mais comum", accent: true },
+    ],
+  },
+};
+const authConfigFix: SlideEntry = {
+  key: "auth_config",
+  kind: "special",
+  component: "AuthChecklistSlide",
+  props: {
+    eyebrow: "os cadeados do login que ficam abertos",
+    title: "liga isso hoje — é 1 clique e salva o projeto.",
+    background: "naval",
+    items: [
+      { label: "confirmação de e-mail ligada", sub: "sem isso, criam conta com o e-mail de outra pessoa e já entram" },
+      { label: "senha com mínimo decente", sub: "sem regra, '123456' passa" },
+      { label: "proteção de senha já vazada", sub: "barra senha que já vazou por aí — vem desligada, ligue", accent: true },
+      { label: "cadastro fechado se não é self-service", sub: "não tem cadastro público? feche o signup" },
+    ],
+  },
+};
 const lovableCloudFix: SlideEntry = {
   key: "lovable_cloud_vs_supabase", kind: "special", component: "ComparisonSlide",
   props: {
