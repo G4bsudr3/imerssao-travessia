@@ -19,24 +19,36 @@ const fade = {
   show: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] as const } }),
 };
 
-// Tokenizer leve pra SQL/TS — sem dependências externas
+// Tokenizer leve pra SQL/TS — sem dependências externas.
+// Processa linha a linha e separa o comentário ANTES de inserir spans,
+// pra que os regex nunca casem com os atributos do HTML já inserido.
 function tokenize(code: string, lang: "sql" | "ts" | "js") {
   const sqlKeywords = /\b(CREATE|POLICY|ON|FOR|USING|WITH|CHECK|TO|AS|SELECT|INSERT|UPDATE|DELETE|ALTER|TABLE|ENABLE|DISABLE|ROW|LEVEL|SECURITY|AUTHENTICATED|FROM|WHERE|TRUE|FALSE|NULL|IS|NOT|AND|OR)\b/gi;
   const tsKeywords = /\b(const|let|var|function|return|if|else|await|async|import|export|from|new|throw|true|false|null|undefined)\b/g;
+  const keywords = lang === "sql" ? sqlKeywords : tsKeywords;
 
-  let html = code
+  const escaped = code
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/(--[^\n]*)/g, '<span class="text-zinc-500 italic">$1</span>')
-    .replace(/(\/\/[^\n]*)/g, '<span class="text-zinc-500 italic">$1</span>')
-    .replace(/('[^']*'|"[^"]*"|`[^`]*`)/g, '<span class="text-emerald-300">$1</span>')
-    .replace(/\b(auth\.uid\(\)|auth\.role\(\)|auth\.jwt\(\))/g, '<span class="text-amber-300 font-semibold">$1</span>');
+    .replace(/>/g, "&gt;");
 
-  if (lang === "sql") html = html.replace(sqlKeywords, '<span class="text-rose-300 font-semibold">$1</span>');
-  else html = html.replace(tsKeywords, '<span class="text-rose-300 font-semibold">$1</span>');
+  return escaped
+    .split("\n")
+    .map((line) => {
+      // separa comentário inline (-- ou //) do restante da linha
+      const m = line.match(/--|\/\//);
+      const body = m ? line.slice(0, m.index) : line;
+      const comment = m ? line.slice(m.index) : "";
 
-  return html;
+      let html = body
+        .replace(/\b(auth\.uid\(\)|auth\.role\(\)|auth\.jwt\(\))/g, '<span class="text-amber-300 font-semibold">$1</span>')
+        .replace(/('[^']*'|"[^"]*"|`[^`]*`)/g, '<span class="text-emerald-300">$1</span>')
+        .replace(keywords, '<span class="text-rose-300 font-semibold">$1</span>');
+
+      if (comment) html += `<span class="text-zinc-500 italic">${comment}</span>`;
+      return html;
+    })
+    .join("\n");
 }
 
 export function CodeBlockSlide({ eyebrow, title, subtitle, language = "sql", code, status, caption, background }: Props) {
