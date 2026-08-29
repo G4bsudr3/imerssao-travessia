@@ -13,6 +13,7 @@ export type Brand =
   | "whatsapp"
   | "instagram"
   | "gdpr"
+  | "anpd"
   | "gitguardian"
   | "semgrep"
   | "openai"
@@ -133,6 +134,33 @@ const MARKS: Record<Brand, Mark> = {
             <circle key={i} cx={24 + Math.cos(a) * 14} cy={24 + Math.sin(a) * 14} r="1.9" fill="currentColor" />
           );
         })}
+      </>
+    ),
+  },
+  // selo ANPD (autoridade brasileira)
+  anpd: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <path
+          d="M24 4l17 6.5v12c0 10.6-7 18.6-17 21.5-10-2.9-17-10.9-17-21.5v-12z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.6"
+          strokeLinejoin="round"
+        />
+        <text
+          x="24"
+          y="27.5"
+          textAnchor="middle"
+          fontSize="10.5"
+          fontWeight="800"
+          letterSpacing="0.5"
+          fill="currentColor"
+          fontFamily="inherit"
+        >
+          ANPD
+        </text>
       </>
     ),
   },

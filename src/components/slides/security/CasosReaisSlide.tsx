@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Flag } from "lucide-react";
 import { SlideShell } from "../SlideShell";
 import { BrandLogo, type Brand } from "../BrandLogo";
 
@@ -51,7 +50,7 @@ export default function CasosReaisSlide() {
               {c.logo ? (
                 <BrandLogo brand={c.logo} className="h-9 w-9 text-bege" />
               ) : (
-                <Flag className="h-8 w-8 text-laranja" />
+                <BrandLogo brand="anpd" className="h-8 w-8 text-laranja" />
               )}
             </div>
             <p className="w-40 shrink-0 font-display text-3xl text-bege">{c.nome}</p>
