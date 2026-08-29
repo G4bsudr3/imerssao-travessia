@@ -39,6 +39,12 @@ const aboutSlide: SlideEntry = {
     accent: "Breda",
     tagline:
       "Ajudo pessoas e times a construir com IA de forma segura e bem estruturada. Meu objetivo não é acabar com o vibecoding, e sim viabilizá-lo de um jeito realmente seguro.",
+    highlights: [
+      { icon: "shield", value: "+100 projetos auditados", label: "segurança de apps no G4 (g4business.com)" },
+      { icon: "wrench", value: "vibecoding seguro", label: "ajudo pessoas a construir ferramentas com IA do jeito certo" },
+      { icon: "search", value: "vazamentos remediados", label: "já ajudei a conter vazamento de dados em apps feitas em Lovable" },
+      { icon: "mic", value: "consultorias & palestras", label: "segurança, LGPD e IA para times e eventos" },
+    ],
     handles: [{ at: "@gabreda" }, { at: "@sobreai" }],
   },
 };

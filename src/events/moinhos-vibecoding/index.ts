@@ -52,6 +52,12 @@ const manifest: SlideEntry[] = [
     name: "Gabriel Breda Sudre",
     accent: "Breda",
     tagline: "Ajudo quem não é técnico a construir com IA de verdade, e com segurança. Não vim te transformar em programador. Vim tirar o medo e te botar pra criar.",
+    highlights: [
+      { icon: "shield", value: "+100 projetos auditados", label: "segurança de apps no G4 (g4business.com)" },
+      { icon: "wrench", value: "vibecoding seguro", label: "ajudo pessoas a construir ferramentas com IA do jeito certo" },
+      { icon: "search", value: "vazamentos remediados", label: "já ajudei a conter vazamento de dados em apps feitas em Lovable" },
+      { icon: "mic", value: "consultorias & palestras", label: "segurança, LGPD e IA para times e eventos" },
+    ],
     handles: [{ at: "@gabreda" }, { at: "@sobreai" }],
   } },
   grid("agenda", "o mapa do dia", [

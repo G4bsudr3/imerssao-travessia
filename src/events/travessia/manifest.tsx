@@ -65,7 +65,7 @@ export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
   | { key: string; kind: "special"; component: "CoverSlide"; props?: { labels?: { eyebrow: string; title: string; sub: string }; showLogo?: boolean; logoSrc?: string; logoAlt?: string } }
   | { key: string; kind: "special"; component: "EraSlide"; props: { eyebrow?: string; image?: string; image2?: string; kicker?: string; kickerAccent?: string; lines?: string[] } }
-  | { key: string; kind: "special"; component: "AboutSlide"; props: { photo?: string; eyebrow?: string; name: string; accent?: string; tagline: string; handles?: { at: string; label?: string }[] } }
+  | { key: string; kind: "special"; component: "AboutSlide"; props: { photo?: string; eyebrow?: string; name: string; accent?: string; tagline: string; handles?: { at: string; label?: string }[]; highlights?: { icon: "shield" | "wrench" | "search" | "mic"; value: string; label: string }[] } }
   | { key: string; kind: "special"; component: "LobbySlide" | "FinalSlide" | "BrainstormActive" | "BrainstormSettled" }
   | { key: string; kind: "special"; component: "PulseCheckSlide"; props?: PulseProps }
   | { key: string; kind: "special"; component: "PollSlide"; props?: PollProps }
@@ -99,6 +99,26 @@ export const slideManifest: SlideEntry[] = [
         { label: "3. código + governança", sub: "LGPD + ferramentas" },
         { label: "4. arquitetura", sub: "escalar sem dor" },
       ],
+    },
+  },
+  {
+    key: "quem_ta_no_palco",
+    kind: "special",
+    component: "AboutSlide",
+    props: {
+      photo: "/gabriel-breda.jpg",
+      eyebrow: "quem tá no palco",
+      name: "Gabriel Breda Sudre",
+      accent: "Breda",
+      tagline:
+        "Ajudo pessoas a construir ferramentas com vibecoding de maneira segura — sem precisar virar programador.",
+      highlights: [
+        { icon: "shield", value: "+100 projetos auditados", label: "segurança de apps no G4 (g4business.com)" },
+        { icon: "wrench", value: "vibecoding seguro", label: "ajudo pessoas a construir ferramentas com IA do jeito certo" },
+        { icon: "search", value: "vazamentos remediados", label: "já ajudei a conter vazamento de dados em apps feitas em Lovable" },
+        { icon: "mic", value: "consultorias & palestras", label: "segurança, LGPD e IA para times e eventos" },
+      ],
+      handles: [{ at: "@gabreda" }, { at: "11 94585-3553", label: "whatsapp" }],
     },
   },
 
@@ -523,7 +543,7 @@ USING (user_id = auth.uid());`,
       right: {
         label: "o que dói de verdade",
         sub: "vazamento não espera a ANPD pra te machucar.",
-        bullets: ["Serasa: +220 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
+        bullets: ["223 milhões de CPFs vazados no Brasil (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
       },
     },
   },
