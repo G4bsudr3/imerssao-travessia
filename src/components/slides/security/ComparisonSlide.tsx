@@ -5,11 +5,13 @@ import { SlideShell } from "../SlideShell";
 /** Tag de card: converte emoji legado (❌/✅/⚠️) em ícone lucide polido. */
 function Tag({ text, inverted }: { text: string; inverted?: boolean }) {
   const clean = text.replace(/[❌✅⚠️ℹ️]\s*/u, "").trim();
-  const Icon = text.includes("❌") ? XCircle : text.includes("✅") ? CheckCircle2 : text.includes("⚠️") ? AlertTriangle : null;
+  const isError = text.includes("❌");
+  const Icon = isError ? XCircle : text.includes("✅") ? CheckCircle2 : text.includes("⚠️") ? AlertTriangle : null;
+  const iconColor = inverted ? "text-preto/70" : isError ? "text-red-500" : "text-laranja";
   return (
-    <div className={`eyebrow mb-2 flex items-center gap-2 ${text.includes("❌") ? "text-red-500" : ""}`}>
-      {Icon && <Icon className={`h-5 w-5 ${inverted ? "text-preto/70" : ""}`} strokeWidth={2.25} />}
-      <span>{clean || text}</span>
+    <div className="mb-2 flex items-center gap-2">
+      {Icon && <Icon className={`h-5 w-5 flex-shrink-0 ${iconColor}`} strokeWidth={2.25} />}
+      <span className="eyebrow">{clean || text}</span>
     </div>
   );
 }
