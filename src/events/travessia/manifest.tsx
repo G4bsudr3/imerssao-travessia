@@ -504,20 +504,7 @@ USING (user_id = auth.uid());`,
     staticProps: { variant: "transition", title: "ignorar isso tem preço. e vira manchete." },
   },
   { key: "lgpd_multa_recorde", kind: "special", component: "MultaRecordeSlide" },
-  {
-    key: "lgpd_casos_reais",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "casos reais · o que custou",
-      items: [
-        { label: "Meta — € 1,2 bilhão", sub: "transferiu dados de europeus sem base legal (2023)" },
-        { label: "Amazon — € 746 milhões", sub: "publicidade sem consentimento válido" },
-        { label: "TikTok — € 345 milhões", sub: "dados de crianças mal protegidos" },
-        { label: "Telekall (BR) — R$ 14.400", sub: "vendeu lista de WhatsApp · 1ª multa da ANPD (2023)", accent: true },
-      ],
-    },
-  },
+  { key: "lgpd_casos_reais", kind: "special", component: "CasosReaisSlide" },
 
   {
     key: "lgpd_brasil_hoje",
