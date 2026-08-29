@@ -22,7 +22,7 @@ export default function FerramentasShowdownSlide() {
       <p className="eyebrow mb-4">ferramentas · 2026 mudou o jogo</p>
       <h2 className="font-display text-5xl md:text-6xl mb-12">o arsenal disponível hoje</h2>
 
-      <div className="relative grid grid-cols-2 gap-10 w-full max-w-[1500px]">
+      <div className="grid grid-cols-[1fr_auto_1fr] items-stretch gap-8 w-full max-w-[1500px]">
         {/* AWS */}
         <motion.div
           className="border border-bege/15 bg-bege/[0.04] rounded-3xl p-10"
@@ -54,6 +54,15 @@ export default function FerramentasShowdownSlide() {
           </ul>
         </motion.div>
 
+        {/* VS */}
+        <motion.div
+          className="self-center h-24 w-24 shrink-0 rounded-full bg-naval border-2 border-laranja flex items-center justify-center font-display text-3xl text-laranja"
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ delay: 0.9, type: "spring", stiffness: 200, damping: 13 }}
+        >
+          vs
+        </motion.div>
         {/* Mythos */}
         <motion.div
           className="border border-laranja/40 bg-laranja/[0.05] rounded-3xl p-10"
@@ -85,15 +94,6 @@ export default function FerramentasShowdownSlide() {
           </ul>
         </motion.div>
 
-        {/* VS */}
-        <motion.div
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-24 w-24 rounded-full bg-naval border-2 border-laranja flex items-center justify-center font-display text-3xl text-laranja"
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.9, type: "spring", stiffness: 200, damping: 13 }}
-        >
-          vs
-        </motion.div>
       </div>
 
       <motion.p
