@@ -54,18 +54,18 @@ export function AuthChecklistSlide({ eyebrow, title, items, background = "naval"
                   : "border-2 border-preto/10 bg-white/70"
               }`}
             >
-              {/* toggle que liga */}
+              {/* toggle que liga — geometria em em: a bolinha nunca escapa da pista */}
               <motion.div
                 initial={{ backgroundColor: "hsl(0 72% 51% / 0.25)" }}
                 animate={{ backgroundColor: it.accent ? "hsl(var(--preto))" : "hsl(var(--laranja))" }}
                 transition={{ delay: 0.9 + i * 0.45, duration: 0.35 }}
-                className="relative h-[clamp(1.6rem,2.6vw,2.2rem)] w-[clamp(2.9rem,4.6vw,3.9rem)] flex-shrink-0 rounded-full"
+                className="relative h-[1.15em] w-[2.15em] flex-shrink-0 rounded-full text-[clamp(1.6rem,2.6vw,2.2rem)]"
               >
                 <motion.div
-                  initial={{ x: "12%" }}
-                  animate={{ x: "115%" }}
+                  initial={{ x: "0em", y: "-50%" }}
+                  animate={{ x: "1em", y: "-50%" }}
                   transition={{ delay: 0.9 + i * 0.45, duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                  className={`absolute top-1/2 h-[clamp(1.15rem,1.9vw,1.6rem)] w-[clamp(1.15rem,1.9vw,1.6rem)] -translate-y-1/2 rounded-full ${it.accent ? "bg-laranja" : "bg-preto"}`}
+                  className={`absolute left-[0.075em] top-1/2 h-[0.85em] w-[0.85em] rounded-full ${it.accent ? "bg-laranja" : "bg-preto"}`}
                 />
               </motion.div>
 
