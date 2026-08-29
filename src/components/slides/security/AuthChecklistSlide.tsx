@@ -46,7 +46,7 @@ export function AuthChecklistSlide({ eyebrow, title, items, background = "naval"
               animate="show"
               variants={fade}
               custom={2 + i}
-              className={`flex items-center gap-[clamp(0.9rem,1.8vw,1.6rem)] rounded-2xl px-[clamp(1rem,2vw,1.75rem)] py-[clamp(0.75rem,1.8vh,1.25rem)] ${
+              className={`relative flex items-center gap-[clamp(0.9rem,1.8vw,1.6rem)] rounded-2xl px-[clamp(1rem,2vw,1.75rem)] py-[clamp(0.75rem,1.8vh,1.25rem)] ${
                 it.accent
                   ? "bg-laranja text-preto"
                   : dark
