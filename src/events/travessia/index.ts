@@ -9,11 +9,16 @@ const ACTS = {
   4: { number: 4, name: "arquitetura", subtitle: "escalar sem dor" },
 } as const;
 
-// Último índice (0-based) de cada ato
-// Ato 1: 0-7 · Ato 2: 8-15 · Ato 3: 16-47 · Ato 4: 48-fim
-const BOUNDARIES = [7, 15, 48, TOTAL_SLIDES - 1];
+// Índices calculados a partir do manifest — nunca quebram ao inserir slides
+const idx = (key: string) => {
+  const i = slideManifest.findIndex((s) => s.key === key);
+  if (i < 0) throw new Error(`slide "${key}" não encontrado no manifest travessia`);
+  return i;
+};
 // Slides de abertura (os "act" slides)
-const OPENERS = [1, 8, 16, 48];
+const OPENERS = [idx("ato_1_porque"), idx("ato_2_supabase"), idx("ato_3_codigo"), idx("ato_4_arquitetura")];
+// Último índice (0-based) de cada ato
+const BOUNDARIES = [...OPENERS.slice(1).map((i) => i - 1), TOTAL_SLIDES - 1];
 
 export const travessiaEvent: EventModule = {
   slug: "travessia",

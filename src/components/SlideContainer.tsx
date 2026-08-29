@@ -26,6 +26,14 @@ import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
 import { TikTokFineSlide } from "./slides/security/TikTokFineSlide";
+import HistoriaRealSlide from "./slides/security/HistoriaRealSlide";
+import RlsCrudSlide from "./slides/security/RlsCrudSlide";
+import LogoBulletsSlide from "./slides/security/LogoBulletsSlide";
+import DadoPessoalSlide from "./slides/security/DadoPessoalSlide";
+import MultaRecordeSlide from "./slides/security/MultaRecordeSlide";
+import CasosReaisSlide from "./slides/security/CasosReaisSlide";
+import FerramentasShowdownSlide from "./slides/security/FerramentasShowdownSlide";
+import KitDiaADiaSlide from "./slides/security/KitDiaADiaSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
 import type { EventContacts } from "@/events/types";
 
@@ -73,6 +81,14 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
     case "PromptCardSlide": return <PromptCardSlide {...e.props} />;
     case "LockVisualSlide": return <LockVisualSlide {...e.props} />;
     case "TikTokFineSlide": return <TikTokFineSlide />;
+    case "HistoriaRealSlide": return <HistoriaRealSlide />;
+    case "RlsCrudSlide": return <RlsCrudSlide />;
+    case "DadoPessoalSlide": return <DadoPessoalSlide />;
+    case "MultaRecordeSlide": return <MultaRecordeSlide />;
+    case "CasosReaisSlide": return <CasosReaisSlide />;
+    case "FerramentasShowdownSlide": return <FerramentasShowdownSlide />;
+    case "KitDiaADiaSlide": return <KitDiaADiaSlide />;
+    case "LogoBulletsSlide": return <LogoBulletsSlide {...e.props} />;
     default: {
       const _exhaustive: never = e;
       void _exhaustive;

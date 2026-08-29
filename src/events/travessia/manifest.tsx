@@ -3,6 +3,7 @@
 import type { StaticProps } from "@/components/slides/SlideStatic";
 import type { Phase } from "@/contexts/RoomContext";
 import type { RiskRow } from "@/components/slides/security/RiskTableSlide";
+import type { Brand } from "@/components/slides/BrandLogo";
 import { SupabaseIcon } from "@/components/brand/SupabaseIcon";
 import { AUDIT_PROMPT } from "@/lib/audit-prompt";
 
@@ -54,6 +55,11 @@ type PollProps = {
   options?: Array<{ value: string; label: string; sub?: string; accent?: boolean }>;
 };
 type BrainstormProps = { slideKey: string; question: string };
+type LogoBulletsProps = {
+  eyebrow?: string;
+  title?: string;
+  items: { label: string; sub?: string; logo?: Brand; accent?: boolean }[];
+};
 
 export type SlideEntry =
   | { key: string; kind: "static"; staticProps: StaticProps }
@@ -69,7 +75,9 @@ export type SlideEntry =
   | { key: string; kind: "special"; component: "ComparisonSlide"; props: ComparisonProps }
   | { key: string; kind: "special"; component: "PromptCardSlide"; props: PromptCardProps }
   | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps }
-  | { key: string; kind: "special"; component: "TikTokFineSlide" };
+  | { key: string; kind: "special"; component: "TikTokFineSlide" }
+  | { key: string; kind: "special"; component: "HistoriaRealSlide" | "RlsCrudSlide" | "DadoPessoalSlide" | "MultaRecordeSlide" | "CasosReaisSlide" | "FerramentasShowdownSlide" | "KitDiaADiaSlide" }
+  | { key: string; kind: "special"; component: "LogoBulletsSlide"; props: LogoBulletsProps };
 
 export const slideManifest: SlideEntry[] = [
   // ─── ATO 1 · POR QUÊ (0-7) ───
@@ -103,20 +111,7 @@ export const slideManifest: SlideEntry[] = [
       stat: { value: "tem RLS aberto", sub: "o cadeado do banco está destrancado." },
     },
   },
-  {
-    key: "historia_real",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "como vaza na vida real",
-      items: [
-        { label: "sexta: você lança no grupo do zap" },
-        { label: "sábado: 200 cadastros, com CPF e tudo" },
-        { label: "domingo: alguém abre o DevTools" },
-        { label: "segunda: a tabela inteira tá num fórum", accent: true },
-      ],
-    },
-  },
+  { key: "historia_real", kind: "special", component: "HistoriaRealSlide" },
   {
     key: "policy_faltando",
     kind: "static",
@@ -181,21 +176,7 @@ export const slideManifest: SlideEntry[] = [
       ],
     },
   },
-  {
-    key: "o_que_e_rls",
-    kind: "static",
-    staticProps: {
-      variant: "grid",
-      eyebrow: "RLS · row level security",
-      title: "regra que define quem vê qual linha",
-      items: [
-        { label: "SELECT", sub: "quem pode ver" },
-        { label: "INSERT", sub: "quem pode criar" },
-        { label: "UPDATE", sub: "quem pode editar" },
-        { label: "DELETE", sub: "quem pode apagar" },
-      ],
-    },
-  },
+  { key: "o_que_e_rls", kind: "special", component: "RlsCrudSlide" },
   {
     key: "rls_aberto",
     kind: "special",
@@ -283,15 +264,15 @@ USING (user_id = auth.uid());`,
   },
   {
     key: "nao_so_lovable",
-    kind: "static",
-    staticProps: {
-      variant: "list",
+    kind: "special",
+    component: "LogoBulletsSlide",
+    props: {
       eyebrow: "o Lovable ajuda muito · mas não é tudo",
       items: [
-        { label: "audita você mesmo com IA", sub: "Claude/GPT lê seu código melhor que você" },
-        { label: "GitHub é sua rede de segurança", sub: "histórico, rollback, code review" },
-        { label: "service_role NUNCA no front", sub: "só anon key vai pro client" },
-        { label: "Security Advisor do Supabase", sub: "roda toda semana. é grátis." },
+        { label: "audita você mesmo com IA", sub: "Claude/GPT lê seu código melhor que você", logo: "anthropic" },
+        { label: "GitHub é sua rede de segurança", sub: "histórico, rollback, code review", logo: "github" },
+        { label: "service_role NUNCA no front", sub: "só anon key vai pro client", logo: "supabase", accent: true },
+        { label: "Security Advisor do Supabase", sub: "roda toda semana. é grátis.", logo: "supabase" },
       ],
     },
   },
@@ -335,6 +316,7 @@ USING (user_id = auth.uid());`,
       ],
     },
   },
+  { key: "lgpd_dado_pessoal", kind: "special", component: "DadoPessoalSlide" },
   {
     key: "lgpd_dado_sensivel",
     kind: "special",
@@ -521,29 +503,8 @@ USING (user_id = auth.uid());`,
     kind: "static",
     staticProps: { variant: "transition", title: "ignorar isso tem preço. e vira manchete." },
   },
-  {
-    key: "lgpd_multa_recorde",
-    kind: "static",
-    staticProps: {
-      variant: "stat",
-      title: "a maior multa de proteção de dados da história",
-      stat: { value: "€ 1,2 bi", sub: "Meta, 2023 — por mandar dados de europeus pros EUA." },
-    },
-  },
-  {
-    key: "lgpd_casos_reais",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "casos reais · o que custou",
-      items: [
-        { label: "Meta — € 1,2 bilhão", sub: "transferiu dados de europeus sem base legal (2023)" },
-        { label: "Amazon — € 746 milhões", sub: "publicidade sem consentimento válido" },
-        { label: "TikTok — € 345 milhões", sub: "dados de crianças mal protegidos" },
-        { label: "Telekall (BR) — R$ 14.400", sub: "vendeu lista de WhatsApp · 1ª multa da ANPD (2023)", accent: true },
-      ],
-    },
-  },
+  { key: "lgpd_multa_recorde", kind: "special", component: "MultaRecordeSlide" },
+  { key: "lgpd_casos_reais", kind: "special", component: "CasosReaisSlide" },
 
   {
     key: "lgpd_brasil_hoje",
@@ -639,27 +600,7 @@ USING (user_id = auth.uid());`,
       background: "naval",
     },
   },
-  {
-    key: "ferramentas_principais",
-    kind: "special",
-    component: "ComparisonSlide",
-    props: {
-      eyebrow: "a artilharia pesada · 2026",
-      title: "pentest e descoberta de vulnerabilidade com IA",
-      leftTag: "AWS Security Agent",
-      rightTag: "Claude Mythos",
-      rightAccent: true,
-      left: {
-        label: "pentest autônomo · já disponível (GA)",
-        bullets: ["multi-agente: explora, valida e prioriza", "lê seu código-fonte (multicloud, serve p/ Supabase)", "pentest de semanas → 1-2 dias", "~US$ 50/hora · ~US$ 400 num app pequeno"],
-      },
-      right: {
-        label: "descoberta sobre-humana · ainda em preview",
-        sub: "da Anthropic (criadora do Claude) — não da AWS.",
-        bullets: ["milhares de zero-days em vários sistemas", "bug de 27 anos no OpenBSD", "RCE de 17 anos no FreeBSD (CVE-2026-4747)", "gated/preview: o teto do que a IA já faz por AppSec"],
-      },
-    },
-  },
+  { key: "ferramentas_principais", kind: "special", component: "FerramentasShowdownSlide" },
   {
     key: "ferramentas_gancho",
     kind: "static",
@@ -669,21 +610,7 @@ USING (user_id = auth.uid());`,
       stat: { value: "US$ 400", sub: "o que custava R$ 50 mil e 1 mês agora cabe num fim de semana." },
     },
   },
-  {
-    key: "kit_dia_a_dia",
-    kind: "static",
-    staticProps: {
-      variant: "grid",
-      eyebrow: "seu kit do dia a dia · grátis ou barato",
-      items: [
-        { label: "Security Advisor", sub: "Supabase · acha RLS aberto e testa policies (RLS testing)" },
-        { label: "Lovable Security Scan", sub: "Lovable 2.0 · varre o app e aponta riscos" },
-        { label: "GitGuardian / gitleaks", sub: "caça secret vazado no Git" },
-        { label: "Semgrep + Dependabot", sub: "SAST no código + alerta de dependência vulnerável" },
-        { label: "Claude / GPT", sub: "audita seu RLS e schema com um prompt" },
-      ],
-    },
-  },
+  { key: "kit_dia_a_dia", kind: "special", component: "KitDiaADiaSlide" },
 
   {
     key: "prompt_auditoria",
