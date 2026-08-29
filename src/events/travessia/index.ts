@@ -11,7 +11,7 @@ const ACTS = {
 
 // Último índice (0-based) de cada ato
 // Ato 1: 0-7 · Ato 2: 8-15 · Ato 3: 16-47 · Ato 4: 48-fim
-const BOUNDARIES = [7, 15, 47, TOTAL_SLIDES - 1];
+const BOUNDARIES = [7, 15, 48, TOTAL_SLIDES - 1];
 // Slides de abertura (os "act" slides)
 const OPENERS = [1, 8, 16, 48];
 
