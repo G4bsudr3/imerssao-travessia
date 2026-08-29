@@ -10,6 +10,7 @@ import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import type { SlideEntry } from "@/events/travessia/manifest";
 import { StageProgress } from "./stage/StageProgress";
 import { Teleprompter } from "./stage/Teleprompter";
+import { SlideNavigator } from "./stage/SlideNavigator";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
@@ -109,6 +110,7 @@ export function SlideContainer() {
   const totalSlides = event.totalSlides;
   const currentSlideRef = useRef(currentSlide);
   const [teleOpen, setTeleOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     currentSlideRef.current = currentSlide;
@@ -133,6 +135,7 @@ export function SlideContainer() {
       if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); next(); }
       else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
       else if (e.key === "t" || e.key === "T") { e.preventDefault(); setTeleOpen((v) => !v); }
+      else if (e.key === "g" || e.key === "G") { e.preventDefault(); setNavOpen((v) => !v); }
       else if (e.key === "f" || e.key === "F") {
         if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
         else document.exitFullscreen?.();
