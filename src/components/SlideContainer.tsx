@@ -34,6 +34,8 @@ import MultaRecordeSlide from "./slides/security/MultaRecordeSlide";
 import CasosReaisSlide from "./slides/security/CasosReaisSlide";
 import FerramentasShowdownSlide from "./slides/security/FerramentasShowdownSlide";
 import KitDiaADiaSlide from "./slides/security/KitDiaADiaSlide";
+import StorageBucketSlide from "./slides/security/StorageBucketSlide";
+import AuthChecklistSlide from "./slides/security/AuthChecklistSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
 import type { EventContacts } from "@/events/types";
 
@@ -89,6 +91,8 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
     case "FerramentasShowdownSlide": return <FerramentasShowdownSlide />;
     case "KitDiaADiaSlide": return <KitDiaADiaSlide />;
     case "LogoBulletsSlide": return <LogoBulletsSlide {...e.props} />;
+    case "StorageBucketSlide": return <StorageBucketSlide {...e.props} />;
+    case "AuthChecklistSlide": return <AuthChecklistSlide {...e.props} />;
     default: {
       const _exhaustive: never = e;
       void _exhaustive;

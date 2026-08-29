@@ -1,5 +1,20 @@
 import { motion } from "framer-motion";
+import { XCircle, CheckCircle2, AlertTriangle, Info } from "lucide-react";
 import { SlideShell } from "../SlideShell";
+
+/** Tag de card: converte emoji legado (❌/✅/⚠️) em ícone lucide polido. */
+function Tag({ text, inverted }: { text: string; inverted?: boolean }) {
+  const clean = text.replace(/[❌✅⚠️ℹ️]\s*/u, "").trim();
+  const isError = text.includes("❌");
+  const Icon = isError ? XCircle : text.includes("✅") ? CheckCircle2 : text.includes("⚠️") ? AlertTriangle : null;
+  const iconColor = inverted ? "text-preto/70" : isError ? "text-red-500" : "text-laranja";
+  return (
+    <div className="mb-2 flex items-center gap-2">
+      {Icon && <Icon className={`h-5 w-5 flex-shrink-0 ${iconColor}`} strokeWidth={2.25} />}
+      <span className="eyebrow">{clean || text}</span>
+    </div>
+  );
+}
 
 type Side = {
   label: string;
@@ -45,7 +60,7 @@ export function ComparisonSlide({ eyebrow, title, left, right, leftTag = "lado A
 
         <div className="grid grid-cols-1 gap-[clamp(0.75rem,1.5vw,1.5rem)] md:grid-cols-2">
           <motion.div initial="hidden" animate="show" variants={fade} custom={2} className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left ${card}`}>
-            <div className="eyebrow mb-2">{leftTag}</div>
+            <Tag text={leftTag} />
             <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)] break-words">{left.label}</div>
             {left.sub && <p className="mt-2 opacity-70 text-[clamp(1.05rem,1.4vw,1.35rem)]">{left.sub}</p>}
             {left.bullets && (
@@ -66,7 +81,7 @@ export function ComparisonSlide({ eyebrow, title, left, right, leftTag = "lado A
             custom={3}
             className={`rounded-2xl p-[clamp(1rem,2vw,2.25rem)] text-left ${rightAccent ? "bg-laranja text-preto border-2 border-preto/10" : card}`}
           >
-            <div className={`eyebrow mb-2 ${rightAccent ? "text-preto/70" : ""}`}>{rightTag}</div>
+            <div className={rightAccent ? "[&_.eyebrow]:text-preto/70" : ""}><Tag text={rightTag} inverted={rightAccent} /></div>
             <div className="font-display leading-tight text-[clamp(1.5rem,2.6vw,2.5rem)] break-words">{right.label}</div>
             {right.sub && <p className={`mt-2 text-[clamp(1.05rem,1.4vw,1.35rem)] ${rightAccent ? "text-preto/70" : "opacity-70"}`}>{right.sub}</p>}
             {right.bullets && (

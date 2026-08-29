@@ -77,7 +77,9 @@ export type SlideEntry =
   | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps }
   | { key: string; kind: "special"; component: "TikTokFineSlide" }
   | { key: string; kind: "special"; component: "HistoriaRealSlide" | "RlsCrudSlide" | "DadoPessoalSlide" | "MultaRecordeSlide" | "CasosReaisSlide" | "FerramentasShowdownSlide" | "KitDiaADiaSlide" }
-  | { key: string; kind: "special"; component: "LogoBulletsSlide"; props: LogoBulletsProps };
+  | { key: string; kind: "special"; component: "LogoBulletsSlide"; props: LogoBulletsProps }
+  | { key: string; kind: "special"; component: "StorageBucketSlide"; props: { eyebrow?: string; title?: string; bucketLabel?: string; items?: { label: string; sub?: string; accent?: boolean }[]; background?: "bege" | "naval" | "accent" } }
+  | { key: string; kind: "special"; component: "AuthChecklistSlide"; props: { eyebrow?: string; title?: string; items: { label: string; sub?: string; accent?: boolean }[]; background?: "bege" | "naval" | "accent" } };
 
 export const slideManifest: SlideEntry[] = [
   // ─── ATO 1 · POR QUÊ (0-7) ───

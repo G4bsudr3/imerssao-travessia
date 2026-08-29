@@ -50,13 +50,13 @@ const aboutSlide: SlideEntry = {
 };
 const storagePublico: SlideEntry = {
   key: "storage_publico",
-  kind: "static",
-  staticProps: {
-    variant: "list",
+  kind: "special",
+  component: "StorageBucketSlide",
+  props: {
     eyebrow: "o outro cadeado esquecido · Storage",
+    title: "caprichou no RLS da tabela… e deixou o bucket aberto?",
     background: "naval",
     items: [
-      { label: "bucket público = arquivo aberto na URL", sub: "quem tem o link baixa — nota fiscal, RG, contrato" },
       { label: "o Storage tem RLS PRÓPRIO", sub: "não herda a policy da tabela — configure à parte" },
       { label: "regra: bucket privado + URL assinada", sub: "acesso temporário, que expira — sem link eterno" },
       { label: "confere hoje: algum bucket público sem querer?", sub: "é o vazamento mais bobo — e o mais comum", accent: true },
@@ -65,16 +65,17 @@ const storagePublico: SlideEntry = {
 };
 const authConfig: SlideEntry = {
   key: "auth_config",
-  kind: "static",
-  staticProps: {
-    variant: "list",
+  kind: "special",
+  component: "AuthChecklistSlide",
+  props: {
     eyebrow: "os checkboxes que ficam abertos · Auth",
+    title: "liga isso hoje — é de graça e salva o projeto.",
     background: "naval",
     items: [
-      { label: "confirmação de e-mail desligada", sub: "cria conta com e-mail de terceiro e já entra" },
-      { label: "política de senha fraca", sub: "sem mínimo decente, \"123456\" passa liso" },
-      { label: "leaked-password protection", sub: "o Supabase barra senha já vazada — ligue (vem off)", accent: true },
-      { label: "signup aberto sem precisar", sub: "não é self-service? trave o cadastro" },
+      { label: "confirmação de e-mail ligada", sub: "sem isso, criam conta com e-mail de terceiro e já entram" },
+      { label: "política de senha decente", sub: "sem mínimo, \"123456\" passa liso" },
+      { label: "leaked-password protection", sub: "o Supabase barra senha já vazada — vem off, ligue", accent: true },
+      { label: "signup fechado se não é self-service", sub: "não tem cadastro público? trave o signup" },
     ],
   },
 };
