@@ -91,6 +91,8 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
     case "FerramentasShowdownSlide": return <FerramentasShowdownSlide />;
     case "KitDiaADiaSlide": return <KitDiaADiaSlide />;
     case "LogoBulletsSlide": return <LogoBulletsSlide {...e.props} />;
+    case "StorageBucketSlide": return <StorageBucketSlide {...e.props} />;
+    case "AuthChecklistSlide": return <AuthChecklistSlide {...e.props} />;
     default: {
       const _exhaustive: never = e;
       void _exhaustive;
