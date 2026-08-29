@@ -34,6 +34,8 @@ import MultaRecordeSlide from "./slides/security/MultaRecordeSlide";
 import CasosReaisSlide from "./slides/security/CasosReaisSlide";
 import FerramentasShowdownSlide from "./slides/security/FerramentasShowdownSlide";
 import KitDiaADiaSlide from "./slides/security/KitDiaADiaSlide";
+import StorageBucketSlide from "./slides/security/StorageBucketSlide";
+import AuthChecklistSlide from "./slides/security/AuthChecklistSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
 import type { EventContacts } from "@/events/types";
 
