@@ -103,20 +103,7 @@ export const slideManifest: SlideEntry[] = [
       stat: { value: "tem RLS aberto", sub: "o cadeado do banco está destrancado." },
     },
   },
-  {
-    key: "historia_real",
-    kind: "static",
-    staticProps: {
-      variant: "list",
-      eyebrow: "como vaza na vida real",
-      items: [
-        { label: "sexta: você lança no grupo do zap" },
-        { label: "sábado: 200 cadastros, com CPF e tudo" },
-        { label: "domingo: alguém abre o DevTools" },
-        { label: "segunda: a tabela inteira tá num fórum", accent: true },
-      ],
-    },
-  },
+  { key: "historia_real", kind: "special", component: "HistoriaRealSlide" },
   {
     key: "policy_faltando",
     kind: "static",
@@ -181,21 +168,7 @@ export const slideManifest: SlideEntry[] = [
       ],
     },
   },
-  {
-    key: "o_que_e_rls",
-    kind: "static",
-    staticProps: {
-      variant: "grid",
-      eyebrow: "RLS · row level security",
-      title: "regra que define quem vê qual linha",
-      items: [
-        { label: "SELECT", sub: "quem pode ver" },
-        { label: "INSERT", sub: "quem pode criar" },
-        { label: "UPDATE", sub: "quem pode editar" },
-        { label: "DELETE", sub: "quem pode apagar" },
-      ],
-    },
-  },
+  { key: "o_que_e_rls", kind: "special", component: "RlsCrudSlide" },
   {
     key: "rls_aberto",
     kind: "special",
@@ -283,15 +256,15 @@ USING (user_id = auth.uid());`,
   },
   {
     key: "nao_so_lovable",
-    kind: "static",
-    staticProps: {
-      variant: "list",
+    kind: "special",
+    component: "LogoBulletsSlide",
+    props: {
       eyebrow: "o Lovable ajuda muito · mas não é tudo",
       items: [
-        { label: "audita você mesmo com IA", sub: "Claude/GPT lê seu código melhor que você" },
-        { label: "GitHub é sua rede de segurança", sub: "histórico, rollback, code review" },
-        { label: "service_role NUNCA no front", sub: "só anon key vai pro client" },
-        { label: "Security Advisor do Supabase", sub: "roda toda semana. é grátis." },
+        { label: "audita você mesmo com IA", sub: "Claude/GPT lê seu código melhor que você", logo: "anthropic" },
+        { label: "GitHub é sua rede de segurança", sub: "histórico, rollback, code review", logo: "github" },
+        { label: "service_role NUNCA no front", sub: "só anon key vai pro client", logo: "supabase", accent: true },
+        { label: "Security Advisor do Supabase", sub: "roda toda semana. é grátis.", logo: "supabase" },
       ],
     },
   },
