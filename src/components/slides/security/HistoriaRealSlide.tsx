@@ -3,7 +3,7 @@ import { Users, Terminal, Globe } from "lucide-react";
 import { SlideShell } from "../SlideShell";
 import { BrandLogo, type Brand } from "../BrandLogo";
 
-const STEPS = [
+const STEPS: { icon?: typeof Users; brand?: Brand; dia: string; texto: string; danger: boolean }[] = [
   { brand: "whatsapp" as Brand, dia: "sexta", texto: "você lança no grupo do WhatsApp", danger: false },
   { icon: Users, dia: "sábado", texto: "200 cadastros, com CPF e tudo", danger: false },
   { icon: Terminal, dia: "domingo", texto: "alguém abre o DevTools", danger: false },
@@ -34,7 +34,7 @@ export default function HistoriaRealSlide() {
                   : undefined
               }
             >
-              {"brand" in s && s.brand ? (
+              {s.brand ? (
                 <BrandLogo brand={s.brand} className="h-9 w-9 text-bege/70" />
               ) : (
                 s.icon && <s.icon className={`h-9 w-9 ${s.danger ? "text-red-400" : "text-bege/70"}`} />

@@ -252,7 +252,7 @@ const lovableCloudFix: SlideEntry = {
 };
 
 const historiaRealFix: SlideEntry = naval("historia_real", { variant: "list", eyebrow: "como vaza na vida real", items: [
-  { label: "sexta: você lança no grupo do zap" },
+  { label: "sexta: você lança no grupo do WhatsApp" },
   { label: "sábado: 200 cadastros, com CPF e tudo" },
   { label: "domingo: alguém abre as ferramentas do navegador" },
   { label: "segunda: a tabela inteira tá num fórum", accent: true },
