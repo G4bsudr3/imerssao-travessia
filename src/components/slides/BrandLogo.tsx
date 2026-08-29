@@ -1,8 +1,6 @@
-import { Github } from "lucide-react";
-
 /**
- * Logos de marcas em SVG inline — funcionam offline (telão) e herdam `currentColor`.
- * Use `className` para controlar tamanho/cor (ex: "h-10 w-10 text-bege").
+ * Logos de marcas em SVG inline (paths oficiais) — funcionam offline (telão)
+ * e herdam `currentColor`. Use `className` para tamanho/cor.
  */
 export type Brand =
   | "aws"
@@ -12,131 +10,196 @@ export type Brand =
   | "meta"
   | "amazon"
   | "tiktok"
+  | "whatsapp"
+  | "instagram"
+  | "gdpr"
   | "gitguardian"
   | "semgrep"
   | "openai"
   | "lovable";
 
-const PATHS: Record<Exclude<Brand, "github">, React.ReactNode> = {
-  // seta-sorriso da AWS
-  aws: (
-    <>
+type Mark = { viewBox: string; node: React.ReactNode };
+
+const MARKS: Record<Brand, Mark> = {
+  // seta-sorriso + wordmark da AWS
+  aws: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <text x="24" y="24" textAnchor="middle" fontSize="15" fontWeight="800" fill="currentColor" fontFamily="inherit">
+          aws
+        </text>
+        <path d="M8 30c9.5 8.5 22.5 9.5 33 2.5" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" fill="none" />
+        <path d="M38 27.5l5.5 4.2-6.6 1.9z" fill="currentColor" />
+      </>
+    ),
+  },
+  // "A" oficial da Anthropic
+  anthropic: {
+    viewBox: "0 0 92 65",
+    node: (
       <path
-        d="M8 30c9.5 8.5 22.5 9.5 33 2.5"
+        d="M66.5.5H52.4l25.7 64h14.1L66.5.5ZM25.9.5 0 64.5h14.4l5.3-13.7h27l5.3 13.7h14.4L40.5.5H25.9Zm-1.4 38.7 8.8-22.8 8.8 22.8H24.5Z"
+        fill="currentColor"
+      />
+    ),
+  },
+  // octocat oficial do GitHub
+  github: {
+    viewBox: "0 0 24 24",
+    node: (
+      <path
+        d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23A11.5 11.5 0 0 1 12 5.803c1.02.005 2.045.138 3.003.404 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+        fill="currentColor"
+      />
+    ),
+  },
+  // bolt oficial do Supabase
+  supabase: {
+    viewBox: "0 0 24 24",
+    node: (
+      <path
+        d="M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.986 1.259 1.41 1.873.637l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z"
+        fill="currentColor"
+      />
+    ),
+  },
+  // infinito da Meta
+  meta: {
+    viewBox: "0 0 48 48",
+    node: (
+      <path
+        d="M14 16c-4.4 0-8 3.6-8 8s3.6 8 8 8c6 0 10-16 20-16 4.4 0 8 3.6 8 8s-3.6 8-8 8c-10 0-14-16-20-16Z"
+        fill="none"
         stroke="currentColor"
         strokeWidth="3.4"
         strokeLinecap="round"
-        fill="none"
+        strokeLinejoin="round"
       />
-      <path d="M38 27.5l5.5 4.2-6.6 1.9z" fill="currentColor" />
-      <text x="24" y="24" textAnchor="middle" fontSize="15" fontWeight="800" fill="currentColor" fontFamily="inherit">
-        aws
-      </text>
-    </>
-  ),
-  // estrela/"A" radiante da Anthropic
-  anthropic: (
-    <path
-      d="M24 4l4.2 14.5L43 14l-9.4 11.6L43 38l-14.8-4.5L24 48l-4.2-14.5L5 38l9.4-12.4L5 14l14.8 4.5z"
-      fill="currentColor"
-      transform="scale(0.92) translate(2,2)"
-    />
-  ),
-  // bolt do Supabase
-  supabase: (
-    <path
-      d="M27.5 3L11 27.5h9.8L18 45 37 20.5h-10.4z"
-      fill="currentColor"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinejoin="round"
-    />
-  ),
-  // loop infinito da Meta
-  meta: (
-    <path
-      d="M16 34c-5 0-8-4-8-9.5S11 15 16 15c7 0 9 9.5 16 9.5 5 0 8-4 8-9.5"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="4"
-      strokeLinecap="round"
-    />
-  ),
+    ),
+  },
   // "a" + sorriso da Amazon
-  amazon: (
-    <>
-      <text x="24" y="26" textAnchor="middle" fontSize="26" fontWeight="800" fill="currentColor" fontFamily="inherit">
-        a
-      </text>
+  amazon: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <text x="24" y="26" textAnchor="middle" fontSize="26" fontWeight="800" fill="currentColor" fontFamily="inherit">
+          a
+        </text>
+        <path d="M10 31c8 6.5 20 6.5 28 0" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" fill="none" />
+        <path d="M34.5 28.5l5 3.8-6 1.7z" fill="currentColor" />
+      </>
+    ),
+  },
+  // nota musical oficial do TikTok
+  tiktok: {
+    viewBox: "0 0 24 24",
+    node: (
       <path
-        d="M10 31c8 6.5 20 6.5 28 0"
-        stroke="currentColor"
-        strokeWidth="3.2"
-        strokeLinecap="round"
-        fill="none"
+        d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07"
+        fill="currentColor"
       />
-      <path d="M34.5 28.5l5 3.8-6 1.7z" fill="currentColor" />
-    </>
-  ),
-  // nota musical do TikTok
-  tiktok: (
-    <path
-      d="M34.6 6h-7.1v26.4a7.6 7.6 0 1 1-7.6-7.6c.4 0 .8 0 1.2.1v-7.4a15 15 0 0 0-1.2-.1 15 15 0 1 0 15 15V17.4a16.6 16.6 0 0 0 9.7 3.1v-7.3A9.9 9.9 0 0 1 34.6 6Z"
-      fill="currentColor"
-    />
-  ),
+    ),
+  },
+  // balão oficial do WhatsApp
+  whatsapp: {
+    viewBox: "0 0 24 24",
+    node: (
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884a9.82 9.82 0 0 1 6.988 2.896 9.83 9.83 0 0 1 2.892 6.994c-.003 5.45-4.437 9.885-9.884 9.885m8.413-18.297A11.8 11.8 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.9 11.9 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.82 11.82 0 0 0 20.465 3.49"
+        fill="currentColor"
+      />
+    ),
+  },
+  // câmera oficial do Instagram
+  instagram: {
+    viewBox: "0 0 24 24",
+    node: (
+      <path
+        d="M7.03.084c-1.277.06-2.149.264-2.91.563-.789.308-1.459.72-2.126 1.388S.88 3.33.575 4.12c-.297.763-.497 1.635-.554 2.913-.057 1.278-.07 1.688-.063 4.947s.021 3.667.084 4.948c.06 1.276.264 2.148.563 2.91.308.788.72 1.457 1.388 2.125s1.295 1.078 2.087 1.382c.762.296 1.635.497 2.913.554 1.278.056 1.688.069 4.946.063 3.257-.007 3.668-.021 4.948-.083 1.28-.062 2.147-.265 2.91-.563.788-.309 1.458-.72 2.125-1.388s1.079-1.297 1.382-2.087c.296-.763.498-1.635.554-2.912.056-1.28.07-1.69.063-4.948-.006-3.258-.02-3.667-.083-4.947-.06-1.28-.264-2.148-.563-2.911-.309-.788-.72-1.457-1.387-2.125S19.833.884 19.043.58C18.28.284 17.408.082 16.13.026 14.853-.03 14.443-.045 11.184-.038 7.926-.032 7.516-.018 6.235.045m.14 21.693c-1.17-.05-1.805-.245-2.228-.408a3.7 3.7 0 0 1-1.382-.895 3.7 3.7 0 0 1-.9-1.378c-.165-.423-.363-1.058-.417-2.228-.06-1.264-.072-1.644-.08-4.848-.006-3.204.006-3.583.061-4.848.05-1.169.246-1.805.408-2.228.216-.561.477-.96.895-1.382a3.7 3.7 0 0 1 1.379-.9c.423-.165 1.057-.361 2.227-.417 1.265-.06 1.644-.072 4.848-.08 3.203-.006 3.583.006 4.85.062 1.168.05 1.804.244 2.227.408.56.216.96.475 1.382.895.421.42.681.817.9 1.378.165.422.362 1.056.417 2.227.06 1.265.074 1.645.08 4.848.005 3.203-.006 3.583-.061 4.848-.051 1.17-.245 1.805-.408 2.23-.216.56-.477.96-.896 1.38a3.7 3.7 0 0 1-1.378.9c-.422.165-1.058.362-2.226.418-1.266.06-1.645.072-4.85.079-3.204.007-3.582-.006-4.848-.06m9.783-16.192a1.44 1.44 0 1 0 1.437-1.442 1.44 1.44 0 0 0-1.437 1.442M5.839 12.012a6.161 6.161 0 1 0 12.323-.024 6.161 6.161 0 0 0-12.323.024M8 12.008A4 4 0 1 1 12.008 16 4 4 0 0 1 8 12.008"
+        fill="currentColor"
+      />
+    ),
+  },
+  // círculo de estrelas da União Europeia (GDPR)
+  gdpr: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <circle cx="24" cy="24" r="21" fill="none" stroke="currentColor" strokeWidth="2.5" />
+        {Array.from({ length: 12 }).map((_, i) => {
+          const a = (i / 12) * Math.PI * 2 - Math.PI / 2;
+          return (
+            <circle key={i} cx={24 + Math.cos(a) * 14} cy={24 + Math.sin(a) * 14} r="1.9" fill="currentColor" />
+          );
+        })}
+      </>
+    ),
+  },
   // escudo com chave (GitGuardian)
-  gitguardian: (
-    <>
-      <path
-        d="M24 3l16 6v13c0 10.5-6.8 18.4-16 23C14.8 40.4 8 32.5 8 22V9z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3.4"
-        strokeLinejoin="round"
-      />
-      <circle cx="24" cy="21" r="4.5" fill="currentColor" />
-      <path d="M24 25.5V34m0 0h4m-4-4h3.2" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-    </>
-  ),
+  gitguardian: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <path
+          d="M24 3l16 6v13c0 10.5-6.8 18.4-16 23C14.8 40.4 8 32.5 8 22V9z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.4"
+          strokeLinejoin="round"
+        />
+        <circle cx="24" cy="21" r="4.5" fill="currentColor" />
+        <path d="M24 25.5V34m0 0h4m-4-4h3.2" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+      </>
+    ),
+  },
   // < /> do Semgrep
-  semgrep: (
-    <path
-      d="M17 11L6 24l11 13M31 11l11 13-11 13M27 7l-6 34"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  ),
-  // nó hexagonal (OpenAI)
-  openai: (
-    <>
+  semgrep: {
+    viewBox: "0 0 48 48",
+    node: (
       <path
-        d="M24 5l16.5 9.5v19L24 43 7.5 33.5v-19z"
+        d="M17 11L6 24l11 13M31 11l11 13-11 13M27 7l-6 34"
         fill="none"
         stroke="currentColor"
-        strokeWidth="3.4"
+        strokeWidth="3.6"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <circle cx="24" cy="24" r="6.5" fill="currentColor" />
-    </>
-  ),
+    ),
+  },
+  // nó hexagonal (OpenAI)
+  openai: {
+    viewBox: "0 0 48 48",
+    node: (
+      <>
+        <path
+          d="M24 5l16.5 9.5v19L24 43 7.5 33.5v-19z"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="3.4"
+          strokeLinejoin="round"
+        />
+        <circle cx="24" cy="24" r="6.5" fill="currentColor" />
+      </>
+    ),
+  },
   // coração (Lovable)
-  lovable: (
-    <path
-      d="M24 43C11 33.5 4.5 26 4.5 17.5A10.5 10.5 0 0 1 24 12a10.5 10.5 0 0 1 19.5 5.5C43.5 26 37 33.5 24 43z"
-      fill="currentColor"
-    />
-  ),
+  lovable: {
+    viewBox: "0 0 48 48",
+    node: (
+      <path
+        d="M24 43C11 33.5 4.5 26 4.5 17.5A10.5 10.5 0 0 1 24 12a10.5 10.5 0 0 1 19.5 5.5C43.5 26 37 33.5 24 43z"
+        fill="currentColor"
+      />
+    ),
+  },
 };
 
 export function BrandLogo({ brand, className }: { brand: Brand; className?: string }) {
-  if (brand === "github") return <Github className={className} aria-label="GitHub" />;
+  const mark = MARKS[brand];
   return (
-    <svg viewBox="0 0 48 48" className={className} fill="none" aria-label={brand} role="img">
-      {PATHS[brand]}
+    <svg viewBox={mark.viewBox} className={className} fill="none" aria-label={brand} role="img">
+      {mark.node}
     </svg>
   );
 }
