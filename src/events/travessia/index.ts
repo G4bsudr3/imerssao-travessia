@@ -27,7 +27,7 @@ export const travessiaEvent: EventModule = {
   contacts: {
     instagram: { url: "https://instagram.com/gabreda", label: "@gabreda" },
     whatsapp: { url: "https://wa.me/5511945853553", label: "11 94585-3553" },
-    feedback: { path: "feedback", label: "me conta o que ficou" },
+    feedback: { path: "feedback", label: "/feedback ou dúvidas" },
   },
   manifest: slideManifest,
   totalSlides: TOTAL_SLIDES,
