@@ -10,6 +10,7 @@ import { SlideErrorBoundary } from "./SlideErrorBoundary";
 import type { SlideEntry } from "@/events/travessia/manifest";
 import { StageProgress } from "./stage/StageProgress";
 import { Teleprompter } from "./stage/Teleprompter";
+import { SlideNavigator } from "./stage/SlideNavigator";
 import { preloadSlideAssets } from "@/lib/preload-assets";
 import { SlideStatic } from "./slides/SlideStatic";
 import { CoverSlide } from "./slides/CoverSlide";
@@ -109,6 +110,7 @@ export function SlideContainer() {
   const totalSlides = event.totalSlides;
   const currentSlideRef = useRef(currentSlide);
   const [teleOpen, setTeleOpen] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
 
   useEffect(() => {
     currentSlideRef.current = currentSlide;
@@ -130,9 +132,12 @@ export function SlideContainer() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!isPresenter) return;
+      // Ignora teclas digitadas em inputs (ex: filtro do navegador de slides)
+      if (e.target instanceof HTMLElement && /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName)) return;
       if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); next(); }
       else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prev(); }
       else if (e.key === "t" || e.key === "T") { e.preventDefault(); setTeleOpen((v) => !v); }
+      else if (e.key === "g" || e.key === "G") { e.preventDefault(); setNavOpen((v) => !v); }
       else if (e.key === "f" || e.key === "F") {
         if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
         else document.exitFullscreen?.();
@@ -180,6 +185,16 @@ export function SlideContainer() {
           label={`${event.sectionLabel ?? "ato"} ${actForSlide(currentSlide).number} · ${String(currentSlide + 1).padStart(2, "0")}/${totalSlides}`}
           title={slideTitle(entry)}
           onClose={() => setTeleOpen(false)}
+        />
+      )}
+
+      {/* Navegador de slides (tecla G) */}
+      {isPresenter && (
+        <SlideNavigator
+          open={navOpen}
+          current={currentSlide}
+          onSelect={(idx) => setSlide(idx)}
+          onClose={() => setNavOpen(false)}
         />
       )}
     </div>
