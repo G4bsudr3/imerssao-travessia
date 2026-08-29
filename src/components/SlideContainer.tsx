@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
-import { X } from "lucide-react";
+import { X, Download } from "lucide-react";
 import { useSwipeable } from "@/hooks/useSwipeable";
 import { useRoom } from "@/contexts/RoomContext";
 import { useChromeVisibility } from "@/contexts/ChromeVisibilityContext";
@@ -202,6 +202,25 @@ export function SlideContainer() {
         />
       )}
     </div>
+  );
+}
+
+function KitDownload() {
+  return (
+    <a
+      href="/downloads/kit-bootcamp-caldeira.zip"
+      download="kit-bootcamp-caldeira.zip"
+      className="absolute bottom-8 left-8 z-40 flex items-center gap-4 rounded-xl border-2 border-preto/15 bg-white px-5 py-4 text-left shadow-[0_6px_24px_-8px_hsl(var(--preto)/0.35)] transition-transform hover:scale-105"
+      aria-label="baixar kit do bootcamp (PDFs + prompts)"
+    >
+      <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-laranja/15 text-laranja">
+        <Download className="h-6 w-6" strokeWidth={2.5} />
+      </span>
+      <span className="flex flex-col">
+        <span className="font-mono text-[10px] uppercase tracking-widest text-preto/60">leva o kit contigo</span>
+        <span className="font-display text-lg leading-tight text-preto">PDFs + prompts (.zip)</span>
+      </span>
+    </a>
   );
 }
 
