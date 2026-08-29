@@ -25,6 +25,7 @@ import { RiskTableSlide } from "./slides/security/RiskTableSlide";
 import { ComparisonSlide } from "./slides/security/ComparisonSlide";
 import { PromptCardSlide } from "./slides/security/PromptCardSlide";
 import { LockVisualSlide } from "./slides/security/LockVisualSlide";
+import { TikTokFineSlide } from "./slides/security/TikTokFineSlide";
 import { LagrimaGradient } from "./brand/LagrimaGradient";
 import type { EventContacts } from "@/events/types";
 
@@ -71,6 +72,7 @@ function renderSlide(manifest: SlideEntry[], idx: number) {
     case "ComparisonSlide": return <ComparisonSlide {...e.props} />;
     case "PromptCardSlide": return <PromptCardSlide {...e.props} />;
     case "LockVisualSlide": return <LockVisualSlide {...e.props} />;
+    case "TikTokFineSlide": return <TikTokFineSlide />;
     default: {
       const _exhaustive: never = e;
       void _exhaustive;

@@ -68,7 +68,8 @@ export type SlideEntry =
   | { key: string; kind: "special"; component: "RiskTableSlide"; props: RiskTableProps }
   | { key: string; kind: "special"; component: "ComparisonSlide"; props: ComparisonProps }
   | { key: string; kind: "special"; component: "PromptCardSlide"; props: PromptCardProps }
-  | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps };
+  | { key: string; kind: "special"; component: "LockVisualSlide"; props: LockVisualProps }
+  | { key: string; kind: "special"; component: "TikTokFineSlide" };
 
 export const slideManifest: SlideEntry[] = [
   // ─── ATO 1 · POR QUÊ (0-7) ───
@@ -565,6 +566,9 @@ USING (user_id = auth.uid());`,
       },
     },
   },
+
+  { key: "tiktok_multa", kind: "special", component: "TikTokFineSlide" },
+
 
   {
     key: "lgpd_cyber",
