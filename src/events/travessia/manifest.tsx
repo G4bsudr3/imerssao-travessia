@@ -618,7 +618,7 @@ USING (user_id = auth.uid());`,
     component: "PromptCardSlide",
     props: {
       eyebrow: "comece agora · sem custo",
-      title: "audite seu RLS com IA",
+      title: "AUDITE SUA APLICAÇÃO COM IA",
       subtitle: "cole no Claude ou GPT junto com seu schema e suas policies",
       prompts: [
         {
