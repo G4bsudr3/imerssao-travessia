@@ -1,5 +1,18 @@
 import { motion } from "framer-motion";
+import { XCircle, CheckCircle2, AlertTriangle, Info } from "lucide-react";
 import { SlideShell } from "../SlideShell";
+
+/** Tag de card: converte emoji legado (❌/✅/⚠️) em ícone lucide polido. */
+function Tag({ text, inverted }: { text: string; inverted?: boolean }) {
+  const clean = text.replace(/[❌✅⚠️ℹ️]\s*/u, "").trim();
+  const Icon = text.includes("❌") ? XCircle : text.includes("✅") ? CheckCircle2 : text.includes("⚠️") ? AlertTriangle : null;
+  return (
+    <div className={`eyebrow mb-2 flex items-center gap-2 ${text.includes("❌") ? "text-red-500" : ""}`}>
+      {Icon && <Icon className={`h-5 w-5 ${inverted ? "text-preto/70" : ""}`} strokeWidth={2.25} />}
+      <span>{clean || text}</span>
+    </div>
+  );
+}
 
 type Side = {
   label: string;
