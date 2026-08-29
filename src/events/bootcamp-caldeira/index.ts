@@ -157,6 +157,7 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
 
 // Slides do deck da Travessia que NÃO entram no bootcamp (granularidade demais).
 const REMOVE = new Set([
+  "quem_ta_no_palco", // bootcamp já tem o aboutSlide próprio (após a capa)
   "exemplo_ruim",
   "exemplo_bom",
   "lgpd_controlador_operador",
