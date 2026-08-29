@@ -543,7 +543,7 @@ USING (user_id = auth.uid());`,
       right: {
         label: "o que dói de verdade",
         sub: "vazamento não espera a ANPD pra te machucar.",
-        bullets: ["Serasa: +220 milhões de CPFs vazados (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
+        bullets: ["223 milhões de CPFs vazados no Brasil (2021)", "ação civil + dano moral coletivo", "reputação destruída em 1 print"],
       },
     },
   },
