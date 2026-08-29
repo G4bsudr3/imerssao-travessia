@@ -150,6 +150,8 @@ const EXTRAS: { before: string; slide: SlideEntry }[] = [
 
 // Slides do deck da Travessia que NÃO entram no bootcamp (granularidade demais).
 const REMOVE = new Set([
+  "exemplo_ruim",
+  "exemplo_bom",
   "lgpd_controlador_operador",
   "lgpd_mito",
   "lgpd_multa_recorde",
